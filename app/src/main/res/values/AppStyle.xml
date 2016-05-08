@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="BasicTheme" parent="AppTheme">
+        <item name="colorPrimary">@color/color_action_bar</item>
+        <item name="colorPrimaryDark">@color/color_notification_bar</item>
+        <item name="android:windowBackground">@color/color_window_background</item>
+        <item name="android:textColorPrimary">@color/color_primary_text</item>
+
+    </style>
+
+</resources>
