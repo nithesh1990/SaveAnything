@@ -34,6 +34,10 @@ public class BaseActivity extends AppCompatActivity
     private PageAdapter mPageAdapter;
     private TabLayout mTabLayout;
 
+    private int ALL_FRAGMENT_POSITION = 0;
+    private int CLIPS_FRAGMENT_POSITION = 1;
+    private int IMAGES_FRAGMENT_POSITION = 2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,19 +107,36 @@ public class BaseActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        switch(id){
+            case R.id.nav_all:
+                mViewPager.setCurrentItem(ALL_FRAGMENT_POSITION);
+                break;
 
-        } else if (id == R.id.nav_slideshow) {
+            case R.id.nav_clips:
+                mViewPager.setCurrentItem(CLIPS_FRAGMENT_POSITION);
+                break;
 
-        } else if (id == R.id.nav_manage) {
+            case R.id.nav_images:
+                mViewPager.setCurrentItem(IMAGES_FRAGMENT_POSITION);
+                break;
 
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+            default:
+                mViewPager.setCurrentItem(ALL_FRAGMENT_POSITION);
+                break;
         }
+//        if (id == R.id.nav_camera) {
+//            // Handle the camera action
+//        } else if (id == R.id.nav_gallery) {
+//
+//        } else if (id == R.id.nav_slideshow) {
+//
+//        } else if (id == R.id.nav_manage) {
+//
+//        } else if (id == R.id.nav_share) {
+//
+//        } else if (id == R.id.nav_send) {
+//
+//        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

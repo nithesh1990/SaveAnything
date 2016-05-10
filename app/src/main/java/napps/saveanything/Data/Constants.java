@@ -6,5 +6,5 @@ package napps.saveanything.Data;
 public class Constants {
     public static final String ALLFRAGMENT_TITLE = "ALL";
     public static final String IMAGEFRAGMENT_TITLE = "IMAGES";
-    public static final String CLIPFRAGMENT_TITLE = "TEXT";
+    public static final String CLIPFRAGMENT_TITLE = "CLIPBOARD";
 }
