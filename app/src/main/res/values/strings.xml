@@ -5,4 +5,8 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+    <string name="temp_text_long">SaveAnything is an android application which can be used as your personal folder to save any itemms which you need in future.
+    Nowadays with more apps there is no common place to store important text, images, videos from different apps to reuse them later</string>
+    <string name="temp_text_short">This is SaveAnything</string>
+    <string name="temp_text_time">0 minutes ago</string>
 </resources>

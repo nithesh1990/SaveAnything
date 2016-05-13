@@ -1,4 +1,4 @@
-package napps.saveanything.view;
+package napps.saveanything.view.Fragments;
 
 import android.support.v4.app.Fragment;
 

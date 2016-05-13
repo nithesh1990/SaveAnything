@@ -1,8 +1,7 @@
-package napps.saveanything.view;
+package napps.saveanything.view.Fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,11 +13,10 @@ import napps.saveanything.R;
 /**
  * Created by nithesh on 5/6/2016.
  */
-public class AllFragment extends Fraggment {
+public class ClipsFragment extends Fraggment {
 
-
-    public AllFragment() {
-        super.setTitle(Constants.ALLFRAGMENT_TITLE);
+    public ClipsFragment() {
+        super.setTitle(Constants.CLIPFRAGMENT_TITLE);
     }
 
     @Override
@@ -59,6 +57,6 @@ public class AllFragment extends Fraggment {
     }
 
     public String getTitle(){
-        return Constants.ALLFRAGMENT_TITLE;
+        return Constants.CLIPFRAGMENT_TITLE;
     }
 }

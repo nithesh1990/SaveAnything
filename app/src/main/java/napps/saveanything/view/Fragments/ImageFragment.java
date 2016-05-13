@@ -1,8 +1,6 @@
-package napps.saveanything.view;
+package napps.saveanything.view.Fragments;
 
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.provider.SyncStateContract;
 import android.support.annotation.Nullable;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -11,6 +9,7 @@ import android.view.ViewGroup;
 
 import napps.saveanything.Data.Constants;
 import napps.saveanything.R;
+import napps.saveanything.view.Fragments.Fraggment;
 
 /**
  * Created by nithesh on 5/6/2016.

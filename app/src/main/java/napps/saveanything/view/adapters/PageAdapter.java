@@ -1,12 +1,12 @@
-package napps.saveanything.view;
+package napps.saveanything.view.adapters;
 
-import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import java.util.List;
+
+import napps.saveanything.view.Fragments.Fraggment;
 
 /**
  * Created by nithesh on 5/6/2016.
