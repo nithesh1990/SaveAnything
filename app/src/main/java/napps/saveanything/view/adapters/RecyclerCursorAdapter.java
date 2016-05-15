@@ -26,13 +26,13 @@ public abstract class RecyclerCursorAdapter<ViewHolder extends RecyclerView.View
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         mLayoutInflater = LayoutInflater.from(parent.getContext());
-        View view = mLayoutInflater.inflate(mLayoutResource, parent);
+        View view = mLayoutInflater.inflate(mLayoutResource, parent, false);
         return newView(parent, mContext, mCursor, view);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-            mCursor.moveToPosition(position);
+            //mCursor.moveToPosition(position);
             bindView(holder, mCursor);
     }
 
@@ -42,7 +42,8 @@ public abstract class RecyclerCursorAdapter<ViewHolder extends RecyclerView.View
 
     @Override
     public int getItemCount() {
-        return mCursor.getCount();
+        //return mCursor.getCount();
+        return 10;
     }
 
 }

@@ -9,4 +9,5 @@
     Nowadays with more apps there is no common place to store important text, images, videos from different apps to reuse them later</string>
     <string name="temp_text_short">This is SaveAnything</string>
     <string name="temp_text_time">0 minutes ago</string>
+    <string name="temp_image_title">Image_001</string>
 </resources>
