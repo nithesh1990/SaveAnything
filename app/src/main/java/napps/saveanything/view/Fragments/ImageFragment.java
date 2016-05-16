@@ -25,6 +25,16 @@ public class ImageFragment extends Fraggment {
     public Context mContext;
     RecyclerView mRecyclerView;
 
+    //static factory design pattern
+    public static ImageFragment newInstance(/*we can pass the parameters that need to be set in fragment*/){
+        ImageFragment imageFragment = new ImageFragment();
+        //use the below methods to set arguments passed in constructor
+        //Bundle bundle = new Bundle();
+        //bundle.putsomething()
+        //allFragment.setArguments(bundle);
+        return imageFragment;
+    }
+
     public ImageFragment() {
         super.setTitle(Constants.IMAGEFRAGMENT_TITLE);
     }

@@ -17,6 +17,17 @@ public class Constants {
     public static final int CONTENT_IMAGE_LINK = 1004;
     public static final int CONTENT_VIDEO = 1005;
 
+    //List Sort Orders
+    public static final int SORT_CONTENTS_ASCENDING = 2001;
+    public static final int SORT_CONTENTS_DESCENDING = 2002;
+    public static final int SORT_TITLE_ASCENDING = 2003;
+    public static final int SORT_TITLE_DESCENDING = 2004;
+    public static final int SORT_TIME_OLD_FIRST = 2005;
+    public static final int SORT_TIME_NEW_FIRST = 2006;
+    public static final int SORT_MEDIA_SIZE_ASCENDING = 2007;
+    public static final int SORT_MEDIA_SIZE_DESCENDING = 2008;
+    public static final int SORT_DEFAULT = 2010;
+
 //    public static final long MILLISECONDS = 1000;
 //    public static final long SECONDS = 60 * MILLISECONDS;
 //    public static final long MINUTES = 60 * SECONDS;

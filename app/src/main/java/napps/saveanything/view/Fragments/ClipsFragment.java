@@ -23,6 +23,16 @@ public class ClipsFragment extends Fraggment {
     public Context mContext;
     RecyclerView mRecyclerView;
 
+    //static factory design pattern
+    public static ClipsFragment newInstance(/*we can pass the parameters that need to be set in fragment*/){
+        ClipsFragment clipsFragment = new ClipsFragment();
+        //use the below methods to set arguments passed in constructor
+        //Bundle bundle = new Bundle();
+        //bundle.putsomething()
+        //allFragment.setArguments(bundle);
+        return clipsFragment;
+    }
+
     public ClipsFragment() {
         super.setTitle(Constants.CLIPFRAGMENT_TITLE);
     }

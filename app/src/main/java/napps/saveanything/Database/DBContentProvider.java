@@ -2,7 +2,10 @@ package napps.saveanything.Database;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 
+import napps.saveanything.Data.Constants;
 import napps.saveanything.Model.ClipInfo;
 import napps.saveanything.Model.ImageInfo;
 
@@ -11,6 +14,8 @@ import napps.saveanything.Model.ImageInfo;
  */
 public class DBContentProvider {
     private DBHelper mDBHelper;
+    private static final String SORT_ORDER_ASC = "ASC";
+    private static final String SORT_ORDER_DESC = "DESC";
 
 
     public DBContentProvider(Context context) {
@@ -75,4 +80,88 @@ public class DBContentProvider {
         }
 
     }
+
+    public Cursor getAllClipsforDisplay(int sortType){
+        SQLiteDatabase sqLiteDatabase = mDBHelper.getReadableDatabase();
+
+        String[] projection = {
+                DatabaseContract.ClipBoard._ID,
+                DatabaseContract.ClipBoard.COLUMN_NAME_CLIPID,
+                DatabaseContract.ClipBoard.COLUMN_NAME_TITLE,
+                DatabaseContract.ClipBoard.COLUMN_NAME_CONTENT,
+                DatabaseContract.ClipBoard.COLUMN_NAME_TIMESTAMP
+        };
+
+        String sortOrder;
+
+        switch(sortType){
+            case Constants.SORT_CONTENTS_ASCENDING:
+                sortOrder = DatabaseContract.ClipBoard.COLUMN_NAME_CONTENT +" ASC ";
+                break;
+            case Constants.SORT_CONTENTS_DESCENDING:
+                sortOrder = DatabaseContract.ClipBoard.COLUMN_NAME_CONTENT +" DESC ";
+                break;
+            case Constants.SORT_TITLE_ASCENDING:
+                sortOrder = DatabaseContract.ClipBoard.COLUMN_NAME_TITLE +" ASC ";
+                break;
+            case Constants.SORT_TITLE_DESCENDING:
+                sortOrder = DatabaseContract.ClipBoard.COLUMN_NAME_TITLE +" DESC ";
+                break;
+            case Constants.SORT_TIME_OLD_FIRST:
+                sortOrder = DatabaseContract.ClipBoard.COLUMN_NAME_TIMESTAMP +" ASC ";
+                break;
+
+            case Constants.SORT_TIME_NEW_FIRST:
+            case Constants.SORT_DEFAULT:
+            default:
+                sortOrder = DatabaseContract.ClipBoard.COLUMN_NAME_TIMESTAMP +" DESC ";
+                break;
+             }
+        Cursor cursor = sqLiteDatabase.query(DatabaseContract.ClipBoard.TABLE_NAME, projection, null, null, null, null, sortOrder);
+
+        return cursor;
+    }
+
+    public Cursor getAllImagesforDisplay(int sortType){
+        SQLiteDatabase sqLiteDatabase = mDBHelper.getReadableDatabase();
+
+        String[] projection = {
+                DatabaseContract.ImageBoard._ID,
+                DatabaseContract.ImageBoard.COLUMN_NAME_IMAGEID,
+                DatabaseContract.ImageBoard.COLUMN_NAME_TITLE,
+                DatabaseContract.ImageBoard.COLUMN_NAME_IMAGEPATH,
+                DatabaseContract.ImageBoard.COLUMN_NAME_IMAGESIZE,
+                DatabaseContract.ImageBoard.COLUMN_NAME_TIMESTAMP
+        };
+
+        String sortOrder;
+
+        switch(sortType){
+            case Constants.SORT_MEDIA_SIZE_ASCENDING:
+                sortOrder = DatabaseContract.ImageBoard.COLUMN_NAME_IMAGESIZE +" ASC ";
+                break;
+            case Constants.SORT_MEDIA_SIZE_DESCENDING:
+                sortOrder = DatabaseContract.ImageBoard.COLUMN_NAME_IMAGESIZE +" DESC ";
+                break;
+            case Constants.SORT_TITLE_ASCENDING:
+                sortOrder = DatabaseContract.ImageBoard.COLUMN_NAME_TITLE +" ASC ";
+                break;
+            case Constants.SORT_TITLE_DESCENDING:
+                sortOrder = DatabaseContract.ImageBoard.COLUMN_NAME_TITLE +" DESC ";
+                break;
+            case Constants.SORT_TIME_OLD_FIRST:
+                sortOrder = DatabaseContract.ImageBoard.COLUMN_NAME_TIMESTAMP +" ASC ";
+                break;
+
+            case Constants.SORT_TIME_NEW_FIRST:
+            case Constants.SORT_DEFAULT:
+            default:
+                sortOrder = DatabaseContract.ImageBoard.COLUMN_NAME_TIMESTAMP +" DESC ";
+                break;
+        }
+        Cursor cursor = sqLiteDatabase.query(DatabaseContract.ImageBoard.TABLE_NAME, projection, null, null, null, null, sortOrder);
+
+        return cursor;
+    }
+
 }

@@ -15,6 +15,15 @@ import napps.saveanything.R;
  */
 public class AllFragment extends Fraggment {
 
+    public static AllFragment newInstance(/*we can pass the parameters that need to be set in fragment*/){
+        AllFragment allFragment = new AllFragment();
+        //use the below methods to set arguments passed in constructor
+        //Bundle bundle = new Bundle();
+        //bundle.putsomething()
+        //allFragment.setArguments(bundle);
+
+        return allFragment;
+    }
 
     public AllFragment() {
         super.setTitle(Constants.ALLFRAGMENT_TITLE);
