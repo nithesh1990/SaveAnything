@@ -27,7 +27,7 @@ public final class DatabaseContract {
         public static final String COLUMN_NAME_CONTENTTYPE = "contentType";
         public static final String COLUMN_NAME_IMAGEPATH = "imagePath";
         public static final String COLUMN_NAME_TIMESTAMP = "timeStamp";
-        public static final String COLUMN_NAME_IMAGESIZE = "timeStamp";
+        public static final String COLUMN_NAME_IMAGESIZE = "imageSize";
     }
 
 

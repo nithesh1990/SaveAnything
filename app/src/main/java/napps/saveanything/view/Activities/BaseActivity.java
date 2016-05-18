@@ -144,9 +144,9 @@ public class BaseActivity extends AppCompatActivity
 
     public void populatePages(){
         List<Fraggment> fragmentList = new ArrayList<Fraggment>();
-        fragmentList.add(new AllFragment());
-        fragmentList.add(new ClipsFragment());
-        fragmentList.add(new ImageFragment());
+        fragmentList.add(AllFragment.newInstance());
+        fragmentList.add(ClipsFragment.newInstance());
+        fragmentList.add(ImageFragment.newInstance());
         mPageAdapter = new PageAdapter(getSupportFragmentManager(), fragmentList);
         mViewPager = (ViewPager)findViewById(R.id.pages);
         mViewPager.setAdapter(mPageAdapter);

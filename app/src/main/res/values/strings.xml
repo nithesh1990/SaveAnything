@@ -10,4 +10,9 @@
     <string name="temp_text_short">This is SaveAnything</string>
     <string name="temp_text_time">0 minutes ago</string>
     <string name="temp_image_title">Image_001</string>
+    <string name="no_content">No content to display\n
+                            ClipBoard \n
+                            Save any text by copying it anywhere in your phone. \n
+                            Images \n
+                            Save an image by selecting share option for that image and choose SaveAnything application in applications list</string>
 </resources>

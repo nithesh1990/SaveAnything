@@ -37,7 +37,7 @@ public class AllFragment extends Fraggment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.layout_all, null);
+        return inflater.inflate(R.layout.layout_fraggment, null);
     }
 
     @Override

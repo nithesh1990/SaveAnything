@@ -134,6 +134,8 @@ public class DBContentProvider {
                 DatabaseContract.ImageBoard.COLUMN_NAME_TIMESTAMP
         };
 
+        //TODO
+        //add clip_status and image_status column for newly added, deleted, starred etc
         String sortOrder;
 
         switch(sortType){
