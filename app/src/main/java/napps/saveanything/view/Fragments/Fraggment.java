@@ -1,11 +1,6 @@
-package napps.saveanything.view.Fragments;
+package napps.saveanything.view.fragments;
 
-import android.database.Cursor;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
 
 /**
  * Created by nithesh on 5/6/2016.

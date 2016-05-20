@@ -5,6 +5,7 @@
         <item name="colorPrimary">@color/color_action_bar</item>
         <item name="colorPrimaryDark">@color/color_notification_bar</item>
         <item name="android:windowBackground">@color/color_window_background</item>
+        <!--<item name="android:actionButtonStyle">@sty</item>-->
 
     </style>
 

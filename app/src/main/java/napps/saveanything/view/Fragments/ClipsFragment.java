@@ -1,4 +1,4 @@
-package napps.saveanything.view.Fragments;
+package napps.saveanything.view.fragments;
 
 import android.content.Context;
 import android.database.Cursor;

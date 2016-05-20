@@ -1,4 +1,4 @@
-package napps.saveanything.view.Activities;
+package napps.saveanything.view.activities;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -20,10 +20,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import napps.saveanything.R;
-import napps.saveanything.view.Fragments.AllFragment;
-import napps.saveanything.view.Fragments.ClipsFragment;
-import napps.saveanything.view.Fragments.Fraggment;
-import napps.saveanything.view.Fragments.ImageFragment;
+import napps.saveanything.view.fragments.AllFragment;
+import napps.saveanything.view.fragments.ClipsFragment;
+import napps.saveanything.view.fragments.Fraggment;
+import napps.saveanything.view.fragments.ImageFragment;
 import napps.saveanything.view.adapters.PageAdapter;
 
 public class BaseActivity extends AppCompatActivity
@@ -43,6 +43,7 @@ public class BaseActivity extends AppCompatActivity
         setContentView(R.layout.activity_base);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -93,9 +94,9 @@ public class BaseActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+        //if (id == R.id.action_settings) {
+        //    return true;
+        //}
 
         return super.onOptionsItemSelected(item);
     }

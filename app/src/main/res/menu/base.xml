@@ -1,8 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/action_search"
+        android:icon="@drawable/ic_search_white_24dp"
+        android:title="Search"
+        app:showAsAction="ifRoom" />
+
+    <item android:id="@+id/action_sort"
+        android:icon="@drawable/ic_sort_white_24dp"
+        android:title="Sort"
+        app:showAsAction="ifRoom">
+        <menu>
+            <item
+                android:id="@+id/action_sort_old_first"
+                android:title="Oldest First"/>
+            <item
+                android:id="@+id/action_sort_new_first"
+                android:title="Newest First"/>
+
+        </menu>
+    </item>
+
     <item android:id="@+id/action_settings"
+        android:icon="@drawable/ic_more_vert_white_24dp"
         android:title="@string/action_settings"
-        android:orderInCategory="100"
-        app:showAsAction="never" />
+        app:showAsAction="ifRoom" />
 </menu>

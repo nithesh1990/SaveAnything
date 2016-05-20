@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import java.util.List;
 
-import napps.saveanything.view.Fragments.Fraggment;
+import napps.saveanything.view.fragments.Fraggment;
 
 /**
  * Created by nithesh on 5/6/2016.

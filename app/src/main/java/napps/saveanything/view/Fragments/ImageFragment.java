@@ -1,4 +1,4 @@
-package napps.saveanything.view.Fragments;
+package napps.saveanything.view.fragments;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -19,7 +19,6 @@ import napps.saveanything.Control.DBQueryLoader;
 import napps.saveanything.Data.Constants;
 import napps.saveanything.R;
 import napps.saveanything.view.adapters.ImageListAdapter;
-import napps.saveanything.view.adapters.TextListAdapter;
 
 /**
  * Created by nithesh on 5/6/2016.

@@ -1,4 +1,4 @@
-package napps.saveanything.view.Fragments;
+package napps.saveanything.view.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

@@ -3,44 +3,41 @@
     <!-- Any drawables is a combination of layers where each item represents a layer and all items
         are combined to form a complex drawable -->
 
-
+    <!-- This item just draws a circle which is assigned to the background. This is actually a ring shape
+     which is tweaked to draw circle -->
     <item android:id="@android:id/background" >
         <shape
             android:shape="ring"
             android:innerRadius="0dp"
-            android:thickness="50dp"
+            android:thickness="30dp"
 
             android:useLevel="false">
 
 
-            <solid android:color="@color/progress_bar_image_center"/>
+            <solid android:color="@color/color_action_bar"/>
 
         </shape>
 
 
     </item>
+
+    <!-- This item draws a ring. This ring can contain anything which will just rotate -->
     <item android:id="@android:id/progress">
     <rotate
-        android:fromDegrees="270"
+
+        android:fromDegrees="0"
         android:pivotX="50%"
         android:pivotY="50%"
-        android:toDegrees="270">
+        android:toDegrees="360">
         <shape
             android:shape="ring"
-            android:innerRadius="50dp"
-            android:thickness="10dp"
+            android:innerRadius="30dp"
+            android:thickness="6dp"
             android:useLevel="false">
 
-            <rotate
-                android:fromDegrees="0"
-                android:pivotX="50%"
-                android:pivotY="50%"
-                android:toDegrees="360" />
-
             <gradient
-                android:angle="0"
-                android:startColor="@color/color_action_bar"
-                android:endColor="@color/color_action_bar"
+                android:startColor="@color/color_white"
+                android:endColor="@color/color_green"
                 android:useLevel="false"
                 android:type="sweep"/>
         </shape>

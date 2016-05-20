@@ -5,15 +5,15 @@
         <menu>
             <item
                 android:id="@+id/nav_all"
-                android:icon="@drawable/ic_menu_folder"
+                android:icon="@drawable/ic_folder_black_24dp"
                 android:title="All" />
             <item
                 android:id="@+id/nav_clips"
-                android:icon="@drawable/ic_menu_clips"
+                android:icon="@drawable/ic_content_copy_black_24dp"
                 android:title="ClipBoard" />
             <item
                 android:id="@+id/nav_images"
-                android:icon="@drawable/ic_menu_images"
+                android:icon="@drawable/ic_image_black_24dp"
                 android:title="Images" />
         </menu>
     </item>
@@ -22,11 +22,11 @@
         <menu>
             <item
                 android:id="@+id/nav_settings"
-                android:icon="@drawable/ic_menu_settings"
+                android:icon="@drawable/ic_settings_black_24dp"
                 android:title="Settings" />
             <item
                 android:id="@+id/nav_help"
-                android:icon="@drawable/ic_menu_help"
+                android:icon="@drawable/ic_help_black_24dp"
                 android:title="Help" />
         </menu>
     </item>
