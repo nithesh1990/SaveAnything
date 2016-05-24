@@ -32,7 +32,7 @@ public abstract class RecyclerCursorAdapter<ViewHolder extends RecyclerView.View
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-            //mCursor.moveToPosition(position);
+            mCursor.moveToPosition(position);
             bindView(holder, mCursor);
     }
 
@@ -42,8 +42,9 @@ public abstract class RecyclerCursorAdapter<ViewHolder extends RecyclerView.View
 
     @Override
     public int getItemCount() {
-        //return mCursor.getCount();
-        return 10;
+
+        return mCursor.getCount();
+
     }
 
 }

@@ -15,4 +15,7 @@
                             Save any text by copying it anywhere in your phone. \n
                             Images \n
                             Save an image by selecting share option for that image and choose SaveAnything application in applications list</string>
+
+    <string name="preference_file_name">napps.saveanything.PREFERENCES_FILE_KEY</string>
+    <string name="title_activity_save_image">Save Image</string>
 </resources>

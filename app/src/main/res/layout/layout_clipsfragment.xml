@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/clips_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
+        android:visibility="gone"/>
+
+    <RelativeLayout
+        android:id="@+id/clips_progress_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+
+            <ProgressBar
+                android:id="@+id/clips_progress_bar"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_centerInParent="true"
+                android:indeterminateDrawable="@drawable/progress_drawable"/>
+
+            <napps.saveanything.view.customviews.CustomTextView
+                android:id="@+id/clips_progress_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Loading..."
+                android:textSize="11sp"
+                android:textColor="@color/color_white"
+                android:layout_centerInParent="true"
+                app:fontinfo="roboto_bolditalic"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/no_clips_text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textAlignment="center"
+        android:visibility="gone"
+        android:gravity="center"
+        android:text="@string/no_content"/>
+</RelativeLayout>

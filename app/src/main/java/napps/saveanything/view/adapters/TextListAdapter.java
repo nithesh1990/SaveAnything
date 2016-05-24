@@ -2,12 +2,17 @@ package napps.saveanything.view.adapters;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.provider.Settings;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.sql.Timestamp;
+import java.util.UUID;
+
+import napps.saveanything.Database.DatabaseContract;
 import napps.saveanything.R;
 
 /**
@@ -15,15 +20,20 @@ import napps.saveanything.R;
  */
 public class TextListAdapter extends RecyclerCursorAdapter {
 
+     private Context mContext;
      public TextListAdapter(Context context, int layout, Cursor cursor) {
         super(context, layout, cursor);
+         mContext = context;
     }
 
     @Override
     public void bindView(RecyclerView.ViewHolder holder, Cursor cursor) {
         TextCardViewHolder textHolder = (TextCardViewHolder) holder;
-        textHolder.mainTextView.setText(R.string.temp_text_long);
-        textHolder.timeTextView.setText(R.string.temp_text_time);
+        textHolder.mainTextView.setText(cursor.getString(cursor.getColumnIndex(DatabaseContract.ClipBoard.COLUMN_NAME_CONTENT)));
+        textHolder.timeTextView.setText(cursor.getString(cursor.getColumnIndex(DatabaseContract.ClipBoard.COLUMN_NAME_TIMESTAMP)));
+        //long ct = System.currentTimeMillis();
+        //String uuid = UUID.randomUUID().toString();
+        //textHolder.timeTextView.setText(uuid);
     }
 
     @Override

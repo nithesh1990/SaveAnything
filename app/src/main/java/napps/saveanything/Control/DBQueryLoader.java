@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.support.v4.content.AsyncTaskLoader;
 
 import napps.saveanything.Database.DBContentProvider;
+import napps.saveanything.Database.DBHelper;
 
 /**
  * Created by nithesh on 5/16/2016.
@@ -45,13 +46,13 @@ public class DBQueryLoader extends AsyncTaskLoader<Cursor> {
     public Cursor loadInBackground() {
         Cursor cursor;
 
-        DBContentProvider dbContentProvider = new DBContentProvider(mContext);
+        DBHelper dbHelper = DBHelper.getInstance(mContext);
         switch (mLoaderId){
             case QUERY_ALL_CLIPS:
-                cursor = dbContentProvider.getAllClipsforDisplay(mSortType);
+                cursor = DBContentProvider.getAllClipsforDisplay(dbHelper, mSortType);
                 break;
             case QUERY_ALL_IMAGES:
-                cursor = dbContentProvider.getAllImagesforDisplay(mSortType);
+                cursor = DBContentProvider.getAllImagesforDisplay(dbHelper, mSortType);
                 break;
             default:
                 cursor = null;

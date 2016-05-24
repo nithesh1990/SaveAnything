@@ -4,9 +4,29 @@
     <style name="BasicTheme" parent="AppTheme">
         <item name="colorPrimary">@color/color_action_bar</item>
         <item name="colorPrimaryDark">@color/color_notification_bar</item>
-        <item name="android:windowBackground">@color/color_window_background</item>
+        <item name="android:windowBackground">@drawable/activity_background</item>
         <!--<item name="android:actionButtonStyle">@sty</item>-->
 
     </style>
 
+    <style name="NavigationTextMenuStyle">
+        <item name="android:textColor">@color/color_white</item>
+        <item name="android:textSize">@dimen/nav_menu_item</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- All these items are given some default styles/values in parent. We want to override some based on
+        specific items-->
+    <!-- if we use @drawable/@anim it will point to our drawable or animations folder. If we need to use some of android's
+     provided builtin styles or animations we should use @andorid:anim/@android:styles -->
+    <style name="BasicThemeDialog" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorPrimary">@color/color_action_bar</item>
+        <item name="colorPrimaryDark">@color/color_notification_bar</item>
+        <item name="android:windowBackground">@drawable/activity_background</item>
+        <item name="android:windowEnterAnimation">@android:anim/slide_in_left</item>
+        <item name="colorAccent">@color/color_green</item>
+
+
+
+    </style>
 </resources>

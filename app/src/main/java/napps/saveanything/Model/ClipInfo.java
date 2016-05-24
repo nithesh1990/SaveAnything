@@ -10,6 +10,7 @@ public class ClipInfo {
     private String title;
     private String content;
     private long timestamp;
+    private int clipStatus;
 
     public String getContent() {
         return content;
@@ -57,5 +58,13 @@ public class ClipInfo {
 
     public void setClipId(String clipId) {
         this.clipId = clipId;
+    }
+
+    public int getClipStatus() {
+        return clipStatus;
+    }
+
+    public void setClipStatus(int clipStatus) {
+        this.clipStatus = clipStatus;
     }
 }

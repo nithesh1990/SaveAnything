@@ -1,5 +1,6 @@
 package napps.saveanything.view.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -19,6 +20,8 @@ import android.view.MenuItem;
 import java.util.ArrayList;
 import java.util.List;
 
+import napps.saveanything.Control.SaveClipService;
+import napps.saveanything.Data.Utils;
 import napps.saveanything.R;
 import napps.saveanything.view.fragments.AllFragment;
 import napps.saveanything.view.fragments.ClipsFragment;
@@ -64,10 +67,12 @@ public class BaseActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         populatePages();
-        for(int i = 0; i < 100; i++){
-            Log.d("SaveAnything", "debug test");
+
+        if(!Utils.isClipServiceRunning(this, SaveClipService.class)) {
+            Intent clipServiceIntent = new Intent(this, SaveClipService.class);
+            startService(clipServiceIntent);
         }
-    }
+     }
 
     @Override
     public void onBackPressed() {

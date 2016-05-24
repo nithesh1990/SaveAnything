@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import napps.saveanything.Control.DBQueryLoader;
@@ -27,8 +28,8 @@ public class ImageFragment extends Fraggment implements LoaderManager.LoaderCall
 
     public ImageListAdapter mImageListAdapter;
     public Context mContext;
-    RecyclerView mRecyclerView;
-    ProgressBar mImageProgressBar;
+    RecyclerView mImageRecyclerView;
+    RelativeLayout mImageProgressLayout;
     TextView mNoImagesTextView;
 
     //static factory design pattern
@@ -59,13 +60,13 @@ public class ImageFragment extends Fraggment implements LoaderManager.LoaderCall
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.layout_fraggment, null);
-        mRecyclerView = (RecyclerView)view.findViewById(R.id.recycler_view);
-        mImageProgressBar = (ProgressBar)view.findViewById(R.id.progress_bar);
-        mNoImagesTextView = (TextView)view.findViewById(R.id.no_contents_text);
-        mRecyclerView.setVisibility(View.GONE);
+        View view = inflater.inflate(R.layout.layout_imagesfragment, null);
+        mImageRecyclerView = (RecyclerView)view.findViewById(R.id.images_recycler_view);
+        mImageProgressLayout = (RelativeLayout) view.findViewById(R.id.images_progress_layout);
+        mNoImagesTextView = (TextView)view.findViewById(R.id.no_images_text);
+        mImageRecyclerView.setVisibility(View.GONE);
         mNoImagesTextView.setVisibility(View.GONE);
-        mImageProgressBar.setVisibility(View.VISIBLE);
+        mImageProgressLayout.setVisibility(View.VISIBLE);
         return view;
     }
 
@@ -83,6 +84,8 @@ public class ImageFragment extends Fraggment implements LoaderManager.LoaderCall
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        getLoaderManager().initLoader(DBQueryLoader.QUERY_ALL_IMAGES, null, this);
     }
 
     @Override
@@ -113,8 +116,8 @@ public class ImageFragment extends Fraggment implements LoaderManager.LoaderCall
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 
         DBQueryLoader queryLoader = (DBQueryLoader) loader;
-        //mClipsProgressBar.setVisibility(View.GONE);
-        //mRecyclerView.setVisibility(View.VISIBLE);
+        mImageProgressLayout.setVisibility(View.GONE);
+        mImageRecyclerView.setVisibility(View.VISIBLE);
 
         if(queryLoader.mLoaderId != DBQueryLoader.QUERY_ALL_IMAGES){
             //TODO
@@ -125,11 +128,13 @@ public class ImageFragment extends Fraggment implements LoaderManager.LoaderCall
         } else {
             //set adapter
 
-            mImageListAdapter = new ImageListAdapter(mContext, R.layout.image_card, data);
-            mRecyclerView.setAdapter(mImageListAdapter);
-            mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
 
         }
+
+        mImageListAdapter = new ImageListAdapter(mContext, R.layout.image_card, data);
+        mImageRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+        mImageRecyclerView.setAdapter(mImageListAdapter);
+
     }
 
     @Override

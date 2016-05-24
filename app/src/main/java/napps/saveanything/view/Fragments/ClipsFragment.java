@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import napps.saveanything.Control.DBQueryLoader;
@@ -27,8 +28,8 @@ public class ClipsFragment extends Fraggment implements LoaderManager.LoaderCall
 
     public TextListAdapter mTextListAdapter;
     public Context mContext;
-    RecyclerView mRecyclerView;
-    ProgressBar mClipsProgressBar;
+    RecyclerView mClipsRecyclerView;
+    RelativeLayout mClipsProgressLayout;
     TextView mNoClipssTextView;
 
     //static factory design pattern
@@ -59,13 +60,13 @@ public class ClipsFragment extends Fraggment implements LoaderManager.LoaderCall
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.layout_fraggment, null);
-        mRecyclerView = (RecyclerView)view.findViewById(R.id.recycler_view);
-        mClipsProgressBar = (ProgressBar)view.findViewById(R.id.progress_bar);
-        mNoClipssTextView = (TextView)view.findViewById(R.id.no_contents_text);
-        mRecyclerView.setVisibility(View.GONE);
+        View view = inflater.inflate(R.layout.layout_clipsfragment, null);
+        mClipsRecyclerView = (RecyclerView)view.findViewById(R.id.clips_recycler_view);
+        mClipsProgressLayout = (RelativeLayout) view.findViewById(R.id.clips_progress_layout);
+        mNoClipssTextView = (TextView)view.findViewById(R.id.no_clips_text);
+        mClipsRecyclerView.setVisibility(View.GONE);
         mNoClipssTextView.setVisibility(View.GONE);
-        mClipsProgressBar.setVisibility(View.VISIBLE);
+        mClipsProgressLayout.setVisibility(View.VISIBLE);
         //TODO
         //show progress bar
         return view;
@@ -81,13 +82,6 @@ public class ClipsFragment extends Fraggment implements LoaderManager.LoaderCall
     @Override
     public void onResume() {
         super.onResume();
-        int j = 0;
-        while(j < 50){
-            for(int i = 0; i < 100; i++){
-                mClipsProgressBar.setProgress(i);
-            }
-            j++;
-        }
     }
 
     @Override
@@ -114,21 +108,22 @@ public class ClipsFragment extends Fraggment implements LoaderManager.LoaderCall
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         DBQueryLoader queryLoader = (DBQueryLoader) loader;
-        //mClipsProgressBar.setVisibility(View.GONE);
-        //mRecyclerView.setVisibility(View.VISIBLE);
+        mClipsProgressLayout.setVisibility(View.GONE);
+        mClipsRecyclerView.setVisibility(View.VISIBLE);
 
         if(queryLoader.mLoaderId != DBQueryLoader.QUERY_ALL_CLIPS){
             //TODO
             // show error page or return
-        } else if(data.getCount() == 0){
-            //TODO
-            //show empty page
-        } else {
-            //set adapter
+        } else if(data != null && data.getCount() > 0){
 
             mTextListAdapter = new TextListAdapter(mContext, R.layout.text_card, data);
-            mRecyclerView.setAdapter(mTextListAdapter);
-            mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+            mClipsRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+            mClipsRecyclerView.setAdapter(mTextListAdapter);
+
+        } else {
+            //TODO
+            //show empty page
+
 
          }
 

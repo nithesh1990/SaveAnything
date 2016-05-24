@@ -14,6 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <!--the attributes starting with android are the attributes that get applied to framelayout which is root of NavigationBiew-->
+    <!-- these attributes start with app because these are not in framework but in support library -->
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
@@ -22,7 +24,7 @@
         android:fitsSystemWindows="true"
         android:background="@drawable/navigation_bg_drawable"
         app:headerLayout="@layout/nav_header_base"
-        app:itemTextColor="@color/color_white"
+        app:itemTextAppearance="@style/NavigationTextMenuStyle"
         app:menu="@menu/activity_base_drawer"/>
 
 </android.support.v4.widget.DrawerLayout>
