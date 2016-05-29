@@ -19,14 +19,16 @@
         specific items-->
     <!-- if we use @drawable/@anim it will point to our drawable or animations folder. If we need to use some of android's
      provided builtin styles or animations we should use @andorid:anim/@android:styles -->
-    <style name="BasicThemeDialog" parent="Theme.AppCompat.Light.Dialog">
+    <style name="SaveImageTheme" parent="AppTheme">
         <item name="colorPrimary">@color/color_action_bar</item>
         <item name="colorPrimaryDark">@color/color_notification_bar</item>
-        <item name="android:windowBackground">@drawable/activity_background</item>
-        <item name="android:windowEnterAnimation">@android:anim/slide_in_left</item>
-        <item name="colorAccent">@color/color_green</item>
+        <item name="android:title">@string/title_activity_save_image</item>
 
+        <!--<item name="android:windowBackground">@drawable/activity_background</item>-->
 
+    </style>
 
+    <style name="TransparentTheme" parent="android:Theme">
+        <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 </resources>

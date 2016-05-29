@@ -24,8 +24,11 @@ public final class DatabaseContract {
         public static final String TABLE_NAME = "imageData";
         public static final String COLUMN_NAME_IMAGEID = "imageId";
         public static final String COLUMN_NAME_TITLE = "title";
-        public static final String COLUMN_NAME_CONTENTTYPE = "contentType";
-        public static final String COLUMN_NAME_IMAGEPATH = "imagePath";
+        public static final String COLUMN_NAME_ORIGINALPATH = "imagePath";
+        public static final String COLUMN_NAME_STATUS = "status";
+        public static final String COLUMN_NAME_SAVEDPATH = "savedpath";
+        public static final String COLUMN_NAME_SCALE_FACTOR = "scalefactor";
+        public static final String COLUMN_NAME_IS_SCALED = "isscaled";
         public static final String COLUMN_NAME_TIMESTAMP = "timeStamp";
         public static final String COLUMN_NAME_IMAGESIZE = "imageSize";
     }

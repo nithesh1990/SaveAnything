@@ -22,7 +22,6 @@ import napps.saveanything.Model.ClipInfo;
 public class SaveClipService extends Service implements ClipboardManager.OnPrimaryClipChangedListener {
 
     private ClipboardManager mClipBoardManager;
-    private Context mContext;
 
     @Override
     public void onPrimaryClipChanged() {
@@ -35,7 +34,7 @@ public class SaveClipService extends Service implements ClipboardManager.OnPrima
                     if (clipData != null) {
                         ClipInfo clipInfo = prepareClipInfo(clipData);
                         //clipInfo.setTitle(clipDescription.getLabel().toString());
-                        DBContentProvider.insertClip(DBHelper.getInstance(mContext), clipInfo);
+                        DBContentProvider.insertClip(DBHelper.getInstance(this), clipInfo);
                     }
                 }
             }
@@ -48,7 +47,6 @@ public class SaveClipService extends Service implements ClipboardManager.OnPrima
     public void onCreate() {
         super.onCreate();
         mClipBoardManager = (ClipboardManager)getSystemService(Context.CLIPBOARD_SERVICE);
-        mContext = this;
     }
 
     @Override
@@ -87,10 +85,10 @@ public class SaveClipService extends Service implements ClipboardManager.OnPrima
 
     private ClipInfo prepareClipInfo(ClipData clipData){
         ClipInfo clipInfo = new ClipInfo();
-        clipInfo.setClipId(Utils.getUniqueClipId(mContext));
+        clipInfo.setClipId(Utils.getUniqueClipId(this));
         ClipData.Item item = clipData.getItemAt(0);
         clipInfo.setContent(item.getText().toString());
-        clipInfo.setClipStatus(Constants.CLIP_SAVED);
+        clipInfo.setClipStatus(Constants.STATUS_CLIP_SAVED);
         if(Utils.isNetworkUrl(clipInfo.getContent())){
             clipInfo.setContentType(Constants.CLIP_HTTP_LINK);
         } else {

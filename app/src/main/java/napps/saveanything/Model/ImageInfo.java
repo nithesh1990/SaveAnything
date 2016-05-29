@@ -7,10 +7,16 @@ public class ImageInfo {
     private long id;
     private String imageId;
     private String title;
-    private int contentType;
     private long timestamp;
-    private String imagePath;
+    private String originalPath;
+    private int sourceWidth;
+    private int sourceHeight;
+    private int saveWidth;
+    private int saveHeight;
+    private String savedPath;
     private long imageSize;
+    private boolean isScaled;
+    private int scaleFactor;
 
     public long getId() {
         return id;
@@ -26,14 +32,6 @@ public class ImageInfo {
 
     public void setImageId(String imageId) {
         this.imageId = imageId;
-    }
-
-    public int getContentType() {
-        return contentType;
-    }
-
-    public void setContentType(int contentType) {
-        this.contentType = contentType;
     }
 
     public String getTitle() {
@@ -52,12 +50,12 @@ public class ImageInfo {
         this.timestamp = timestamp;
     }
 
-    public String getImagePath() {
-        return imagePath;
+    public String getOriginalPath() {
+        return originalPath;
     }
 
-    public void setImagePath(String imagePath) {
-        this.imagePath = imagePath;
+    public void setOriginalPath(String originalPath) {
+        this.originalPath = originalPath;
     }
 
     public long getImageSize() {
@@ -66,5 +64,62 @@ public class ImageInfo {
 
     public void setImageSize(long imageSize) {
         this.imageSize = imageSize;
+    }
+
+
+    public boolean isScaled() {
+        return isScaled;
+    }
+
+    public void setScaled(boolean scaled) {
+        isScaled = scaled;
+    }
+
+    public int getSaveHeight() {
+        return saveHeight;
+    }
+
+    public void setSaveHeight(int saveHeight) {
+        this.saveHeight = saveHeight;
+    }
+
+    public String getSavedPath() {
+        return savedPath;
+    }
+
+    public void setSavedPath(String savedPath) {
+        this.savedPath = savedPath;
+    }
+
+    public int getSaveWidth() {
+        return saveWidth;
+    }
+
+    public void setSaveWidth(int saveWidth) {
+        this.saveWidth = saveWidth;
+    }
+
+    public int getSourceHeight() {
+        return sourceHeight;
+    }
+
+    public void setSourceHeight(int sourceHeight) {
+        this.sourceHeight = sourceHeight;
+    }
+
+    public int getSourceWidth() {
+        return sourceWidth;
+    }
+
+    public void setSourceWidth(int sourceWidth) {
+        this.sourceWidth = sourceWidth;
+    }
+
+    public int getScaleFactor() {
+        return scaleFactor;
+    }
+
+    public void setScaleFactor(int scaleFactor) {
+        this.scaleFactor = scaleFactor;
     }
 }

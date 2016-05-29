@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.provider.Settings;
 
 import napps.saveanything.Data.Constants;
 import napps.saveanything.Model.ClipInfo;
@@ -49,7 +50,7 @@ public class DBContentProvider {
 
     }
 
-    public static synchronized boolean insertImage(DBHelper dbHelper, ImageInfo imageInfo){
+    public synchronized boolean insertImage(DBHelper dbHelper, ImageInfo imageInfo){
         if(imageInfo == null){
             return false;
         }
@@ -60,18 +61,24 @@ public class DBContentProvider {
         if(imageInfo.getTitle() != null && !imageInfo.getTitle().isEmpty()){
             contentValues.put(DatabaseContract.ImageBoard.COLUMN_NAME_TITLE, imageInfo.getTitle());
         }
-        if(imageInfo.getImagePath() != null && !imageInfo.getImagePath().isEmpty()){
-            contentValues.put(DatabaseContract.ImageBoard.COLUMN_NAME_IMAGEPATH, imageInfo.getImagePath());
+        if(imageInfo.getOriginalPath() != null && !imageInfo.getOriginalPath().isEmpty()){
+            contentValues.put(DatabaseContract.ImageBoard.COLUMN_NAME_ORIGINALPATH, imageInfo.getOriginalPath());
         }
-        if(imageInfo.getContentType() > 0 ){
-            contentValues.put(DatabaseContract.ImageBoard.COLUMN_NAME_CONTENTTYPE, imageInfo.getContentType());
-        }
+
         if(imageInfo.getTimestamp() > 0 ){
             contentValues.put(DatabaseContract.ImageBoard.COLUMN_NAME_TIMESTAMP, imageInfo.getTimestamp());
+        } else {
+            contentValues.put(DatabaseContract.ImageBoard.COLUMN_NAME_TIMESTAMP, System.currentTimeMillis());
         }
+
         if(imageInfo.getImageSize() > 0 ){
             contentValues.put(DatabaseContract.ImageBoard.COLUMN_NAME_IMAGESIZE, imageInfo.getImageSize());
         }
+
+        if(imageInfo.getSavedPath() != null){
+            contentValues.put(DatabaseContract.ImageBoard.COLUMN_NAME_SAVEDPATH, imageInfo.getSavedPath());
+        }
+
         if(contentValues.size() > 0){
             return dbHelper.getWritableDatabase().insert(DatabaseContract.ImageBoard.TABLE_NAME, null, contentValues) > 0 ? true : false;
         } else {
@@ -128,7 +135,11 @@ public class DBContentProvider {
                 DatabaseContract.ImageBoard._ID,
                 DatabaseContract.ImageBoard.COLUMN_NAME_IMAGEID,
                 DatabaseContract.ImageBoard.COLUMN_NAME_TITLE,
-                DatabaseContract.ImageBoard.COLUMN_NAME_IMAGEPATH,
+                DatabaseContract.ImageBoard.COLUMN_NAME_ORIGINALPATH,
+                DatabaseContract.ImageBoard.COLUMN_NAME_STATUS,
+                DatabaseContract.ImageBoard.COLUMN_NAME_IS_SCALED,
+                DatabaseContract.ImageBoard.COLUMN_NAME_SCALE_FACTOR,
+                DatabaseContract.ImageBoard.COLUMN_NAME_SAVEDPATH,
                 DatabaseContract.ImageBoard.COLUMN_NAME_IMAGESIZE,
                 DatabaseContract.ImageBoard.COLUMN_NAME_TIMESTAMP
         };

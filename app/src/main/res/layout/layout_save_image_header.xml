@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="56dp"
+    android:weightSum="20"
+    android:background="@color/color_action_bar">
+
+    <ImageButton
+        android:id="@+id/action_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_cancel_white_48dp"
+        android:layout_weight="1"/>
+
+    <napps.saveanything.view.customviews.CustomTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/title_activity_save_image"
+        android:textColor="@color/color_white"
+        android:textAlignment="center"
+        android:textSize="20dp"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="18"/>
+
+    <ImageButton
+        android:id="@+id/action_done"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_done_white_48dp"
+        android:layout_weight="1"
+        />
+</LinearLayout>

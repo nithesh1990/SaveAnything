@@ -29,10 +29,13 @@ public class DBHelper extends SQLiteOpenHelper {
             DatabaseContract.ImageBoard._ID +" INTEGER PRIMARY KEY "+","+
             DatabaseContract.ImageBoard.COLUMN_NAME_IMAGEID+" TEXT "+","+
             DatabaseContract.ImageBoard.COLUMN_NAME_TITLE+" TEXT "+","+
-            DatabaseContract.ImageBoard.COLUMN_NAME_CONTENTTYPE+" INTEGER "+","+
-            DatabaseContract.ImageBoard.COLUMN_NAME_IMAGEPATH+" TEXT "+","+
-            DatabaseContract.ImageBoard.COLUMN_NAME_IMAGESIZE+" INTEGER "+","+
+            DatabaseContract.ImageBoard.COLUMN_NAME_ORIGINALPATH+" TEXT "+","+
             DatabaseContract.ImageBoard.COLUMN_NAME_TIMESTAMP+" INTEGER "+
+            DatabaseContract.ImageBoard.COLUMN_NAME_STATUS+" INTEGER "+","+
+            DatabaseContract.ImageBoard.COLUMN_NAME_SAVEDPATH+" INTEGER "+","+
+            DatabaseContract.ImageBoard.COLUMN_NAME_IS_SCALED+" INTEGER "+","+
+            DatabaseContract.ImageBoard.COLUMN_NAME_SCALE_FACTOR+" INTEGER "+","+
+            DatabaseContract.ImageBoard.COLUMN_NAME_IMAGESIZE+" INTEGER "+","+
             " )";
 
     private static final String SQL_DELETE_CLIP_TABLE = "DROP TABLE IF EXISTS "+DatabaseContract.ClipBoard.TABLE_NAME;

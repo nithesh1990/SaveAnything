@@ -10,6 +10,7 @@
     <!--regular colors-->
     <color name="color_white">#ffffff</color>
     <color name="color_green">#00cc44</color>
+    <color name="color_black">#000000</color>
     <color name="progress_bar_image_center">#33465b</color>
 
 </resources>
