@@ -16,27 +16,33 @@ public class DBHelper extends SQLiteOpenHelper {
     //Database Name
     public static final String DATABASE_NAME = "saveAnyting";
 
-    private static final String SQL_CREATE_CLIP_TABLE = "CREATE TABLE "+DatabaseContract.ClipBoard.TABLE_NAME +" ( "+
-            DatabaseContract.ClipBoard._ID +" INTEGER PRIMARY KEY "+","+
-            DatabaseContract.ClipBoard.COLUMN_NAME_CLIPID+" TEXT "+","+
-            DatabaseContract.ClipBoard.COLUMN_NAME_TITLE+" TEXT "+","+
-            DatabaseContract.ClipBoard.COLUMN_NAME_CONTENTTYPE+" INTEGER "+","+
-            DatabaseContract.ClipBoard.COLUMN_NAME_CONTENT+" TEXT "+","+
-            DatabaseContract.ClipBoard.COLUMN_NAME_TIMESTAMP+" INTEGER "+
-            " )";
+    private static final String COMMA_SEPARATOR = ",";
+    private static final String OPEN_BRACE = " ( ";
+    private static final String CLOSE_BRACE = " ) ";
 
-    private static final String SQL_CREATE_IMAGE_TABLE = "CREATE TABLE "+DatabaseContract.ImageBoard.TABLE_NAME +" ( "+
-            DatabaseContract.ImageBoard._ID +" INTEGER PRIMARY KEY "+","+
-            DatabaseContract.ImageBoard.COLUMN_NAME_IMAGEID+" TEXT "+","+
-            DatabaseContract.ImageBoard.COLUMN_NAME_TITLE+" TEXT "+","+
-            DatabaseContract.ImageBoard.COLUMN_NAME_ORIGINALPATH+" TEXT "+","+
-            DatabaseContract.ImageBoard.COLUMN_NAME_TIMESTAMP+" INTEGER "+
-            DatabaseContract.ImageBoard.COLUMN_NAME_STATUS+" INTEGER "+","+
-            DatabaseContract.ImageBoard.COLUMN_NAME_SAVEDPATH+" INTEGER "+","+
-            DatabaseContract.ImageBoard.COLUMN_NAME_IS_SCALED+" INTEGER "+","+
-            DatabaseContract.ImageBoard.COLUMN_NAME_SCALE_FACTOR+" INTEGER "+","+
-            DatabaseContract.ImageBoard.COLUMN_NAME_IMAGESIZE+" INTEGER "+","+
-            " )";
+    private static final String SQL_CREATE_CLIP_TABLE = "CREATE TABLE "+DatabaseContract.ClipBoard.TABLE_NAME +
+            OPEN_BRACE+
+            DatabaseContract.ClipBoard._ID +" INTEGER PRIMARY KEY "+COMMA_SEPARATOR+
+            DatabaseContract.ClipBoard.COLUMN_NAME_CLIPID+" TEXT "+COMMA_SEPARATOR+
+            DatabaseContract.ClipBoard.COLUMN_NAME_SOURCE_PACKAGE+" TEXT "+COMMA_SEPARATOR+
+            DatabaseContract.ClipBoard.COLUMN_NAME_CONTENTTYPE+" INTEGER "+COMMA_SEPARATOR+
+            DatabaseContract.ClipBoard.COLUMN_NAME_CONTENT+" TEXT "+COMMA_SEPARATOR+
+            DatabaseContract.ClipBoard.COLUMN_NAME_TIMESTAMP+" INTEGER "+
+            CLOSE_BRACE;
+
+    private static final String SQL_CREATE_IMAGE_TABLE = "CREATE TABLE "+DatabaseContract.ImageBoard.TABLE_NAME +
+            OPEN_BRACE+
+            DatabaseContract.ImageBoard._ID +" INTEGER PRIMARY KEY "+COMMA_SEPARATOR+
+            DatabaseContract.ImageBoard.COLUMN_NAME_IMAGEID+" TEXT "+COMMA_SEPARATOR+
+            DatabaseContract.ImageBoard.COLUMN_NAME_DESC+" TEXT "+COMMA_SEPARATOR+
+            DatabaseContract.ImageBoard.COLUMN_NAME_ORIGINALPATH+" TEXT "+COMMA_SEPARATOR+
+            DatabaseContract.ImageBoard.COLUMN_NAME_TIMESTAMP+" INTEGER "+COMMA_SEPARATOR+
+            DatabaseContract.ImageBoard.COLUMN_NAME_STATUS+" INTEGER "+COMMA_SEPARATOR+
+            DatabaseContract.ImageBoard.COLUMN_NAME_SAVEDPATH+" INTEGER "+COMMA_SEPARATOR+
+            DatabaseContract.ImageBoard.COLUMN_NAME_SCALE_STATUS+" INTEGER "+COMMA_SEPARATOR+
+            DatabaseContract.ImageBoard.COLUMN_NAME_SCALE_FACTOR+" INTEGER "+COMMA_SEPARATOR+
+            DatabaseContract.ImageBoard.COLUMN_NAME_IMAGESIZE+" INTEGER "+
+            CLOSE_BRACE;
 
     private static final String SQL_DELETE_CLIP_TABLE = "DROP TABLE IF EXISTS "+DatabaseContract.ClipBoard.TABLE_NAME;
     private static final String SQL_DELETE_IMAGE_TABLE = "DROP TABLE IF EXISTS "+DatabaseContract.ImageBoard.TABLE_NAME;

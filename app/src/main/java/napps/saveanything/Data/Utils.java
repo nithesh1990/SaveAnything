@@ -21,12 +21,12 @@ import napps.saveanything.R;
  */
 public class Utils {
 
-    public static String getUniqueClipId(Context context){
+    public static String getUniqueId(Context context, String prefix){
         //This is a global id unique for each app installation
         //String guid = UUID.randomUUID().toString();
         //This is too long to use as unique id although it is reommended
         //So for now a combination of device unique id and currentmillis - app install millis is used as unique device id
-        return Constants.CLIP_PREFIX + getUniqueDeviceId(context)+(System.currentTimeMillis() - getAppInstallTime(context));
+        return prefix + getUniqueDeviceId(context)+(System.currentTimeMillis() - getAppInstallTime(context));
     }
 
     public static void createPreferencesFiles(Context context){
@@ -136,12 +136,15 @@ public class Utils {
                 if(!folder.exists()){
                     folder.mkdir();
                 }
-                long availablespace = (folder.getFreeSpace()/folder.getTotalSpace())*100;
-                if(availablespace > 10){
-                    return folder;
-                } else {
-                    throw new OutofStorageError();
-                }
+                long folderspace = folder.getFreeSpace();
+                long totalSpace = folder.getTotalSpace();
+                long availablespace = (folderspace/totalSpace)*100;
+                return folder;
+//                if(availablespace > 10){
+//                    return folder;
+//                } else {
+//                    throw new OutofStorageError();
+//                }
             } else {
                 return null;
             }

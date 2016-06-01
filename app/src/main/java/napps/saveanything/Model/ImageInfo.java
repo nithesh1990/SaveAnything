@@ -4,19 +4,21 @@ package napps.saveanything.Model;
  * Created by nithesh on 5/14/2016.
  */
 public class ImageInfo {
-    private long id;
-    private String imageId;
-    private String title;
-    private long timestamp;
-    private String originalPath;
     private int sourceWidth;
     private int sourceHeight;
     private int saveWidth;
     private int saveHeight;
-    private String savedPath;
-    private long imageSize;
-    private boolean isScaled;
+    private int status;
+    private int scaleStatus;
     private int scaleFactor;
+    private long id;
+    private long timestamp;
+    private long imageSize;
+    private String imageId;
+    private String desc;
+    private String originalPath;
+    private String savedPath;
+
 
     public long getId() {
         return id;
@@ -32,14 +34,6 @@ public class ImageInfo {
 
     public void setImageId(String imageId) {
         this.imageId = imageId;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public long getTimestamp() {
@@ -64,15 +58,6 @@ public class ImageInfo {
 
     public void setImageSize(long imageSize) {
         this.imageSize = imageSize;
-    }
-
-
-    public boolean isScaled() {
-        return isScaled;
-    }
-
-    public void setScaled(boolean scaled) {
-        isScaled = scaled;
     }
 
     public int getSaveHeight() {
@@ -121,5 +106,29 @@ public class ImageInfo {
 
     public void setScaleFactor(int scaleFactor) {
         this.scaleFactor = scaleFactor;
+    }
+
+    public int getScaleStatus() {
+        return scaleStatus;
+    }
+
+    public void setScaleStatus(int scaleStatus) {
+        this.scaleStatus = scaleStatus;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

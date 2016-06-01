@@ -15,12 +15,14 @@ import android.renderscript.Allocation;
 import android.renderscript.ScriptIntrinsic;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatRadioButton;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -43,7 +45,13 @@ import java.io.InputStream;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import napps.saveanything.Control.SaveImageManager;
+import napps.saveanything.Control.SaveImageTask;
 import napps.saveanything.Data.Constants;
+import napps.saveanything.Data.Utils;
+import napps.saveanything.Database.DBContentProvider;
+import napps.saveanything.Database.DBHelper;
+import napps.saveanything.Model.ImageInfo;
 import napps.saveanything.R;
 import napps.saveanything.view.customviews.CustomTextView;
 
@@ -58,6 +66,9 @@ public class SaveImageActivity extends AppCompatActivity implements View.OnClick
     private ImageButton mDoneButton;
     private ImageButton mShowHideOptions;
     private int selectSampleSize;
+
+    //Bitmap will be removed once the image is set to save memory, so don't access bitmap from this
+    private SaveImageContent currentImage;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -124,6 +135,17 @@ public class SaveImageActivity extends AppCompatActivity implements View.OnClick
         return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id){
+            case R.id.menu_save_image :
+                 saveImage();
+                break;
+        }
+        return true;
+    }
+
 
     private void handleImage(Intent intent){
         Uri imageUri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
@@ -162,6 +184,8 @@ public class SaveImageActivity extends AppCompatActivity implements View.OnClick
                 sourceStream.close();
                 int imageHeight = bitmapOptions.outHeight;
                 int imageWidth = bitmapOptions.outWidth;
+                saveImageContent.setHeight(imageHeight);
+                saveImageContent.setWidth(imageWidth);
                 //Ex: If the image
                 int inSampleSize = 1;
                 int recommendSample;
@@ -180,7 +204,7 @@ public class SaveImageActivity extends AppCompatActivity implements View.OnClick
                 int deviceWidth = displayMetrics.widthPixels;
                 Bitmap resizedBitmap = null;
                 if (imageHeight >= deviceHeight || imageWidth >= deviceWidth) {
-                    saveImageContent.setScaleStatus(Constants.IMAGE_SCALED_DOWN);
+                    saveImageContent.setScaleStatus(Constants.SCALE_DOWN);
                     // This will keep downsampling using power of 2 until the resolution reaches
                     while ((imageHeight / inSampleSize) > deviceHeight
                             && (imageWidth / inSampleSize) > deviceWidth) {
@@ -204,7 +228,7 @@ public class SaveImageActivity extends AppCompatActivity implements View.OnClick
                     sourceStream.close();
 
                 } else {
-                    saveImageContent.setScaleStatus(Constants.IMAGE_SCALED_UP);
+                    saveImageContent.setScaleStatus(Constants.SCALE_UP);
                     recommendSample = inSampleSize;
                     
                     //allow scaling up until it reaches device resolution
@@ -242,9 +266,13 @@ public class SaveImageActivity extends AppCompatActivity implements View.OnClick
                                 orientation = cursor.getInt(orientationColumn);
                             }
                         }
-                    } catch (IllegalStateException e){
+                    } catch (IllegalStateException e ){
                         e.printStackTrace();
-                    }finally {
+                    } catch (IllegalArgumentException e){
+                        e.printStackTrace();
+                    } catch(Exception e) {
+                        e.printStackTrace();
+                    } finally {
                         if(cursor != null){
                             cursor.close();
                         }
@@ -299,6 +327,8 @@ public class SaveImageActivity extends AppCompatActivity implements View.OnClick
                 selectSampleSize = saveImageContent.getRecommendSample();
                 populateCheckBoxes(saveImageContent.getResOptions());
                 openSaveOptionsMenu();
+                currentImage = saveImageContent;
+                //we can't recycle the bitmap here because the mainImage references that bitmap for displaying everytime
 
             } else {
                 mProgressBar.setVisibility(View.GONE);
@@ -346,6 +376,41 @@ public class SaveImageActivity extends AppCompatActivity implements View.OnClick
         mShowHideOptions.setImageResource(R.drawable.ic_keyboard_arrow_up_black_24dp);
 
     }
+
+
+    private void saveImage(){
+        ImageInfo saveImageInfo = new ImageInfo();
+        saveImageInfo.setImageId(Utils.getUniqueId(this, Constants.PREFIX_IMAGE));
+        saveImageInfo.setOriginalPath(currentImage.getImageUri().toString());
+        saveImageInfo.setStatus(Constants.STATUS_IMAGE_ADDED);
+        saveImageInfo.setTimestamp(System.currentTimeMillis());
+        // Good approach
+        // Get edit text reference only when it's required
+        TextInputEditText editDesc = (TextInputEditText) findViewById(R.id.editDesc);
+        saveImageInfo.setDesc(editDesc.getText().toString());
+        saveImageInfo.setScaleStatus(currentImage.getScaleStatus());
+        saveImageInfo.setSourceHeight(currentImage.getHeight());
+        saveImageInfo.setSourceWidth(currentImage.getWidth());
+
+        // set the current selected sample
+        saveImageInfo.setScaleFactor(mRadioGroup.getCheckedRadioButtonId());
+
+        //save image to db
+        if(DBContentProvider.insertImage(DBHelper.getInstance(this), saveImageInfo)){
+            //this says insert was succesful, start background task for saving image
+
+            //here we should use getApplicationContext() because it stays for the lifetime
+            //if we use this/getActivity() it might be destroyed as soon as the activity is removed which will cause
+            //exception when the background tries to access the context
+            //Always use getApplicationCOntext() when the task should be run irrespective of current activity
+            SaveImageTask saveImageTask = new SaveImageTask(saveImageInfo, getApplicationContext());
+            SaveImageManager.getInstance().addTasktoExecute(saveImageTask);
+            finish();
+        } else {
+            //show error message or workaround for failure
+        }
+
+    }
     private CompoundButton.OnCheckedChangeListener radioChangeListener = new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -361,6 +426,8 @@ public class SaveImageActivity extends AppCompatActivity implements View.OnClick
         private int rotation;
         private Uri imageUri;
         private int scaleStatus;
+        private int width;
+        private int Height;
 
         public Bitmap getBitmap() {
             return bitmap;
@@ -408,6 +475,22 @@ public class SaveImageActivity extends AppCompatActivity implements View.OnClick
 
         public void setScaleStatus(int scaleStatus) {
             this.scaleStatus = scaleStatus;
+        }
+
+        public int getHeight() {
+            return Height;
+        }
+
+        public void setHeight(int height) {
+            Height = height;
+        }
+
+        public int getWidth() {
+            return width;
+        }
+
+        public void setWidth(int width) {
+            this.width = width;
         }
     }
 }

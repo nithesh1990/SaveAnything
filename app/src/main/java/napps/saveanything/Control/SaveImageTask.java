@@ -39,7 +39,7 @@ public class SaveImageTask implements Runnable {
 
         try{
             Uri uri = Uri.parse(mImageInfo.getOriginalPath());
-            String saveFileName = Constants.IMAGE_PREFIX + String.valueOf(mImageInfo.getTimestamp())+Constants.IMAGE_FORMAT_PNG;
+            String saveFileName = Constants.PREFIX_IMAGE + String.valueOf(mImageInfo.getTimestamp())+Constants.IMAGE_FORMAT_PNG;
             File saveFile = new File(Utils.getImageStoragePath(), saveFileName);
             //openInputStream is used because of the following reasons
 
@@ -48,7 +48,8 @@ public class SaveImageTask implements Runnable {
             //android.resource (SCHEME_ANDROID_RESOURCE)
             //file (SCHEME_FILE)
             InputStream sourceStream = mContext.getContentResolver().openInputStream(uri);
-            if(mImageInfo.isScaled()){
+            if(mImageInfo.getScaleStatus() == Constants.SCALE_DOWN){
+
                 BitmapFactory.Options options = new BitmapFactory.Options();
                 options.inSampleSize = mImageInfo.getScaleFactor();
                 Bitmap resizedBitmap = BitmapFactory.decodeStream(sourceStream, null, options);
@@ -57,9 +58,21 @@ public class SaveImageTask implements Runnable {
                 resizedBitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOut);
                 fileOut.close();
                 resizedBitmap.recycle();
-                contentValues.put(DatabaseContract.ImageBoard.COLUMN_NAME_IS_SCALED, Constants.IMAGE_SCALED_DOWN);
+                contentValues.put(DatabaseContract.ImageBoard.COLUMN_NAME_SCALE_STATUS, Constants.SCALE_DOWN);
 
+            } else if(mImageInfo.getScaleStatus() == Constants.SCALE_UP){
+                int destWidth = mImageInfo.getSourceWidth() * mImageInfo.getScaleFactor();
+                int destHeight = mImageInfo.getSourceHeight() * mImageInfo.getScaleFactor();
+                Bitmap resizedBitmap = BitmapFactory.decodeStream(sourceStream, null, null);
+                resizedBitmap = Bitmap.createScaledBitmap(resizedBitmap, destWidth, destHeight, true);
+                FileOutputStream fileOut = new FileOutputStream(saveFile);
+                //quality	int: Hint to the compressor, 0-100. 0 meaning compress for small size, 100 meaning compress for max quality. Some formats, like PNG which is lossless, will ignore the quality setting
+                resizedBitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOut);
+                fileOut.close();
+                resizedBitmap.recycle();
+                contentValues.put(DatabaseContract.ImageBoard.COLUMN_NAME_SCALE_STATUS, Constants.SCALE_UP);
             } else {
+
                 FileOutputStream fileout = new FileOutputStream(saveFile);
                 byte[] buffer = new byte[(int)Utils.getBufferMemorySize(mContext)];
                 int bufferlen;
@@ -70,6 +83,8 @@ public class SaveImageTask implements Runnable {
                 fileout.flush();
                 fileout.close();
                 sourceStream.close();
+                contentValues.put(DatabaseContract.ImageBoard.COLUMN_NAME_SCALE_STATUS, Constants.SCALE_NEUTRAL);
+
             }
 
             contentValues.put(DatabaseContract.ImageBoard.COLUMN_NAME_SCALE_FACTOR, mImageInfo.getScaleFactor());
@@ -93,10 +108,16 @@ public class SaveImageTask implements Runnable {
             //disk full
             //update proper error
             contentValues.put(DatabaseContract.ImageBoard.COLUMN_NAME_STATUS, Constants.STATUS_IMAGE_PROCESS_ERROR);
-        } finally {
+        } catch (Exception e){
+            //Any other exception
+            contentValues.put(DatabaseContract.ImageBoard.COLUMN_NAME_STATUS, Constants.STATUS_IMAGE_PROCESS_ERROR);
+        }
+        finally {
 
             SQLiteDatabase db = DBHelper.getInstance(mContext).getWritableDatabase();
-            db.update(DatabaseContract.ImageBoard.TABLE_NAME, contentValues, DatabaseContract.ImageBoard.COLUMN_NAME_IMAGEID+" = "+mImageInfo.getImageId(), null);
+            //imageId = mImageInfo.getImageId() cannot be used because SQLite thinks that 'I12787284y80' is actually a column name, rather than a string/text literal.
+            //So we have to wrap it to look like 'I12787284y80'
+            db.update(DatabaseContract.ImageBoard.TABLE_NAME, contentValues, DatabaseContract.ImageBoard.COLUMN_NAME_IMAGEID+" = "+"'"+mImageInfo.getImageId()+"'", null);
 
         }
     }

@@ -7,7 +7,7 @@ public class ClipInfo {
     private int contentType;
     private long id;
     private String clipId;
-    private String title;
+    private String sourcePackage;
     private String content;
     private long timestamp;
     private int clipStatus;
@@ -44,12 +44,12 @@ public class ClipInfo {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getSourcePackage() {
+        return sourcePackage;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setSourcePackage(String sourcePackage) {
+        this.sourcePackage = sourcePackage;
     }
 
     public String getClipId() {

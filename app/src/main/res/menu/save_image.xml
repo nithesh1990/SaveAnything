@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/save"
+    <item android:id="@+id/menu_save_image"
         android:icon="@drawable/ic_done_white_48dp"
         android:title="Save"
         app:showAsAction="always"/>

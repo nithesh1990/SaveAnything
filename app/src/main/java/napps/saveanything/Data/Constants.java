@@ -40,14 +40,14 @@ public class Constants {
     public static final int STATUS_IMAGE_PROCESS_ERROR = 10104;
 
     //scale status
-    public static final int IMAGE_SCALED_UP = 1;
-    public static final int IMAGE_SCALED_DOWN = 2;
-    public static final int IMAGE_NOT_SCALED = 3;
+    public static final int SCALE_UP = 1;
+    public static final int SCALE_DOWN = 2;
+    public static final int SCALE_NEUTRAL = 3;
 
 
     //Unique Id's
-    public static final String CLIP_PREFIX = "C";
-    public static final String IMAGE_PREFIX = "I";
+    public static final String PREFIX_CLIP = "C";
+    public static final String PREFIX_IMAGE = "I";
 
     //mime types
     public static final String MIME_TYPE_IMAGE = "image/";
@@ -59,6 +59,7 @@ public class Constants {
     //image source
     public static final String SCHEME_CONTENT = "content";
     public static final String SCHEME_FILE = "file";
+
     //List Sort Orders
     public static final int SORT_CONTENTS_ASCENDING = 2001;
     public static final int SORT_CONTENTS_DESCENDING = 2002;

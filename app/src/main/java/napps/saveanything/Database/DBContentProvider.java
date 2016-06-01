@@ -19,10 +19,16 @@ public class DBContentProvider {
     private static final String SORT_ORDER_DESC = " DESC ";
 
 
-    public DBContentProvider(Context context) {
+    public DBContentProvider() {
     }
 
-    public static synchronized boolean insertClip(DBHelper dbHelper, ClipInfo clipInfo){
+    //The method is made static it doesn't depend on DBContentProvider object creation as we are not accessing any of its instance variables
+    //This is a standalone method and it doesn't create lot of problem JVM/DVM internally optimizes static method a lot
+    //This is just validation of few things and running a single command(i.e insert) so it is made static. Since this is required at many places
+    //creating a common static methods would solve the problem
+    //We don't need to synchronize this method because dbHelper.getWritableDatabase()/dbHelper.getReadableDatabase() is already synchronized
+    //synchronized inside synchronized reduces degrades performance
+    public static boolean insertClip(DBHelper dbHelper, ClipInfo clipInfo){
         if(clipInfo == null){
             return false;
         }
@@ -30,8 +36,8 @@ public class DBContentProvider {
         if(clipInfo.getClipId() != null && !clipInfo.getClipId().isEmpty()){
             contentValues.put(DatabaseContract.ClipBoard.COLUMN_NAME_CLIPID, clipInfo.getClipId());
         }
-        if(clipInfo.getTitle() != null && !clipInfo.getTitle().isEmpty()){
-            contentValues.put(DatabaseContract.ClipBoard.COLUMN_NAME_TITLE, clipInfo.getTitle());
+        if(clipInfo.getSourcePackage() != null && !clipInfo.getSourcePackage().isEmpty()){
+            contentValues.put(DatabaseContract.ClipBoard.COLUMN_NAME_SOURCE_PACKAGE, clipInfo.getSourcePackage());
         }
         if(clipInfo.getContent() != null && !clipInfo.getContent().isEmpty()){
             contentValues.put(DatabaseContract.ClipBoard.COLUMN_NAME_CONTENT, clipInfo.getContent());
@@ -50,7 +56,14 @@ public class DBContentProvider {
 
     }
 
-    public synchronized boolean insertImage(DBHelper dbHelper, ImageInfo imageInfo){
+    //The method is made static it doesn't depend on DBContentProvider object creation as we are not accessing any of its instance variables
+    //This is a standalone method and it doesn't create lot of problem JVM/DVM internally optimizes static method a lot
+    //This is just validation of few things and running a single command(i.e insert) so it is made static. Since this is required at many places
+    //creating a common static methods would solve the problem
+    //We don't need to synchronize this method because dbHelper.getWritableDatabase()/dbHelper.getReadableDatabase() is already synchronized
+    //synchronized inside synchronized reduces degrades performance
+
+    public static boolean insertImage(DBHelper dbHelper, ImageInfo imageInfo){
         if(imageInfo == null){
             return false;
         }
@@ -58,8 +71,8 @@ public class DBContentProvider {
         if(imageInfo.getImageId() != null && !imageInfo.getImageId().isEmpty()){
             contentValues.put(DatabaseContract.ImageBoard.COLUMN_NAME_IMAGEID, imageInfo.getImageId());
         }
-        if(imageInfo.getTitle() != null && !imageInfo.getTitle().isEmpty()){
-            contentValues.put(DatabaseContract.ImageBoard.COLUMN_NAME_TITLE, imageInfo.getTitle());
+        if(imageInfo.getDesc() != null && !imageInfo.getDesc().isEmpty()){
+            contentValues.put(DatabaseContract.ImageBoard.COLUMN_NAME_DESC, imageInfo.getDesc());
         }
         if(imageInfo.getOriginalPath() != null && !imageInfo.getOriginalPath().isEmpty()){
             contentValues.put(DatabaseContract.ImageBoard.COLUMN_NAME_ORIGINALPATH, imageInfo.getOriginalPath());
@@ -79,6 +92,16 @@ public class DBContentProvider {
             contentValues.put(DatabaseContract.ImageBoard.COLUMN_NAME_SAVEDPATH, imageInfo.getSavedPath());
         }
 
+        contentValues.put(DatabaseContract.ImageBoard.COLUMN_NAME_STATUS, imageInfo.getStatus());
+
+        if(imageInfo.getScaleStatus() > 0){
+            contentValues.put(DatabaseContract.ImageBoard.COLUMN_NAME_SCALE_STATUS, imageInfo.getScaleStatus());
+        }
+
+        if(imageInfo.getScaleFactor() > 0){
+            contentValues.put(DatabaseContract.ImageBoard.COLUMN_NAME_SCALE_FACTOR, imageInfo.getScaleFactor());
+        }
+
         if(contentValues.size() > 0){
             return dbHelper.getWritableDatabase().insert(DatabaseContract.ImageBoard.TABLE_NAME, null, contentValues) > 0 ? true : false;
         } else {
@@ -87,13 +110,20 @@ public class DBContentProvider {
 
     }
 
+    //The method is made static it doesn't depend on DBContentProvider object creation as we are not accessing any of its instance variables
+    //This is a standalone method and it doesn't create lot of problem JVM/DVM internally optimizes static method a lot
+    //This is just validation of few things and running a single command(i.e insert) so it is made static. Since this is required at many places
+    //creating a common static methods would solve the problem
+    //Need to research more on using synchronized keyword because query() doesn't seem to be synchronized internally
+
+
     public static synchronized Cursor getAllClipsforDisplay(DBHelper dbHelper, int sortType){
         SQLiteDatabase sqLiteDatabase = dbHelper.getReadableDatabase();
 
         String[] projection = {
                 DatabaseContract.ClipBoard._ID,
                 DatabaseContract.ClipBoard.COLUMN_NAME_CLIPID,
-                DatabaseContract.ClipBoard.COLUMN_NAME_TITLE,
+                DatabaseContract.ClipBoard.COLUMN_NAME_SOURCE_PACKAGE,
                 DatabaseContract.ClipBoard.COLUMN_NAME_CONTENT,
                 DatabaseContract.ClipBoard.COLUMN_NAME_TIMESTAMP
         };
@@ -106,12 +136,6 @@ public class DBContentProvider {
                 break;
             case Constants.SORT_CONTENTS_DESCENDING:
                 sortOrder = DatabaseContract.ClipBoard.COLUMN_NAME_CONTENT +SORT_ORDER_DESC;
-                break;
-            case Constants.SORT_TITLE_ASCENDING:
-                sortOrder = DatabaseContract.ClipBoard.COLUMN_NAME_TITLE +SORT_ORDER_ASC;
-                break;
-            case Constants.SORT_TITLE_DESCENDING:
-                sortOrder = DatabaseContract.ClipBoard.COLUMN_NAME_TITLE +SORT_ORDER_DESC;
                 break;
             case Constants.SORT_TIME_OLD_FIRST:
                 sortOrder = DatabaseContract.ClipBoard.COLUMN_NAME_TIMESTAMP +SORT_ORDER_ASC;
@@ -134,10 +158,10 @@ public class DBContentProvider {
         String[] projection = {
                 DatabaseContract.ImageBoard._ID,
                 DatabaseContract.ImageBoard.COLUMN_NAME_IMAGEID,
-                DatabaseContract.ImageBoard.COLUMN_NAME_TITLE,
+                DatabaseContract.ImageBoard.COLUMN_NAME_DESC,
                 DatabaseContract.ImageBoard.COLUMN_NAME_ORIGINALPATH,
                 DatabaseContract.ImageBoard.COLUMN_NAME_STATUS,
-                DatabaseContract.ImageBoard.COLUMN_NAME_IS_SCALED,
+                DatabaseContract.ImageBoard.COLUMN_NAME_SCALE_STATUS,
                 DatabaseContract.ImageBoard.COLUMN_NAME_SCALE_FACTOR,
                 DatabaseContract.ImageBoard.COLUMN_NAME_SAVEDPATH,
                 DatabaseContract.ImageBoard.COLUMN_NAME_IMAGESIZE,
@@ -156,10 +180,10 @@ public class DBContentProvider {
                 sortOrder = DatabaseContract.ImageBoard.COLUMN_NAME_IMAGESIZE +SORT_ORDER_DESC;
                 break;
             case Constants.SORT_TITLE_ASCENDING:
-                sortOrder = DatabaseContract.ImageBoard.COLUMN_NAME_TITLE +SORT_ORDER_ASC;
+                sortOrder = DatabaseContract.ImageBoard.COLUMN_NAME_DESC +SORT_ORDER_ASC;
                 break;
             case Constants.SORT_TITLE_DESCENDING:
-                sortOrder = DatabaseContract.ImageBoard.COLUMN_NAME_TITLE +SORT_ORDER_DESC;
+                sortOrder = DatabaseContract.ImageBoard.COLUMN_NAME_DESC +SORT_ORDER_DESC;
                 break;
             case Constants.SORT_TIME_OLD_FIRST:
                 sortOrder = DatabaseContract.ImageBoard.COLUMN_NAME_TIMESTAMP +SORT_ORDER_ASC;
