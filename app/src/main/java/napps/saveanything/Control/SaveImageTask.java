@@ -1,6 +1,5 @@
 package napps.saveanything.Control;
 
-import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -14,8 +13,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import napps.saveanything.Data.Constants;
-import napps.saveanything.Data.Utils;
+import napps.saveanything.Utilities.Constants;
+import napps.saveanything.Utilities.Utils;
 import napps.saveanything.Database.DBHelper;
 import napps.saveanything.Database.DatabaseContract;
 import napps.saveanything.Model.ImageInfo;

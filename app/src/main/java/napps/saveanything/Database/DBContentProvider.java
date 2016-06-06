@@ -1,12 +1,11 @@
 package napps.saveanything.Database;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.provider.Settings;
 
-import napps.saveanything.Data.Constants;
+import napps.saveanything.Utilities.AppLogger;
+import napps.saveanything.Utilities.Constants;
 import napps.saveanything.Model.ClipInfo;
 import napps.saveanything.Model.ImageInfo;
 
@@ -14,6 +13,9 @@ import napps.saveanything.Model.ImageInfo;
  * Created by nithesh on 5/14/2016.
  */
 public class DBContentProvider {
+
+    //Since this is static final is is instantiated once and not called everytime
+    private static final String CLASS_TAG = DBContentProvider.class.getSimpleName();
 
     private static final String SORT_ORDER_ASC = " ASC ";
     private static final String SORT_ORDER_DESC = " DESC ";
@@ -29,6 +31,7 @@ public class DBContentProvider {
     //We don't need to synchronize this method because dbHelper.getWritableDatabase()/dbHelper.getReadableDatabase() is already synchronized
     //synchronized inside synchronized reduces degrades performance
     public static boolean insertClip(DBHelper dbHelper, ClipInfo clipInfo){
+        AppLogger.addLogMessage(AppLogger.DEBUG, CLASS_TAG, "insertClip","Called");
         if(clipInfo == null){
             return false;
         }

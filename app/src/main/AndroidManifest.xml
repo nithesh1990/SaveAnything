@@ -2,8 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="napps.saveanything">
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:allowBackup="true"
@@ -16,29 +17,41 @@
             android:label="@string/app_name"
             android:theme="@style/BasicTheme">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <service android:name=".Control.SaveClipService"></service>
+        <service
+            android:name=".Control.SaveClipService"
+            android:stopWithTask="false">
+        </service>
+
 
         <activity
             android:name=".view.activities.SaveImageActivity"
             android:label="@string/title_activity_save_image"
+            android:launchMode="singleTop"
             android:theme="@style/SaveImageTheme">
             <intent-filter>
-                <action android:name="android.intent.action.SEND"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <data android:mimeType="image/*"/>
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.SEND_MULTIPLE"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <data android:mimeType="image/*"/>
-            </intent-filter>
+                <action android:name="android.intent.action.SEND" />
 
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="image/*" />
+            </intent-filter>
         </activity>
+
+        <!--enabled tells the system to instantiate this receiver or else we need to instantiate when it's required -->
+        <receiver
+            android:name=".Control.AlarmReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

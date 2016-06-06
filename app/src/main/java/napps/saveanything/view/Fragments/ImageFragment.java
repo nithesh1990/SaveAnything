@@ -6,26 +6,28 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import napps.saveanything.Control.DBQueryLoader;
-import napps.saveanything.Data.Constants;
+import napps.saveanything.Utilities.AppLogger;
+import napps.saveanything.Utilities.Constants;
 import napps.saveanything.R;
 import napps.saveanything.view.adapters.ImageListAdapter;
 
 /**
  * Created by nithesh on 5/6/2016.
  */
-public class ImageFragment extends Fraggment implements LoaderManager.LoaderCallbacks<Cursor>{
+public class ImageFragment extends Fraggment implements LoaderManager.LoaderCallbacks<Cursor> {
 
+    private static final String CLASS_TAG = ImageFragment.class.getSimpleName();
     public ImageListAdapter mImageListAdapter;
     public Context mContext;
     RecyclerView mImageRecyclerView;
@@ -132,7 +134,8 @@ public class ImageFragment extends Fraggment implements LoaderManager.LoaderCall
         }
 
         mImageListAdapter = new ImageListAdapter(mContext, R.layout.image_card, data);
-        mImageRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+        mImageRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 2));
+        mImageRecyclerView.addOnScrollListener(new RVScrollListener());
         mImageRecyclerView.setAdapter(mImageListAdapter);
 
     }
@@ -140,5 +143,32 @@ public class ImageFragment extends Fraggment implements LoaderManager.LoaderCall
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
 
+    }
+
+    private class RVScrollListener extends RecyclerView.OnScrollListener {
+
+        private String CLASS_TAG = RVScrollListener.class.getSimpleName();
+        @Override
+        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            super.onScrollStateChanged(recyclerView, newState);
+            switch(newState){
+                case RecyclerView.SCROLL_STATE_DRAGGING:
+                    AppLogger.addLogMessage(AppLogger.DEBUG, CLASS_TAG, "OnScrollStateChanged", "Dragging");
+                    break;
+                case RecyclerView.SCROLL_STATE_IDLE:
+                    AppLogger.addLogMessage(AppLogger.DEBUG, CLASS_TAG, "OnScrollStateChanged", "Idle");
+                    break;
+                case RecyclerView.SCROLL_STATE_SETTLING:
+                    AppLogger.addLogMessage(AppLogger.DEBUG, CLASS_TAG, "OnScrollStateChanged", "Settling");
+                    break;
+            }
+        }
+
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+            AppLogger.addLogMessage(AppLogger.DEBUG, CLASS_TAG, "OnScrolled", "dy: "+dy);
+
+        }
     }
 }

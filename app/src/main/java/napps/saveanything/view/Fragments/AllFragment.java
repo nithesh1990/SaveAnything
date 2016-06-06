@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import napps.saveanything.Data.Constants;
+import napps.saveanything.Utilities.Constants;
 import napps.saveanything.R;
 
 /**

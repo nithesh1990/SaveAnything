@@ -1,10 +1,18 @@
-package napps.saveanything.Data;
+package napps.saveanything.Utilities;
 
 /**
  * Created by nithesh on 5/6/2016.
  */
 public class Constants {
 
+    //Static final Design:
+    //The compiler generates a class initializer method, called <clinit>, that is executed when the class is first used.
+    //The method stores value to its corresponding variable and extracts a reference from the classfile constant table.
+    //When these values are referenced later on, they are accessed with field lookups.
+    //When we use final Keyword
+    //The class no longer requires a <clinit> method, because the constants go into static field initializers in the dex file.
+    //Code that refers to variable will use the value directly  and accesses to that variable will use a relatively inexpensive "constant" instruction instead of a field lookup.
+    public static final String APPLICATION_TAG = "SaveAnything";
     //Fragments Title
     public static final String ALLFRAGMENT_TITLE = "ALL";
     public static final String IMAGEFRAGMENT_TITLE = "IMAGES";
@@ -75,11 +83,18 @@ public class Constants {
     public static final String STORAGE_MAIN_DIRECTORY = "/SaveAnything";
     public static final String STORAGE_CLIPS_DIRECTORY = "/SaveAnything/Clips";
     public static final String STORAGE_IMAGES_DIRECTORY = "/SaveAnything/Images";
-//    public static final long MILLISECONDS = 1000;
-//    public static final long SECONDS = 60 * MILLISECONDS;
-//    public static final long MINUTES = 60 * SECONDS;
-//    public static final long HOURS = 60 * MINUTES;
-//    public static final long DAYS = 24 * HOURS;
-//    public static final long WEEKS = 7 * DAYS;
-//    public static final long MONTHS =
+
+    //From month it's not accurate
+    public static final long MILLISECOND = 1;
+    public static final long SECOND = 1000 * MILLISECOND;
+    public static final long MINUTE = 60 * SECOND;
+    public static final long HOUR = 60 * MINUTE;
+    public static final long DAY = 24 * HOUR;
+    public static final long WEEK = 7 * DAY;
+    public static final long MONTH =   (4 * WEEK) + (2 * DAY);
+    public static final long YEAR = 12 * MONTH;
+
+    //BroadCast Alarms
+    public static final int BROADCAST_START_SERVICE = 101;
+
 }

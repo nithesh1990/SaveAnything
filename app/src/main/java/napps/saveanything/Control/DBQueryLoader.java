@@ -19,11 +19,18 @@ public class DBQueryLoader extends AsyncTaskLoader<Cursor> {
     public static final int QUERY_ALL_IMAGES = 1;
 
 
+    //This is Dependency Injection Design Pattern
+    //Dependency injection is basically providing the objects that an object needs (its dependencies) instead of having it construct them itself.
+    //It's a very useful technique for testing, since it allows dependencies to be mocked or stubbed out.
+    //Whenever possible pass object instances through constructor or getter setter methods
+    //which becomes useful like once you have set all the available instance variables through setters or getters method
+    //we can directly call the methods in test classes and do rigorous testing by passing arbitrary values.
+
     public DBQueryLoader(Context context, int loaderId, int sortType) {
         super(context);
-        mContext = context;
-        mLoaderId = loaderId;
-        mSortType = sortType;
+        this.mContext = context;
+        this.mLoaderId = loaderId;
+        this.mSortType = sortType;
     }
 
     @Override

@@ -1,10 +1,5 @@
 package napps.saveanything.Control;
 
-import android.support.annotation.NonNull;
-
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.RejectedExecutionHandler;
@@ -14,7 +9,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by nithesh on 5/28/2016.
  */
-public class SaveImageManager implements RejectedExecutionHandler{
+public class BackgroundWorker implements RejectedExecutionHandler{
 
 
 
@@ -64,10 +59,11 @@ public class SaveImageManager implements RejectedExecutionHandler{
 
     // SingleTon pattern is very much essential because we have to make sure only one thread pool is running
     //If we keep on creating objects which in turn creates multiple threadpools which is a bad implementation
-    private static SaveImageManager ourInstance;
-    public static SaveImageManager getInstance() {
+    private static BackgroundWorker ourInstance;
+
+    public static BackgroundWorker getInstance() {
         if(ourInstance == null){
-            ourInstance = new SaveImageManager();
+            ourInstance = new BackgroundWorker();
         }
         return ourInstance;
     }
@@ -76,12 +72,12 @@ public class SaveImageManager implements RejectedExecutionHandler{
     //There is one more way of creating singleton instance
     //Initialize the object in static block
     //static {
-    //    ourInstance = new SaveImageManager();
+    //    ourInstance = new BackgroundWorker();
     //}
     //This will create the instance as soon as the class is loaded
     //Return this instance on getInstance()
     //But this is disadvantage as the instance stays in heap unnecessiraly even though if it's not used
-    private SaveImageManager() {
+    private BackgroundWorker() {
         // We need to get the no. of cores because thread pool size
         NUMBER_OF_CORES = Runtime.getRuntime().availableProcessors();
 
@@ -123,7 +119,7 @@ public class SaveImageManager implements RejectedExecutionHandler{
     public void rejectedExecution(Runnable r, ThreadPoolExecutor executor) {
         try{
             r.wait(REJECTED_TASK_WAIT_TIME);
-            SaveImageManager.getInstance().jobExecutor.execute(r);
+            BackgroundWorker.getInstance().jobExecutor.execute(r);
         } catch (InterruptedException e){
             e.printStackTrace();
         }

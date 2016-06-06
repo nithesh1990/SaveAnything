@@ -1,12 +1,12 @@
 package napps.saveanything.view.activities;
 
+import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import napps.saveanything.Control.SaveClipService;
-import napps.saveanything.Data.Utils;
+import napps.saveanything.Utilities.Utils;
 import napps.saveanything.R;
 import napps.saveanything.view.fragments.AllFragment;
 import napps.saveanything.view.fragments.ClipsFragment;
@@ -39,6 +39,8 @@ public class BaseActivity extends AppCompatActivity
     private int ALL_FRAGMENT_POSITION = 0;
     private int CLIPS_FRAGMENT_POSITION = 1;
     private int IMAGES_FRAGMENT_POSITION = 2;
+
+    private Application mapp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,11 +70,14 @@ public class BaseActivity extends AppCompatActivity
 
         populatePages();
 
-        if(!Utils.isClipServiceRunning(this, SaveClipService.class)) {
-            Intent clipServiceIntent = new Intent(this, SaveClipService.class);
-            startService(clipServiceIntent);
-        }
-     }
+             //Here i was using context 'this' before so the service was stopped as soon as the activity was remove
+            //1. For Services always use getApplicationContext() because this is initialized by Application class
+            //2. For every application there will be only one application class which extends contextwrapper and is set during application initialization
+            //3. For use cases which should be working irrespective of activities or UI use getApplicationContext()
+
+        Utils.checkAndStartService(getApplicationContext(), SaveClipService.class);
+
+    }
 
     @Override
     public void onBackPressed() {

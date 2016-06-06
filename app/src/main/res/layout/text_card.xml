@@ -16,6 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"
+            android:fontFamily=""
             android:maxLines="3"
             android:text="sdlfndlsgnlnvl kklfdkldsgsdgsgsf sfgfgfgggggg sgf"
             app:fontinfo="roboto_medium"

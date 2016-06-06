@@ -12,12 +12,11 @@ import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import napps.saveanything.Control.DBQueryLoader;
-import napps.saveanything.Data.Constants;
+import napps.saveanything.Utilities.Constants;
 import napps.saveanything.R;
 import napps.saveanything.view.adapters.TextListAdapter;
 

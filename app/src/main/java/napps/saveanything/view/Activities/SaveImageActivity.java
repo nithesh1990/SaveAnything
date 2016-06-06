@@ -1,7 +1,6 @@
 package napps.saveanything.view.activities;
 
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,50 +10,65 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.renderscript.Allocation;
-import android.renderscript.ScriptIntrinsic;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatRadioButton;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import napps.saveanything.Control.SaveImageManager;
+import napps.saveanything.Control.BackgroundWorker;
 import napps.saveanything.Control.SaveImageTask;
-import napps.saveanything.Data.Constants;
-import napps.saveanything.Data.Utils;
+import napps.saveanything.Utilities.Constants;
+import napps.saveanything.Utilities.Utils;
 import napps.saveanything.Database.DBContentProvider;
 import napps.saveanything.Database.DBHelper;
 import napps.saveanything.Model.ImageInfo;
 import napps.saveanything.R;
 import napps.saveanything.view.customviews.CustomTextView;
 
+/*
+
+    Activity Intent Design
+    Task Affinity:
+        The design of this class is such that it is independent of the activities of this application. Whenever new
+        activities are launched they are put in a stack and that stack belongs to basic task of an application which contains the root activity.
+        So if we start any intent from an activity which is in a task, we have the option of making the new activity run in new task.
+        In that case new activity is the only one in new task and its stack contains only that activity. This can be set using the
+        taskaffinity flag in the manifest or while starting new intent.
+        We want to run this activity as a top activity on top of stack of calling application so that it returns back to parent application
+        after this is removed from the task(by pressing back button). So we will not be setting the task affinity attribute here
+    Launch Mode:
+        We want this activity to finish its task(i.e saving), remove all its dependencies and get back to parent application without leaving any trace
+        as if this activity was not launched. This is determined by launch mode and there are 4 available options for this
+        "standard"
+        "singleTop"
+        "singleTask"
+        "singleInstance"
+        More details about this is in my google drive document.
+        standard is creating memory issues so not suitable
+        We are selecting singleTop for the following reasons
+        1. This uses if already an instance of this activity exists
+        2. singleTop delivers intent to newIntent() if already an instance exists without calling onCreate. We are not in loss because in Oncreate we aren't populating any new UI data
+            which is done only after the intent is processed. That's fine with us
+        SingleTask and SingleInstance create new Task and it deviates from normal behaviour and is not recommended to use in common cases
+
+ */
 public class SaveImageActivity extends AppCompatActivity implements View.OnClickListener{
 
     private ImageView mMainImage;
@@ -99,26 +113,8 @@ public class SaveImageActivity extends AppCompatActivity implements View.OnClick
         mProgressBar.setVisibility(View.VISIBLE);
         mStatusTextview.setVisibility(View.VISIBLE);
         mOptionsLayout.setVisibility(View.GONE);
-        Intent shareIntent = getIntent();
-        String action = shareIntent.getAction();
-        String mimeType = shareIntent.getType();
 
-        if(action.equals(Intent.ACTION_SEND) && mimeType != null){
-            if(mimeType.contains(Constants.MIME_TYPE_IMAGE)){
-                handleImage(shareIntent);
-            } else {
-                //post error
-            }
-            //handle single image share
-        } else if(action.equals(Intent.ACTION_SEND_MULTIPLE) && mimeType != null){
-            //handle multiple ima
-            if(mimeType.contains(Constants.MIME_TYPE_IMAGE)){
-
-            } else {
-                //post error
-            }
-        }
-
+        processIntent(getIntent());
 //        fab.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
@@ -126,6 +122,20 @@ public class SaveImageActivity extends AppCompatActivity implements View.OnClick
 //                        .setAction("Action", null).show();
 //            }
 //        });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // Since this activity has resources that hold huge memory we have to clean up these resources
+        // This method is called after we have called finish()/back button pressed/system kills this to reclaim memory
+        cleanUpMemory();
+    }
+
+    //This is implemented because launchMode is set as "singleTop"
+    @Override
+    protected void onNewIntent(Intent intent) {
+        processIntent(intent);
     }
 
     @Override
@@ -140,6 +150,7 @@ public class SaveImageActivity extends AppCompatActivity implements View.OnClick
         int id = item.getItemId();
         switch (id){
             case R.id.menu_save_image :
+                //TODO: Do not save icon until the image is processed
                  saveImage();
                 break;
         }
@@ -404,8 +415,9 @@ public class SaveImageActivity extends AppCompatActivity implements View.OnClick
             //exception when the background tries to access the context
             //Always use getApplicationCOntext() when the task should be run irrespective of current activity
             SaveImageTask saveImageTask = new SaveImageTask(saveImageInfo, getApplicationContext());
-            SaveImageManager.getInstance().addTasktoExecute(saveImageTask);
+            BackgroundWorker.getInstance().addTasktoExecute(saveImageTask);
             finish();
+
         } else {
             //show error message or workaround for failure
         }
@@ -418,6 +430,45 @@ public class SaveImageActivity extends AppCompatActivity implements View.OnClick
         }
     };
 
+    private void cleanUpMemory(){
+        //Setting all objects to null and we can't clear primitive types.
+        mMainImage = null;
+        mProgressBar = null;
+        mStatusTextview = null;
+        mOptionsLayout = null;
+        mRadioGroup = null;
+        mShowHideOptions = null;
+        //all are these objects
+        currentImage.setResOptions(null);
+        currentImage.setImageUri(null);
+        currentImage.setBitmap(null);
+        //currentImage is assigned null at last because assigning all the above variables doesn't necessarily call GC
+        //But GC in android is modified in such a way that GC is called immediately after bitmap is set to null.
+        //So GC called during this time will take away all the resources that are set to null
+        currentImage = null;
+    }
+
+    private void processIntent(Intent shareIntent){
+        String action = shareIntent.getAction();
+        String mimeType = shareIntent.getType();
+
+        if(action.equals(Intent.ACTION_SEND) && mimeType != null){
+            if(mimeType.contains(Constants.MIME_TYPE_IMAGE)){
+                handleImage(shareIntent);
+            } else {
+                //post error
+            }
+            //handle single image share
+        } else if(action.equals(Intent.ACTION_SEND_MULTIPLE) && mimeType != null){
+            //handle multiple ima
+            if(mimeType.contains(Constants.MIME_TYPE_IMAGE)){
+
+            } else {
+                //post error
+            }
+        }
+
+    }
 
     public class SaveImageContent {
         private Bitmap bitmap;

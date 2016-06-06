@@ -1,4 +1,4 @@
-package napps.saveanything.Data;
+package napps.saveanything.Utilities;
 
 /**
  * Created by nithesh on 5/27/2016.

@@ -3,10 +3,14 @@ package napps.saveanything.view.adapters;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SimpleCursorAdapter;
+
+import napps.saveanything.Utilities.AppLogger;
+import napps.saveanything.Utilities.Constants;
 
 /**
  * Created by nithesh on 5/12/2016.
@@ -33,6 +37,7 @@ public abstract class RecyclerCursorAdapter<ViewHolder extends RecyclerView.View
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
             mCursor.moveToPosition(position);
+            Log.d(Constants.APPLICATION_TAG, "On bind view called for position "+position);
             bindView(holder, mCursor);
     }
 
