@@ -23,7 +23,7 @@ public interface Cache<K, V> {
         Get items from cache
         Do not specify the paramter key to get values
      */
-    public V get();
+    public V get(K Key);
 
     /*
         Set Memory limit in bytes
@@ -38,6 +38,6 @@ public interface Cache<K, V> {
     /*
         Get the number of elements in Cache
      */
-    public int size();
+    public void setCacheSize(int cacheSize);
 
 }

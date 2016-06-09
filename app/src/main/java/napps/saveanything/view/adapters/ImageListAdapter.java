@@ -24,6 +24,7 @@ public class ImageListAdapter extends RecyclerCursorAdapter {
         ImageCardViewHolder imageCardHolder = (ImageCardViewHolder) holder;
         imageCardHolder.titleTextView.setText(R.string.temp_image_title);
         imageCardHolder.timeTextView.setText(R.string.temp_text_time);
+        imageCardHolder.mainImage.is
     }
 
     @Override

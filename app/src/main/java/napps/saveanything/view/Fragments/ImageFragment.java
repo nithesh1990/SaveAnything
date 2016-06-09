@@ -101,6 +101,21 @@ public class ImageFragment extends Fraggment implements LoaderManager.LoaderCall
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        //Called to cleanup resources that are created in oncreateview because after this step, keeping view references are of no use
+        //It is best practice to set all resources to null here, since there is no view no need to keep data
+        //Ondestroy might be called or may not be called
+        //We can shutdown the executor based
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        //TODO: Release all remaining resouces apart from OnDestroyView
+    }
+
+    @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
     }
@@ -132,11 +147,24 @@ public class ImageFragment extends Fraggment implements LoaderManager.LoaderCall
 
 
         }
-
-        mImageListAdapter = new ImageListAdapter(mContext, R.layout.image_card, data);
-        mImageRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 2));
-        mImageRecyclerView.addOnScrollListener(new RVScrollListener());
-        mImageRecyclerView.setAdapter(mImageListAdapter);
+        //DBQueryLoader makes sure the query is refreshed everytime on state change screenoff/on
+        //Everytime this is called after query is finished. Here we have to handle the following cases
+        //1. Is it first time loading the list (mImageListAdapter will be null)
+        //2. Screen On/Off (mImageListAdapter will not be null so no need to assign new adapter
+        //3. Data changed adapter (Here also mImageListAdapter will not be null but if we not assign new adapter
+        //      then new data won't be refreshed. So we need to differentiate between data refresh calls and screen on/off calls
+        //4. If new data is added, adapter should be refreshed then the position should be set to top
+        //5. If the data is deleted, adapter should be refreshed but position should not change
+        //6. If the refresh is just because screen on or off the position should not change
+        //7. This can be achieved keeping a reference of cursor per fragment and comparing new cursor with old cursor,
+        //  check for data changes and change behaviour accordingly
+        //8. Close this cursor onDestroy or OnDestroyView
+        if(mImageListAdapter == null){
+            mImageListAdapter = new ImageListAdapter(mContext, R.layout.image_card, data);
+            mImageRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 2));
+            mImageRecyclerView.addOnScrollListener(new RVScrollListener());
+            mImageRecyclerView.setAdapter(mImageListAdapter);
+        }
 
     }
 
@@ -151,6 +179,14 @@ public class ImageFragment extends Fraggment implements LoaderManager.LoaderCall
         @Override
         public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
             super.onScrollStateChanged(recyclerView, newState);
+            GridLayoutManager lm = (GridLayoutManager) recyclerView.getLayoutManager();
+            AppLogger.addLogMessage(AppLogger.DEBUG, CLASS_TAG, "OnScrollStateChanged", "Start");
+
+            AppLogger.addLogMessage(AppLogger.DEBUG, CLASS_TAG, "OnScrollStateChanged", "FirstVisibleItemPos: "+lm.findFirstVisibleItemPosition());
+            AppLogger.addLogMessage(AppLogger.DEBUG, CLASS_TAG, "OnScrollStateChanged", "FirstCompletelyVisibleItemPos: "+lm.findFirstCompletelyVisibleItemPosition());
+            AppLogger.addLogMessage(AppLogger.DEBUG, CLASS_TAG, "OnScrollStateChanged", "LastVisibleItemPos: "+lm.findLastVisibleItemPosition());
+            AppLogger.addLogMessage(AppLogger.DEBUG, CLASS_TAG, "OnScrollStateChanged", "LastCompletelyVisibleItemPos: "+lm.findLastCompletelyVisibleItemPosition());
+
             switch(newState){
                 case RecyclerView.SCROLL_STATE_DRAGGING:
                     AppLogger.addLogMessage(AppLogger.DEBUG, CLASS_TAG, "OnScrollStateChanged", "Dragging");
@@ -162,6 +198,8 @@ public class ImageFragment extends Fraggment implements LoaderManager.LoaderCall
                     AppLogger.addLogMessage(AppLogger.DEBUG, CLASS_TAG, "OnScrollStateChanged", "Settling");
                     break;
             }
+            AppLogger.addLogMessage(AppLogger.DEBUG, CLASS_TAG, "OnScrollStateChanged", "End");
+
         }
 
         @Override
