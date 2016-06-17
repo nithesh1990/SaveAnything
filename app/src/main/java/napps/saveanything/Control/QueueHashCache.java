@@ -2,6 +2,9 @@ package napps.saveanything.Control;
 
 import android.support.v4.util.LruCache;
 
+import java.util.HashMap;
+import java.util.LinkedList;
+
 /**
  * Created by nithesh on 6/4/2016.
  */
@@ -22,7 +25,7 @@ import android.support.v4.util.LruCache;
         Node next;
    }
    HashMap<Integer, Node>, get -> hashmap.get(i).image will return the bitmap.
-   
+
  */
 public class QueueHashCache<K, V> implements Cache<K, V> {
 
@@ -35,18 +38,45 @@ public class QueueHashCache<K, V> implements Cache<K, V> {
     private int CONSTANT_CAPACITY;
 
     private int lastInsertIndex;
-     LruCache<String, String> cac;
+
+    private HashMap<K, V> objReference;
+
+    private LinkedList<V> objCache;
+
+
+    public QueueHashCache(int CONSTANT_CAPACITY) {
+        setCacheSize(CONSTANT_CAPACITY);
+        objCache = new LinkedList<V>();
+        objReference = new HashMap<K, V>();
+    }
 
     @Override
     public void clear() {
-
+        //This is a clever way of
+        V firstObj = objCache.getFirst();
+        firstObj = null;
     }
 
     @Override
-    public void add(V value) {
-
+    public void add(K key, V value) {
+        int size = objCache.size();
+        //if size has reached constant capacity then
+        if(size >= CONSTANT_CAPACITY){
+            objCache.removeFirst();
+        }
+        objCache.addLast(value);
+        //objReference.put()
     }
 
+    public void addTop(V value) {
+        int size = objCache.size();
+        //if size has reached constant capacity then
+        if(size >= CONSTANT_CAPACITY){
+            objCache.removeLast();
+        }
+        objCache.addFirst(value);
+
+    }
     @Override
     public V get(K key) {
         return null;
@@ -69,5 +99,11 @@ public class QueueHashCache<K, V> implements Cache<K, V> {
     }
 
 
+    public int getCONSTANT_CAPACITY() {
+        return CONSTANT_CAPACITY;
+    }
 
-  }
+    public void setCONSTANT_CAPACITY(int CONSTANT_CAPACITY) {
+        this.CONSTANT_CAPACITY = CONSTANT_CAPACITY;
+    }
+}

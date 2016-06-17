@@ -117,9 +117,16 @@ public class BaseActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
+        //There is one issue with this way of setting fragments when used with FragmentStatePagerAdapter(FSPA)
+        //Whenever FSPA is initialized it initialises the first 2 fragments.
+        // If we just use sliding method, the fragments are created and destroyed accordingly and there is no issue
+        //If there are 3 fragments, fragments 1 and 2 are initialized, If we navigate to fragment/tab 3 using the below method(i.e viewpager set)
+        //The fragment 3 is not created prior because of FSPA and you navigate using mViewpager.setCurrentItem() which only recreates the view heirarchy(i.e layout views)
+        //and not the whole fragment. So the fragment looks empty
         switch(id){
             case R.id.nav_all:
                 mViewPager.setCurrentItem(ALL_FRAGMENT_POSITION);
+                //mViewPager.getAdapter().
                 break;
 
             case R.id.nav_clips:

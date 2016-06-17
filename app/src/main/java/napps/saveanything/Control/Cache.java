@@ -17,7 +17,7 @@ public interface Cache<K, V> {
     /*
         Add items to cache
      */
-    public void add(V value);
+    public void add(K key, V value);
 
     /*
         Get items from cache

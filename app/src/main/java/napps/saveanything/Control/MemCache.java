@@ -32,7 +32,7 @@ public class MemCache<K, V> implements Cache<K, V>{
     }
 
     @Override
-    public void add(V value) {
+    public void add(K Key, V value) {
 
     }
 
