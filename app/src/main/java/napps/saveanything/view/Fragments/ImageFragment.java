@@ -9,6 +9,7 @@ import android.support.v4.content.Loader;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -160,7 +161,12 @@ public class ImageFragment extends Fraggment implements LoaderManager.LoaderCall
         //  check for data changes and change behaviour accordingly
         //8. Close this cursor onDestroy or OnDestroyView
         if(mImageListAdapter == null){
-            mImageListAdapter = new ImageListAdapter(mContext, R.layout.image_card, data);
+            DisplayMetrics displayMetrics = new DisplayMetrics();
+            getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+            int deviceHeight = displayMetrics.heightPixels;
+            int deviceWidth = displayMetrics.widthPixels;
+
+            mImageListAdapter = new ImageListAdapter(mContext, R.layout.image_card, data, deviceWidth, deviceHeight);
             mImageRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 2));
             mImageRecyclerView.addOnScrollListener(new RVScrollListener());
             mImageRecyclerView.setAdapter(mImageListAdapter);

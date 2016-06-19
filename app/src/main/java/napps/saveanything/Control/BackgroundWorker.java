@@ -128,4 +128,9 @@ public class BackgroundWorker implements RejectedExecutionHandler{
     public void addTasktoExecute(Runnable task){
         jobExecutor.execute(task);
     }
+
+    public void stop(){
+        jobExecutor.shutdownNow();
+
+    }
 }

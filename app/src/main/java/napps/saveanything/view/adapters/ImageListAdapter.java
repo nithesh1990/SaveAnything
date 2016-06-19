@@ -2,12 +2,16 @@ package napps.saveanything.view.adapters;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import napps.saveanything.Control.BitmapManager;
+import napps.saveanything.Database.DatabaseContract;
 import napps.saveanything.R;
 
 /**
@@ -15,15 +19,25 @@ import napps.saveanything.R;
  */
 public class ImageListAdapter extends RecyclerCursorAdapter {
 
-    public ImageListAdapter(Context context, int layout, Cursor cursor) {
+    private int deviceHeight;
+    private int deviceWidth;
+    private BitmapManager bitmapManager;
+
+    public ImageListAdapter(Context context, int layout, Cursor cursor, int deviceWidth, int deviceHeight) {
         super(context, layout, cursor);
+        this.deviceHeight = deviceHeight;
+        this.deviceWidth = deviceWidth;
+        bitmapManager = BitmapManager.getInstance();
+
     }
 
     @Override
     public void bindView(RecyclerView.ViewHolder holder, Cursor cursor) {
         ImageCardViewHolder imageCardHolder = (ImageCardViewHolder) holder;
-        imageCardHolder.titleTextView.setText(R.string.temp_image_title);
-        imageCardHolder.timeTextView.setText(R.string.temp_text_time);
+        imageCardHolder.titleTextView.setText(cursor.getString(cursor.getColumnIndex(DatabaseContract.ImageBoard.COLUMN_NAME_IMAGEID)));
+        imageCardHolder.timeTextView.setText(cursor.getInt(cursor.getColumnIndex(DatabaseContract.ImageBoard.COLUMN_NAME_TIMESTAMP)));
+        Uri imageUri = Uri.parse(cursor.getString(cursor.getColumnIndex(DatabaseContract.ImageBoard.COLUMN_NAME_SAVEDPATH)));
+        bitmapManager.setBitmap(imageUri, cursor.getPosition(), imageCardHolder.mainImage, deviceWidth, deviceHeight);
         //imageCardHolder.mainImage.is
     }
 
