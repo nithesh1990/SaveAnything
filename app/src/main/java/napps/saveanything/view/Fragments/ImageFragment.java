@@ -167,10 +167,11 @@ public class ImageFragment extends Fraggment implements LoaderManager.LoaderCall
             int deviceWidth = displayMetrics.widthPixels;
 
             mImageListAdapter = new ImageListAdapter(mContext, R.layout.image_card, data, deviceWidth, deviceHeight);
-            mImageRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 2));
-            mImageRecyclerView.addOnScrollListener(new RVScrollListener());
-            mImageRecyclerView.setAdapter(mImageListAdapter);
         }
+
+        mImageRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 2));
+        mImageRecyclerView.addOnScrollListener(new RVScrollListener());
+        mImageRecyclerView.setAdapter(mImageListAdapter);
 
     }
 

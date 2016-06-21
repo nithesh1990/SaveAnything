@@ -27,7 +27,7 @@ public class TextListAdapter extends RecyclerCursorAdapter {
     }
 
     @Override
-    public void bindView(RecyclerView.ViewHolder holder, Cursor cursor) {
+    public void bindView(RecyclerView.ViewHolder holder, Cursor cursor, int position) {
         TextCardViewHolder textHolder = (TextCardViewHolder) holder;
         textHolder.mainTextView.setText(cursor.getString(cursor.getColumnIndex(DatabaseContract.ClipBoard.COLUMN_NAME_CONTENT)));
         textHolder.timeTextView.setText(cursor.getString(cursor.getColumnIndex(DatabaseContract.ClipBoard.COLUMN_NAME_TIMESTAMP)));

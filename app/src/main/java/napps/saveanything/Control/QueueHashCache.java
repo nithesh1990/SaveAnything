@@ -27,6 +27,7 @@ import java.util.LinkedList;
    }
    HashMap<Integer, Node>, get -> hashmap.get(i).image will return the bitmap.
 
+    Initially we used
  */
 public class QueueHashCache<K, V> implements Cache<K, V> {
 
@@ -102,6 +103,8 @@ public class QueueHashCache<K, V> implements Cache<K, V> {
             Node removalNode = objCache.getFirst();
             objReference.remove(removalNode.getKey());
             objCache.removeFirst();
+            //After removing the top item, top key should be updated appropriately
+            topKey = (K)objCache.getFirst().getKey();
         }
         Node addNode = new Node(key, value);
         objCache.addLast(addNode);
@@ -119,6 +122,7 @@ public class QueueHashCache<K, V> implements Cache<K, V> {
             Node removalNode = objCache.getLast();
             objReference.remove(removalNode.getKey());
             objCache.removeLast();
+            bottomKey = (K)objCache.getLast().getKey();
         }
         Node addNode = new Node(key, value);
         objCache.addFirst(addNode);

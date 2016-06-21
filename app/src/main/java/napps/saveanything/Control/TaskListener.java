@@ -3,14 +3,19 @@ package napps.saveanything.Control;
 /**
  * Created by nithesh on 6/18/2016.
  */
-public interface TaskListener<K, V> {
+/*
+    Initially this was made specific to handling bitmaps by having key and value pairs.
+    THen it was made generic to 'Task's. But in future if someone wants to implement their own tasks
+    this should support that. So we have made a generic type 'T' which by nomenclature represents any task
+ */
+public interface TaskListener<T> {
 
 
-    void onTaskAdded(Task task);
+    void onTaskAdded(T task);
 
-    void onTaskRemoved(Task task);
+    void onTaskRemoved(T task);
 
-    void onTaskFailed(Task task);
+    void onTaskFailed(T task);
 
-    void onTaskCompleted(K key, V value);
+    void onTaskCompleted(T task);
 }

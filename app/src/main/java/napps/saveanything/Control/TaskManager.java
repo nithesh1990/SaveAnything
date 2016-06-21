@@ -12,8 +12,15 @@ import java.util.Objects;
     Singleton instance created using double checked locking mechanism. For the reason
     http://www.journaldev.com/1377/java-singleton-design-pattern-best-practices-examples
 
+    Initially this taskManager was made specific for BitmapManager. There was only a cache initialization which
+    made this different from generic Taskmanager. So we moved it to corresponding Manager and have made this
+    Manager generic
+
+    We have made this abstract so that no one should initialize. They can only extend this class and add tasks to it
+    Since this does not much work for executing tasks we should implement retry schedulers and manage
+    failed tasks more efficiently
  */
-public abstract class TaskManager<K, V> implements TaskListener {
+public abstract class TaskManager<K, V> implements TaskListener<Task> {
 
     //private static TaskManager sInstance;
 
@@ -38,15 +45,13 @@ public abstract class TaskManager<K, V> implements TaskListener {
 
     } */
 
-    private QueueHashCache<K, V> mCache;
-
     private TaskQueue<Task> mQueue;
 
     private BackgroundWorker mWorker;
 
     private int mManagerState;
 
-    private TaskListener mTaskListener;
+    private TaskListener<Task> mTaskListener;
 
     private int STATE_MANAGER_INITIALIZED = 101;
     private int STATE_TASKS_EXECUTING = 102;
@@ -56,13 +61,12 @@ public abstract class TaskManager<K, V> implements TaskListener {
 
     public void initialize(Context context, int capacity){
         this.mContext = context;
-        mCache = QueueHashCache.getsInstance();
-        mCache.initialize(capacity);
         mQueue = TaskQueue.getInstance();
         mQueue.initializeQueue(capacity);
         mWorker = BackgroundWorker.getInstance();
         mManagerState = STATE_MANAGER_INITIALIZED;
         mTaskListener = this;
+        mFailedTasks = new LinkedHashSet<Task>();
     }
 
     /*
@@ -115,51 +119,44 @@ public abstract class TaskManager<K, V> implements TaskListener {
     @Override
     public void onTaskFailed(Task task) {
         mFailedTasks.add(task);
+        mFailedTasks.remove(task);
     }
 
     /*
-        This should actually be onTaskCompleted(K key, V value) but don't know why there is some error
+        Initially there was an error-
+        This should actually be onTaskCompleted(Task task, V value) but don't know why there is some error
         which is happening
         "Taskcompleted in taskmanager and tasklistener both methods have same erasure but neither overrides the other"
         Need to check this scenario
         So we had to typecast from object to K and V
-        When the task is complete implementing subclass of taskManager to tell what should be inserted where
+        Once the task is completed successfully task object is returned but the value can't be passed in as a
+        parameter in order to maintain TaskListener interface generic naming standards.
+        Anyway there will be an object 'value' created in the heap space. So we will copy the reference to other reference
+        and retrieve the value here
      */
 
     @Override
-    public void onTaskCompleted(Object key, Object value) {
-        boolean isTop;
-        //This is check for initial case when both topKey and bottomKey will be null
-        //if either of them is null
-        if(mCache.getTopKey() == null || mCache.getBottomKey() == null){
-            isTop = false;
-        } else {
-            isTop = insertOntop(mCache.getTopKey(), (K)key, mCache.getBottomKey());
-        }
-        if(isTop){
-            mCache.addtoTop((K)key, (V)value);
-        } else {
-            mCache.addtoBottom((K)key, (V)value);
-        }
+    public void onTaskCompleted(Task task) {
+        /*
+            Once the task is complete send the resultant value and along with task Id.
+            We would have sent back the task reference itself. If we send that user might hold the reference back avoiding
+            garbage collector to free up memory
+            So after sending the result we have to remove the task. If we just make it null it won't be removed
+            since we will be passing the reference of id and value which will be in task's heap that won't allow
+            task to be garbage collected. So we have to copy the contents and make the values null
+            TODO: Instead of passing the references of task id and value, pass the copied values
+         */
 
-        //TODO: Now the value is added to the cache and it is available for retrieval from the imageListadapter
-        // We can notify to the listAdapter
+        postResult(task.getTASK_ID(), (V)task.getResultValue());
     }
 
-    /*
-        we will ask the implementing subclass to decide where to insert the value
-        i.e on top/bottom. We will pass the completed task key, cache top key and cache bottom key
-        The implementing subclass should return true if it should be inserted on top or false if it should be insertedinBottom
-     */
-    public abstract boolean insertOntop(K topKey, K keytobeInserted, K bottomKey);
+    public abstract void postResult(long taskId, V value);
 
     public void shutDown(){
+        //TODO: Pass an abstract method to subclass to clear resources
         mWorker.stop();
-        mCache.clear();
+        //mCache.clear();
         mQueue.clear();
     }
 
-    public V getCachedResultIfavailable(K key){
-        return mCache.get(key);
-    }
-}
+ }

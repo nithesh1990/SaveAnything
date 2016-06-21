@@ -13,6 +13,7 @@ import android.widget.TextView;
 import napps.saveanything.Control.BitmapManager;
 import napps.saveanything.Database.DatabaseContract;
 import napps.saveanything.R;
+import napps.saveanything.Utilities.AppLogger;
 
 /**
  * Created by nithesh on 5/13/2016.
@@ -28,22 +29,32 @@ public class ImageListAdapter extends RecyclerCursorAdapter {
         this.deviceHeight = deviceHeight;
         this.deviceWidth = deviceWidth;
         bitmapManager = BitmapManager.getInstance();
-
+        bitmapManager.initializeBM(context);
     }
 
     @Override
-    public void bindView(RecyclerView.ViewHolder holder, Cursor cursor) {
+    public void bindView(RecyclerView.ViewHolder holder, Cursor cursor, int position) {
         ImageCardViewHolder imageCardHolder = (ImageCardViewHolder) holder;
         imageCardHolder.titleTextView.setText(cursor.getString(cursor.getColumnIndex(DatabaseContract.ImageBoard.COLUMN_NAME_IMAGEID)));
-        imageCardHolder.timeTextView.setText(cursor.getInt(cursor.getColumnIndex(DatabaseContract.ImageBoard.COLUMN_NAME_TIMESTAMP)));
-        Uri imageUri = Uri.parse(cursor.getString(cursor.getColumnIndex(DatabaseContract.ImageBoard.COLUMN_NAME_SAVEDPATH)));
-        bitmapManager.setBitmap(imageUri, cursor.getPosition(), imageCardHolder.mainImage, deviceWidth, deviceHeight);
-        //imageCardHolder.mainImage.is
+        //imageCardHolder.timeTextView.setText(cursor.getInt(cursor.getColumnIndex(DatabaseContract.ImageBoard.COLUMN_NAME_TIMESTAMP)));
+        AppLogger.addLogMessage(AppLogger.DEBUG, ImageListAdapter.class.getSimpleName(), "bindView()", "ImageListAdapter bind view called for position "+cursor.getPosition());
+        try{
+            //Sometimes error occurs while saving the image and image path is not saved properly
+            //TODO: Have to handle that case
+            Uri imageUri = Uri.parse(cursor.getString(cursor.getColumnIndex(DatabaseContract.ImageBoard.COLUMN_NAME_SAVEDPATH)));
+            bitmapManager.setBitmap(imageUri, position, imageCardHolder.mainImage, deviceWidth, deviceHeight);
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+         //imageCardHolder.mainImage.is
     }
 
     @Override
     public RecyclerView.ViewHolder newView(ViewGroup parent, Context context, Cursor mCursor, View view) {
-        return new ImageCardViewHolder(view);
+        ImageCardViewHolder icHolder = new ImageCardViewHolder(view);
+
+        return icHolder;
     }
 
     private class ImageCardViewHolder extends RecyclerView.ViewHolder {

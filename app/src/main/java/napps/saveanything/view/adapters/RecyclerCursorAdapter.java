@@ -38,10 +38,10 @@ public abstract class RecyclerCursorAdapter<ViewHolder extends RecyclerView.View
     public void onBindViewHolder(ViewHolder holder, int position) {
             mCursor.moveToPosition(position);
             Log.d(Constants.APPLICATION_TAG, "On bind view called for position "+position);
-            bindView(holder, mCursor);
+            bindView(holder, mCursor, position);
     }
 
-    public abstract void bindView(ViewHolder holder, Cursor cursor);
+    public abstract void bindView(ViewHolder holder, Cursor cursor, int position);
 
     public abstract ViewHolder newView(ViewGroup parent, Context context, Cursor mCursor, View view);
 

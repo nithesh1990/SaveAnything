@@ -16,13 +16,26 @@ import napps.saveanything.Utilities.AppLogger;
  */
 public class BitmapTask extends Task<Integer, Bitmap> {
 
+    private int key;
+
     private Context mContext;
+
+    private static final String CLASS_TAG = BitmapTask.class.getSimpleName();
 
     private int mResizeHeight;
 
     private int mResizeWidth;
 
     private Uri mBitmapUri;
+
+    public final int getKey() {
+        return key;
+    }
+
+    public final void setKey(int key) {
+        this.key = key;
+    }
+
 
     public BitmapTask(Context mContext, int position) {
         this.mContext = mContext;
@@ -39,6 +52,7 @@ public class BitmapTask extends Task<Integer, Bitmap> {
     @Override
     public Bitmap execute() {
         Bitmap resizedBitmap = null;
+        AppLogger.addLogMessage(AppLogger.DEBUG, CLASS_TAG, "execute()", "actual task running with id: "+getKey().intValue());
         try {
             InputStream sourceStream = mContext.getContentResolver().openInputStream(mBitmapUri);
 
