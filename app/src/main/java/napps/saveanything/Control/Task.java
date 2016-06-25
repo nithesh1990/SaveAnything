@@ -14,6 +14,10 @@ import napps.saveanything.Utilities.AppLogger;
 
     Initially it implemented a runnable interface which was fine. But managing tasks was difficult in TaskManager.
     So this was changed to implement so that we get a future object from the executor service to manage tasks
+    We can also use runnable for this purpose but callable is used because of following reasons
+            Runnable has been around since Java 1.0, but Callable was only introduced in Java 1.5 ... to handle use-cases that Runnable does not support.
+            In theory, the Java team could have changed the signature of the Runnable.run() method, but this would have broken binary compatiblity with pre-1.5 code, requiring recoding when migrating old Java code to newer JVMs.
+            That is a BIG NO-NO. Java strives to be backwards compatible ... and that's been one of Java's biggest selling points for business computing.
 
  */
 public abstract class Task<K, V> implements Callable<V> {

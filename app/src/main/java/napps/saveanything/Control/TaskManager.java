@@ -3,7 +3,7 @@ package napps.saveanything.Control;
 import android.content.Context;
 
 import java.util.LinkedHashSet;
-import java.util.Objects;
+import java.util.concurrent.Future;
 
 import napps.saveanything.Utilities.AppLogger;
 
@@ -53,7 +53,7 @@ public abstract class TaskManager<K, V> implements TaskListener<Task> {
 
     private static final String CLASS_TAG = TaskManager.class.getSimpleName();
 
-    private TaskQueue<Task> mQueue;
+    private FutureTaskQueue<Future<V>> mQueue;
 
     private BackgroundWorker mWorker;
 
@@ -71,7 +71,7 @@ public abstract class TaskManager<K, V> implements TaskListener<Task> {
 
     public void initialize(Context context, int capacity){
         this.mContext = context;
-        mQueue = TaskQueue.getInstance();
+        mQueue = FutureTaskQueue.getInstance();
         mQueue.initializeQueue(capacity);
         mWorker = BackgroundWorker.getInstance();
         mManagerState = STATE_MANAGER_INITIALIZED;
@@ -85,7 +85,8 @@ public abstract class TaskManager<K, V> implements TaskListener<Task> {
      */
     public void addTask(Task task){
         task.setTaskManager(this);
-        mQueue.add(task);
+        //Submit the task to execute and add its future to taskqueue
+        mQueue.add(mWorker.addTasktoExecuteandgetFuture(task));
         mTaskListener.onTaskAdded(task);
     }
 
@@ -104,19 +105,7 @@ public abstract class TaskManager<K, V> implements TaskListener<Task> {
      */
     @Override
     public void  onTaskAdded(Task task) {
-        /*
-            If the state is idle/initialized currently there are no tasks to run.
-            So we have to notify that tasks are available to execute
-            If manager is already in executing state no need to call executing
-         */
-        if(!(mManagerState == STATE_TASKS_EXECUTING)){
-            Thread.State state = Thread.currentThread().getState();
-            if(state == Thread.State.NEW || state == Thread.State.RUNNABLE){
-                run();
-            } else if(state == Thread.State.WAITING) {
-                notify();
-            }
-        }
+
     }
 
     @Override
@@ -154,6 +143,8 @@ public abstract class TaskManager<K, V> implements TaskListener<Task> {
             task to be garbage collected. So we have to copy the contents and make the values null
             TODO: Instead of passing the references of task id and value, pass the copied values
          */
+        long taskId = task.getTASK_ID();
+        //Now remove the task and just send the result
 
         postResult(task.getTASK_ID(), (V)task.getResultValue());
     }
@@ -167,30 +158,30 @@ public abstract class TaskManager<K, V> implements TaskListener<Task> {
         mQueue.clear();
     }
 
-    @Override
-    public void run() {
+//    @Override
+//    public void run() {
+//
+//        while(!mQueue.isEmpty()){
+//            mManagerState = STATE_TASKS_EXECUTING;
+//            Task task = mQueue.getNext();
+//            mWorker.addTasktoExecute(task);
+//            //we have to remove the task as soon as it is added to execute or else incoming tasks
+//            //try to remove the tasks in the queue which might be currently executing
+//            mQueue.removeTask(task);
+//
+//            //When there are no tasks to execute task manager will set its state to idle and goes to wait state
+//            if(mQueue.isEmpty()){
+//                mManagerState = STATE_IDLE;
+//                try{
+//                    synchronized (this){
+//                        wait();
+//                    }
+//                }catch (InterruptedException e){
+//                    e.printStackTrace();
+//                    AppLogger.addLogMessage(AppLogger.DEBUG, CLASS_TAG, "run()", "Task Manager interrupted while waiting");
+//                }
+//            }
+//        }
 
-        while(!mQueue.isEmpty()){
-            mManagerState = STATE_TASKS_EXECUTING;
-            Task task = mQueue.getNext();
-            mWorker.addTasktoExecute(task);
-            //we have to remove the task as soon as it is added to execute or else incoming tasks
-            //try to remove the tasks in the queue which might be currently executing
-            mQueue.removeTask(task);
-
-            //When there are no tasks to execute task manager will set its state to idle and goes to wait state
-            if(mQueue.isEmpty()){
-                mManagerState = STATE_IDLE;
-                try{
-                    synchronized (this){
-                        wait();
-                    }
-                }catch (InterruptedException e){
-                    e.printStackTrace();
-                    AppLogger.addLogMessage(AppLogger.DEBUG, CLASS_TAG, "run()", "Task Manager interrupted while waiting");
-                }
-            }
-        }
-
-    }
+//    }
 }

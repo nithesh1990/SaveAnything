@@ -3,6 +3,8 @@ package napps.saveanything.Control;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
 
 import napps.saveanything.Database.DatabaseContract;
@@ -12,7 +14,7 @@ import napps.saveanything.Utilities.AppLogger;
 /**
  * Created by nithesh on 6/18/2016.
  */
-public class BitmapManager extends TaskManager<String, Bitmap> {
+public class BitmapManager extends TaskManager<Integer, Bitmap> {
 
     private static final String CLASS_TAG = BitmapManager.class.getSimpleName();
 //  Let's keep this constant capacity as 15 where 10 is for actual storage and remaining 5 is for error handling
@@ -20,7 +22,7 @@ public class BitmapManager extends TaskManager<String, Bitmap> {
     //1. 4 to 14 which means user is scrolling down
     //2. 16 to 26 which means user is scrolling up
     // In both the cases we replace the cache item that is equal to  pos%10
-    private static final int BITMAP_HOLDING_CAPACITY = 20;
+    public static final int BITMAP_HOLDING_CAPACITY = 10;
 
     private Context mContext;
 
@@ -28,9 +30,9 @@ public class BitmapManager extends TaskManager<String, Bitmap> {
 
     private int bottomPos;
 
-    private QueueHashCache<String , Bitmap> mCache;
+    private QueueHashCache<Integer , Bitmap> mCache;
 
-
+    private RecyclerView bitmapsViewHolder;
 
     private static BitmapManager sInstance;
 
@@ -60,11 +62,11 @@ public class BitmapManager extends TaskManager<String, Bitmap> {
 
     public void setBitmap(String uri, int position, ImageView imageView, int requiredWidth, int requiredHeight){
 
-        AppLogger.addLogMessage(AppLogger.DEBUG, CLASS_TAG, "setBitmap()", "");
-        Bitmap cachedBitMap = (Bitmap) getCachedResultIfavailable(uri);
+        AppLogger.addLogMessage(AppLogger.DEBUG, CLASS_TAG, "CustomLib setBitmap()", "");
+        Bitmap cachedBitMap = (Bitmap) getCachedResultIfavailable(position);
         if(cachedBitMap != null){
 
-            AppLogger.addLogMessage(AppLogger.DEBUG, CLASS_TAG, "setBitmap()", " this image is in cache position: "+position);
+            AppLogger.addLogMessage(AppLogger.DEBUG, CLASS_TAG, "CustomLib", " this image is in cache position: "+position);
 
             if(imageView != null){
                 imageView.setImageBitmap(cachedBitMap);
@@ -137,8 +139,54 @@ public class BitmapManager extends TaskManager<String, Bitmap> {
         return false;
     }
 
-    public Bitmap getCachedResultIfavailable(String key){
+    public Bitmap getCachedResultIfavailable(Integer key){
         return mCache.get(key);
+    }
+
+    public RecyclerView getBitmapsViewHolder() {
+        return bitmapsViewHolder;
+    }
+
+    public void setBitmapsViewHolder(RecyclerView bitmapsViewHolder) {
+        bitmapsViewHolder = bitmapsViewHolder;
+        bitmapsViewHolder.addOnScrollListener(new BitmapManager.RVScrollListener());
+    }
+
+    private class RVScrollListener extends RecyclerView.OnScrollListener {
+
+        private String CLASS_TAG = RVScrollListener.class.getSimpleName();
+        @Override
+        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            super.onScrollStateChanged(recyclerView, newState);
+            GridLayoutManager lm = (GridLayoutManager) recyclerView.getLayoutManager();
+            AppLogger.addLogMessage(AppLogger.DEBUG, CLASS_TAG, "OnScrollStateChanged", "Start");
+
+            AppLogger.addLogMessage(AppLogger.DEBUG, CLASS_TAG, "OnScrollStateChanged", "FirstVisibleItemPos: "+lm.findFirstVisibleItemPosition());
+            AppLogger.addLogMessage(AppLogger.DEBUG, CLASS_TAG, "OnScrollStateChanged", "FirstCompletelyVisibleItemPos: "+lm.findFirstCompletelyVisibleItemPosition());
+            AppLogger.addLogMessage(AppLogger.DEBUG, CLASS_TAG, "OnScrollStateChanged", "LastVisibleItemPos: "+lm.findLastVisibleItemPosition());
+            AppLogger.addLogMessage(AppLogger.DEBUG, CLASS_TAG, "OnScrollStateChanged", "LastCompletelyVisibleItemPos: "+lm.findLastCompletelyVisibleItemPosition());
+
+            switch(newState){
+                case RecyclerView.SCROLL_STATE_DRAGGING:
+                    AppLogger.addLogMessage(AppLogger.DEBUG, CLASS_TAG, "OnScrollStateChanged", "Dragging");
+                    break;
+                case RecyclerView.SCROLL_STATE_IDLE:
+                    AppLogger.addLogMessage(AppLogger.DEBUG, CLASS_TAG, "OnScrollStateChanged", "Idle");
+                    break;
+                case RecyclerView.SCROLL_STATE_SETTLING:
+                    AppLogger.addLogMessage(AppLogger.DEBUG, CLASS_TAG, "OnScrollStateChanged", "Settling");
+                    break;
+            }
+            AppLogger.addLogMessage(AppLogger.DEBUG, CLASS_TAG, "OnScrollStateChanged", "End");
+
+        }
+
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+            AppLogger.addLogMessage(AppLogger.DEBUG, CLASS_TAG, "OnScrolled", "dy: "+dy);
+
+        }
     }
 
 }

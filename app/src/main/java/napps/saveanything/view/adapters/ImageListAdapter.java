@@ -4,12 +4,15 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.ContactsContract;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import napps.saveanything.Control.BitmapManager;
 import napps.saveanything.Database.DatabaseContract;
@@ -25,13 +28,18 @@ public class ImageListAdapter extends RecyclerCursorAdapter {
     private int deviceHeight;
     private int deviceWidth;
     private BitmapManager bitmapManager;
+    private GridLayoutManager gridLayoutManager;
+    private Context mContext;
 
-    public ImageListAdapter(Context context, int layout, Cursor cursor, int deviceWidth, int deviceHeight) {
+    public ImageListAdapter(Context context, RecyclerView currentView, int layout, Cursor cursor, int deviceWidth, int deviceHeight) {
         super(context, layout, cursor);
         this.deviceHeight = deviceHeight;
         this.deviceWidth = deviceWidth;
+        mContext = context;
         bitmapManager = BitmapManager.getInstance();
         bitmapManager.initializeBM(context);
+        bitmapManager.setBitmapsViewHolder(currentView);
+
     }
 
     @Override
@@ -46,6 +54,7 @@ public class ImageListAdapter extends RecyclerCursorAdapter {
             //Sometimes error occurs while saving the image and image path is not saved properly
             //TODO: Have to handle that case
             String imageUri = cursor.getString(cursor.getColumnIndex(DatabaseContract.ImageBoard.COLUMN_NAME_SAVEDPATH));
+            //Glide.with(mContext).load(imageUri).placeholder(R.drawable.image_loading).into(imageCardHolder.mainImage);
             bitmapManager.setBitmap(imageUri, position, imageCardHolder.mainImage, deviceWidth, deviceHeight);
 
         }catch(Exception e){
@@ -59,6 +68,14 @@ public class ImageListAdapter extends RecyclerCursorAdapter {
         ImageCardViewHolder icHolder = new ImageCardViewHolder(view);
 
         return icHolder;
+    }
+
+    public GridLayoutManager getGridLayoutManager() {
+        return gridLayoutManager;
+    }
+
+    public void setGridLayoutManager(GridLayoutManager gridLayoutManager) {
+        this.gridLayoutManager = gridLayoutManager;
     }
 
     private class ImageCardViewHolder extends RecyclerView.ViewHolder {

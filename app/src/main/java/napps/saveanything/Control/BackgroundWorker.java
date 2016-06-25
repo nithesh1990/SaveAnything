@@ -1,6 +1,8 @@
 package napps.saveanything.Control;
 
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.Callable;
+import java.util.concurrent.Future;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -9,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by nithesh on 5/28/2016.
  */
-public class BackgroundWorker implements RejectedExecutionHandler{
+public class BackgroundWorker<V> implements RejectedExecutionHandler{
 
 
 
@@ -125,6 +127,9 @@ public class BackgroundWorker implements RejectedExecutionHandler{
         }
     }
 
+    public Future<V> addTasktoExecuteandgetFuture(Callable<V> task){
+        return jobExecutor.submit(task);
+    }
     public void addTasktoExecute(Runnable task){
         jobExecutor.execute(task);
     }

@@ -449,7 +449,7 @@ public class SaveImageActivity extends AppCompatActivity implements View.OnClick
             };
             taskManager.initialize(this, 10);
             saveImageTask.setTaskManager(taskManager);
-            BackgroundWorker.getInstance().addTasktoExecute(saveImageTask);
+            BackgroundWorker.getInstance().addTasktoExecuteandgetFuture(saveImageTask);
             finish();
 
         } else {

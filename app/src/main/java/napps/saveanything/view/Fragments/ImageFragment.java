@@ -160,18 +160,18 @@ public class ImageFragment extends Fraggment implements LoaderManager.LoaderCall
         //7. This can be achieved keeping a reference of cursor per fragment and comparing new cursor with old cursor,
         //  check for data changes and change behaviour accordingly
         //8. Close this cursor onDestroy or OnDestroyView
-        int gridsize = 2;
+        int gridsize = 1;
         if(mImageListAdapter == null){
             DisplayMetrics displayMetrics = new DisplayMetrics();
             getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
             int deviceHeight = displayMetrics.heightPixels/gridsize;
             int deviceWidth = displayMetrics.widthPixels/gridsize;
 
-            mImageListAdapter = new ImageListAdapter(mContext, R.layout.image_card, data, deviceWidth, deviceHeight);
+            mImageListAdapter = new ImageListAdapter(mContext, mImageRecyclerView, R.layout.image_card, data, deviceWidth, deviceHeight);
         }
-
-        mImageRecyclerView.setLayoutManager(new GridLayoutManager(mContext, gridsize));
-        mImageRecyclerView.addOnScrollListener(new RVScrollListener());
+        GridLayoutManager gridManager = new GridLayoutManager(mContext, 2);
+        mImageRecyclerView.setLayoutManager(gridManager);
+        mImageListAdapter.setGridLayoutManager(gridManager);
         mImageRecyclerView.setAdapter(mImageListAdapter);
 
     }
@@ -181,40 +181,4 @@ public class ImageFragment extends Fraggment implements LoaderManager.LoaderCall
 
     }
 
-    private class RVScrollListener extends RecyclerView.OnScrollListener {
-
-        private String CLASS_TAG = RVScrollListener.class.getSimpleName();
-        @Override
-        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-            super.onScrollStateChanged(recyclerView, newState);
-            GridLayoutManager lm = (GridLayoutManager) recyclerView.getLayoutManager();
-            AppLogger.addLogMessage(AppLogger.DEBUG, CLASS_TAG, "OnScrollStateChanged", "Start");
-
-            AppLogger.addLogMessage(AppLogger.DEBUG, CLASS_TAG, "OnScrollStateChanged", "FirstVisibleItemPos: "+lm.findFirstVisibleItemPosition());
-            AppLogger.addLogMessage(AppLogger.DEBUG, CLASS_TAG, "OnScrollStateChanged", "FirstCompletelyVisibleItemPos: "+lm.findFirstCompletelyVisibleItemPosition());
-            AppLogger.addLogMessage(AppLogger.DEBUG, CLASS_TAG, "OnScrollStateChanged", "LastVisibleItemPos: "+lm.findLastVisibleItemPosition());
-            AppLogger.addLogMessage(AppLogger.DEBUG, CLASS_TAG, "OnScrollStateChanged", "LastCompletelyVisibleItemPos: "+lm.findLastCompletelyVisibleItemPosition());
-
-            switch(newState){
-                case RecyclerView.SCROLL_STATE_DRAGGING:
-                    AppLogger.addLogMessage(AppLogger.DEBUG, CLASS_TAG, "OnScrollStateChanged", "Dragging");
-                    break;
-                case RecyclerView.SCROLL_STATE_IDLE:
-                    AppLogger.addLogMessage(AppLogger.DEBUG, CLASS_TAG, "OnScrollStateChanged", "Idle");
-                    break;
-                case RecyclerView.SCROLL_STATE_SETTLING:
-                    AppLogger.addLogMessage(AppLogger.DEBUG, CLASS_TAG, "OnScrollStateChanged", "Settling");
-                    break;
-            }
-            AppLogger.addLogMessage(AppLogger.DEBUG, CLASS_TAG, "OnScrollStateChanged", "End");
-
-        }
-
-        @Override
-        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-            super.onScrolled(recyclerView, dx, dy);
-            AppLogger.addLogMessage(AppLogger.DEBUG, CLASS_TAG, "OnScrolled", "dy: "+dy);
-
-        }
-    }
 }

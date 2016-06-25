@@ -1,5 +1,6 @@
 package napps.saveanything.Control;
 
+import java.util.concurrent.Future;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -12,7 +13,7 @@ import java.util.concurrent.atomic.AtomicReference;
     2.  Nodes are created dynamically which saves memory
     3. It's a dequeue supporting operations at both ends
  */
-public class TaskQueue<Task> {
+public class FutureTaskQueue<V> {
 
     /*
         This is made volatile for the following reasons
@@ -23,43 +24,49 @@ public class TaskQueue<Task> {
         Using AtomicReference which internally applies volatile keyword properties
      */
 
-    private volatile AtomicReference<LinkedBlockingDeque<Task>> mQueue;
+    private volatile AtomicReference<LinkedBlockingDeque<Future<V>>> mQueue;
 
-    private static TaskQueue sInstance;
+    private static FutureTaskQueue sInstance;
 
     private int mQueueSize;
 
-    public static TaskQueue getInstance(){
+    public static FutureTaskQueue getInstance(){
         if(sInstance == null){
-            synchronized (TaskQueue.class){
+            synchronized (FutureTaskQueue.class){
                 if(sInstance == null){
-                    sInstance  = new TaskQueue();
+                    sInstance  = new FutureTaskQueue();
                 }
             }
         }
         return sInstance;
     }
 
-    private TaskQueue(){
+    private FutureTaskQueue(){
         /*
             Creating new atomicReference for queue and passing the value to be set i.e initializing it.
             Later we can access and change its contents
          */
-        mQueue = new AtomicReference<LinkedBlockingDeque<Task>>(new LinkedBlockingDeque<Task>());
+        mQueue = new AtomicReference<LinkedBlockingDeque<Future<V>>>(new LinkedBlockingDeque<Future<V>>());
     }
 
     public void initializeQueue(int capacity){
         mQueueSize = capacity;
     }
 
-    public void add(Task task){
+    public void add(Future<V> task){
         if(mQueue.get().size() >= mQueueSize){
-            mQueue.get().removeFirst();
+            Future<V> firstTask = mQueue.get().getFirst();
+            if(!firstTask.isDone()) {
+                //wee pass true to interrupt
+                firstTask.cancel(true);
+            }
+            mQueue.get().remove(firstTask);
+
         }
         mQueue.get().add(task);
     }
 
-    public Task getNext(){
+    public Future<V> getNext(){
         if(mQueue.get().size() <= 0){
             // throw new queueEmpty exception
         }

@@ -7,6 +7,8 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.concurrent.atomic.AtomicReference;
 
+import napps.saveanything.Utilities.AppLogger;
+
 /**
  * Created by nithesh on 6/4/2016.
  */
@@ -108,6 +110,7 @@ public class QueueHashCache<K, V> implements Cache<K, V> {
             objReference.get().remove(removalNode.getKey());
             objCache.removeFirst();
             //After removing the top item, top key should be updated appropriately
+
             topKey = (K)objCache.getFirst().getKey();
         }
         Node addNode = new Node(key, value);
@@ -119,11 +122,32 @@ public class QueueHashCache<K, V> implements Cache<K, V> {
         }
     }
 
+    public void addItem(K actualKey, V actualValue, K replaceKey1, K replaceKey2){
+        int size = objReference.get().size();
+        if(size >= CONSTANT_CAPACITY){
+            if(objReference.get().containsKey(replaceKey1)){
+                AppLogger.addLogMessage(AppLogger.DEBUG, QueueHashCache.class.getSimpleName(), "CustomLib", "size exceeded. added key value successfully replacing key1");
+                objReference.get().remove(replaceKey1);
+                objReference.get().put(actualKey, actualValue);
+            } else if(objReference.get().containsKey(replaceKey2)){
+                AppLogger.addLogMessage(AppLogger.DEBUG, QueueHashCache.class.getSimpleName(), "CustomLib", "size exceeded added key value successfully replacing key2");
+                objReference.get().remove(replaceKey2);
+                objReference.get().put(actualKey, actualValue);
+            } else {
+                AppLogger.addLogMessage(AppLogger.DEBUG, QueueHashCache.class.getSimpleName(), "CustomLib", "could not find replacing value");
+            }
+        } else {
+            AppLogger.addLogMessage(AppLogger.DEBUG, QueueHashCache.class.getSimpleName(), "CustomLib", "size available added key value successfully ");
+
+            objReference.get().put(actualKey, actualValue);
+        }
+    }
     public void addtoTop(K key, V value) {
         int size = objCache.size();
         //if size has reached constant capacity then
         if(size >= CONSTANT_CAPACITY){
             Node removalNode = objCache.getLast();
+
             objReference.get().remove(removalNode.getKey());
             objCache.removeLast();
             bottomKey = (K)objCache.getLast().getKey();

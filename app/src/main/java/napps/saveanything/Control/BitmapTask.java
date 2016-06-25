@@ -31,7 +31,7 @@ public class BitmapTask extends Task<Integer, Bitmap> {
 
     private int cacheStoragePref;
 
-    private QueueHashCache<String, Bitmap> cache;
+    private QueueHashCache<Integer, Bitmap> cache;
 
     public final int getKey() {
         return key;
@@ -59,7 +59,7 @@ public class BitmapTask extends Task<Integer, Bitmap> {
     @Override
     public Bitmap execute() {
         Bitmap resizedBitmap = null;
-        AppLogger.addLogMessage(AppLogger.DEBUG, CLASS_TAG, "execute()", "actual task running with position: "+getTASK_ID());
+        AppLogger.addLogMessage(AppLogger.DEBUG, CLASS_TAG, "CustomLib", "actual task running with position: "+getTASK_ID());
         try {
             InputStream sourceStream = mContext.getContentResolver().openInputStream(Uri.parse(mBitmapUri));
 
@@ -85,13 +85,17 @@ public class BitmapTask extends Task<Integer, Bitmap> {
             sourceStream.close();
             resizedBitmap = Bitmap.createBitmap(resizedBitmap, startx, starty, boxSize, boxSize);
             //resizedBitmap = Bitmap.createScaledBitmap(resizedBitmap, , mDeviceHeight, true);
-            AppLogger.addLogMessage(AppLogger.DEBUG, CLASS_TAG, "execute()", "cache size check before inserting: "+cache.getSize());
-
-            if(cacheStoragePref == cache.STORAGE_PREF_BOTTOM){
-                cache.addtoBottom(mBitmapUri, resizedBitmap);
-            } else if(cacheStoragePref == cache.STORAGE_PREF_TOP){
-                cache.addtoTop(mBitmapUri, resizedBitmap);
-            }
+            AppLogger.addLogMessage(AppLogger.DEBUG, CLASS_TAG, "CustomLib", "cache size check before inserting: "+cache.getSize());
+            int capacity = BitmapManager.BITMAP_HOLDING_CAPACITY;
+            cache.addItem((int)getTASK_ID(), resizedBitmap, (int)(getTASK_ID()+capacity), (int)(getTASK_ID()-capacity));
+//            if(cacheStoragePref == cache.STORAGE_PREF_BOTTOM){
+//                AppLogger.addLogMessage(AppLogger.DEBUG, CLASS_TAG, "execute()", "adding to bottom with item pos: "+getTASK_ID());
+//
+//                cache.addtoBottom((int)getTASK_ID(), resizedBitmap);
+//            } else if(cacheStoragePref == cache.STORAGE_PREF_TOP){
+//                AppLogger.addLogMessage(AppLogger.DEBUG, CLASS_TAG, "execute()", "adding to top with item pos: "+getTASK_ID());
+//                cache.addtoTop((int)getTASK_ID(), resizedBitmap);
+//            }
         } catch(FileNotFoundException e){
             AppLogger.addLogMessage(AppLogger.ERROR, this.getClass().getSimpleName(), "execute()", "File not found exception in decoding bitmap");
         } catch(IOException e){
