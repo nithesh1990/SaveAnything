@@ -3,6 +3,7 @@ package napps.saveanything.view.adapters;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.provider.ContactsContract;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -14,6 +15,7 @@ import napps.saveanything.Control.BitmapManager;
 import napps.saveanything.Database.DatabaseContract;
 import napps.saveanything.R;
 import napps.saveanything.Utilities.AppLogger;
+import napps.saveanything.view.customviews.CustomTextView;
 
 /**
  * Created by nithesh on 5/13/2016.
@@ -36,12 +38,14 @@ public class ImageListAdapter extends RecyclerCursorAdapter {
     public void bindView(RecyclerView.ViewHolder holder, Cursor cursor, int position) {
         ImageCardViewHolder imageCardHolder = (ImageCardViewHolder) holder;
         imageCardHolder.titleTextView.setText(cursor.getString(cursor.getColumnIndex(DatabaseContract.ImageBoard.COLUMN_NAME_IMAGEID)));
-        //imageCardHolder.timeTextView.setText(cursor.getInt(cursor.getColumnIndex(DatabaseContract.ImageBoard.COLUMN_NAME_TIMESTAMP)));
+        String message = cursor.getString(cursor.getColumnIndex(DatabaseContract.ImageBoard.COLUMN_NAME_DESC));
+        String displayMsg = String.valueOf(position)+". "+message;
+        imageCardHolder.descTextView.setText(displayMsg);
         AppLogger.addLogMessage(AppLogger.DEBUG, ImageListAdapter.class.getSimpleName(), "bindView()", "ImageListAdapter bind view called for position "+cursor.getPosition());
         try{
             //Sometimes error occurs while saving the image and image path is not saved properly
             //TODO: Have to handle that case
-            Uri imageUri = Uri.parse(cursor.getString(cursor.getColumnIndex(DatabaseContract.ImageBoard.COLUMN_NAME_SAVEDPATH)));
+            String imageUri = cursor.getString(cursor.getColumnIndex(DatabaseContract.ImageBoard.COLUMN_NAME_SAVEDPATH));
             bitmapManager.setBitmap(imageUri, position, imageCardHolder.mainImage, deviceWidth, deviceHeight);
 
         }catch(Exception e){
@@ -62,12 +66,14 @@ public class ImageListAdapter extends RecyclerCursorAdapter {
         public TextView titleTextView;
         public ImageView mainImage;
         public TextView timeTextView;
+        public CustomTextView descTextView;
 
         public ImageCardViewHolder(View itemView) {
             super(itemView);
             this.titleTextView = (TextView) itemView.findViewById(R.id.title_image);
             this.mainImage = (ImageView) itemView.findViewById(R.id.main_image);
             this.timeTextView = (TextView) itemView.findViewById(R.id.time_image);
+            this.descTextView = (CustomTextView) itemView.findViewById(R.id.desc_text);
         }
     }
 }

@@ -6,20 +6,31 @@ import android.net.Uri;
 import android.widget.ImageView;
 
 import napps.saveanything.Database.DatabaseContract;
+import napps.saveanything.R;
 import napps.saveanything.Utilities.AppLogger;
 
 /**
  * Created by nithesh on 6/18/2016.
  */
-public class BitmapManager extends TaskManager<Integer, Bitmap> {
+public class BitmapManager extends TaskManager<String, Bitmap> {
 
     private static final String CLASS_TAG = BitmapManager.class.getSimpleName();
-    private static final int BITMAP_HOLDING_CAPACITY = 10;
+//  Let's keep this constant capacity as 15 where 10 is for actual storage and remaining 5 is for error handling
+    // Let's say if the view at position 15 is queried the window might be in between
+    //1. 4 to 14 which means user is scrolling down
+    //2. 16 to 26 which means user is scrolling up
+    // In both the cases we replace the cache item that is equal to  pos%10
+    private static final int BITMAP_HOLDING_CAPACITY = 20;
 
     private Context mContext;
 
+    private int topPos;
 
-    private QueueHashCache<Integer, Bitmap> mCache;
+    private int bottomPos;
+
+    private QueueHashCache<String , Bitmap> mCache;
+
+
 
     private static BitmapManager sInstance;
 
@@ -43,19 +54,35 @@ public class BitmapManager extends TaskManager<Integer, Bitmap> {
         initialize(mContext, BITMAP_HOLDING_CAPACITY);
         mCache = QueueHashCache.getsInstance();
         mCache.initialize(BITMAP_HOLDING_CAPACITY);
-
+        topPos = 0;
+        bottomPos = 0;
     }
 
-    public void setBitmap(Uri uri, int position, ImageView imageView, int requiredWidth, int requiredHeight){
+    public void setBitmap(String uri, int position, ImageView imageView, int requiredWidth, int requiredHeight){
+
         AppLogger.addLogMessage(AppLogger.DEBUG, CLASS_TAG, "setBitmap()", "");
-        Bitmap cachedBitMap = (Bitmap) getCachedResultIfavailable(position);
+        Bitmap cachedBitMap = (Bitmap) getCachedResultIfavailable(uri);
         if(cachedBitMap != null){
+
+            AppLogger.addLogMessage(AppLogger.DEBUG, CLASS_TAG, "setBitmap()", " this image is in cache position: "+position);
+
             if(imageView != null){
                 imageView.setImageBitmap(cachedBitMap);
             }
         } else {
-            BitmapTask bitmapTask = new BitmapTask(mContext, position);
+            imageView.setImageResource(R.drawable.image_loading);
+            int storagepref;
+            if(position > bottomPos){
+                bottomPos = position;
+                storagepref = QueueHashCache.STORAGE_PREF_BOTTOM;
+            } else {
+                topPos = position;
+                storagepref = QueueHashCache.STORAGE_PREF_TOP;
+            }
+
+            BitmapTask bitmapTask = new BitmapTask(mContext, position, mCache, storagepref);
             bitmapTask.setImageResources(requiredWidth, requiredHeight, uri);
+            bitmapTask.setTASK_ID(position);
             addTask(bitmapTask);
         }
     }
@@ -71,19 +98,19 @@ public class BitmapManager extends TaskManager<Integer, Bitmap> {
     @Override
     public void postResult(long taskId, Bitmap value) {
 
-        boolean isTop;
-        //This is check for initial case when both topKey and bottomKey will be null
-        //if either of them is null
-        if(mCache.getTopKey() == null || mCache.getBottomKey() == null){
-            isTop = false;
-        } else {
-            isTop = insertOntop(mCache.getTopKey(), (K)key, mCache.getBottomKey());
-        }
-        if(isTop){
-            mCache.addtoTop((K)key, (V)value);
-        } else {
-            mCache.addtoBottom((K)key, (V)value);
-        }
+//        boolean isTop;
+//        //This is check for initial case when both topKey and bottomKey will be null
+//        //if either of them is null
+//        if(mCache.getTopKey() == null || mCache.getBottomKey() == null){
+//            isTop = false;
+//        } else {
+//            isTop = insertOntop(mCache.getTopKey(), (K)key, mCache.getBottomKey());
+//        }
+//        if(isTop){
+//            mCache.addtoTop((K)key, (V)value);
+//        } else {
+//            mCache.addtoBottom((K)key, (V)value);
+//        }
 
         //TODO: Now the value is added to the cache and it is available for retrieval from the imageListadapter
         // We can notify to the listAdapter
@@ -110,7 +137,7 @@ public class BitmapManager extends TaskManager<Integer, Bitmap> {
         return false;
     }
 
-    public V getCachedResultIfavailable(K key){
+    public Bitmap getCachedResultIfavailable(String key){
         return mCache.get(key);
     }
 

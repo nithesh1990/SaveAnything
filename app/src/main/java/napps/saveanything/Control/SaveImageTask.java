@@ -22,7 +22,7 @@ import napps.saveanything.Model.ImageInfo;
 /**
  * Created by nithesh on 5/26/2016.
  */
-public class SaveImageTask implements Runnable {
+public class SaveImageTask extends Task<Integer, Bitmap> {
 
     private ImageInfo mImageInfo;
     private Context mContext;
@@ -33,7 +33,7 @@ public class SaveImageTask implements Runnable {
     }
 
     @Override
-    public void run() {
+    public Bitmap execute() {
         ContentValues contentValues = new ContentValues();
 
         try{
@@ -47,6 +47,7 @@ public class SaveImageTask implements Runnable {
             //android.resource (SCHEME_ANDROID_RESOURCE)
             //file (SCHEME_FILE)
             InputStream sourceStream = mContext.getContentResolver().openInputStream(uri);
+
             if(mImageInfo.getScaleStatus() == Constants.SCALE_DOWN){
 
                 BitmapFactory.Options options = new BitmapFactory.Options();
@@ -89,7 +90,7 @@ public class SaveImageTask implements Runnable {
             contentValues.put(DatabaseContract.ImageBoard.COLUMN_NAME_SCALE_FACTOR, mImageInfo.getScaleFactor());
             contentValues.put(DatabaseContract.ImageBoard.COLUMN_NAME_SAVEDPATH, Uri.fromFile(saveFile).toString());
             contentValues.put(DatabaseContract.ImageBoard.COLUMN_NAME_STATUS, Constants.STATUS_IMAGE_SAVED);
-
+            contentValues.put(DatabaseContract.ImageBoard.COLUMN_NAME_DESC, mImageInfo.getDesc());
 
         } catch(NullPointerException e){
             //uri path is null which shouldn't be possible
@@ -119,5 +120,6 @@ public class SaveImageTask implements Runnable {
             db.update(DatabaseContract.ImageBoard.TABLE_NAME, contentValues, DatabaseContract.ImageBoard.COLUMN_NAME_IMAGEID+" = "+"'"+mImageInfo.getImageId()+"'", null);
 
         }
+    return null;
     }
 }

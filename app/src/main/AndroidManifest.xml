@@ -32,7 +32,7 @@
         <activity
             android:name=".view.activities.SaveImageActivity"
             android:label="@string/title_activity_save_image"
-            android:launchMode="singleTop"
+            android:launchMode="standard"
             android:theme="@style/SaveImageTheme">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />

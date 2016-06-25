@@ -1,5 +1,7 @@
 package napps.saveanything.Control;
 
+import java.util.concurrent.Callable;
+
 import napps.saveanything.Utilities.AppLogger;
 
 /**
@@ -9,8 +11,12 @@ import napps.saveanything.Utilities.AppLogger;
     Initially this task was made to only execute bitmap decoding tasks. Since we have amy tasks
     that should be run efficiently in the background this task is made more general so that Save image tasks,
     bitmap tasks, network tasks are all executed using this tasks
+
+    Initially it implemented a runnable interface which was fine. But managing tasks was difficult in TaskManager.
+    So this was changed to implement so that we get a future object from the executor service to manage tasks
+
  */
-public abstract class Task<K, V> implements Runnable{
+public abstract class Task<K, V> implements Callable<V> {
 
     public static final int STORAGE_PRIORITY_TOP = 0;
     public static final int STORAGE_PRIORITY_MEDIUM = 1;
@@ -27,7 +33,7 @@ public abstract class Task<K, V> implements Runnable{
     /*
         Every Task should have reference of TaskManager to notify the actions of Task
      */
-    private TaskManager<K, V> mManager;
+    private TaskManager<K, V>  mManager;
 
     /*
         These methods are made final because of the following reasons
@@ -54,24 +60,6 @@ public abstract class Task<K, V> implements Runnable{
 
     public abstract V execute();
 
-    @Override
-    public void run() {
-        /*
-            We will retrieve the value from the task and tell taskManager that task is complete
-         */
-        //Before executing we will check if there is a task Id set or else we will set the task id by ourselves
-        if(!(getTASK_ID() > 0)){
-            //We wil use the time in millis as that is the easily available unique identifier
-            setTASK_ID(System.currentTimeMillis());
-        }
-        V value = execute();
-        setResultValue(value);
-        if(value != null){
-            mManager.onTaskCompleted(this);
-        } else {
-            mManager.onTaskFailed(this);
-        }
-    }
 
     public final TaskManager<K, V> getTaskManager() {
         return mManager;
@@ -99,5 +87,18 @@ public abstract class Task<K, V> implements Runnable{
      */
     private final void setResultValue(V resultValue) {
         this.resultValue = resultValue;
+    }
+
+    @Override
+    public V call() throws Exception {
+        V value = execute();
+        setResultValue(value);
+        if(value != null){
+            mManager.onTaskCompleted(this);
+        } else {
+            mManager.onTaskFailed(this);
+        }
+
+        return value;
     }
 }

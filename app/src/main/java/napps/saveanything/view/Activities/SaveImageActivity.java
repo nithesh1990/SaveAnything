@@ -33,7 +33,9 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import napps.saveanything.Control.BackgroundWorker;
+import napps.saveanything.Control.BitmapManager;
 import napps.saveanything.Control.SaveImageTask;
+import napps.saveanything.Control.TaskManager;
 import napps.saveanything.Utilities.Constants;
 import napps.saveanything.Utilities.Utils;
 import napps.saveanything.Database.DBContentProvider;
@@ -68,6 +70,10 @@ import napps.saveanything.view.customviews.CustomTextView;
             which is done only after the intent is processed. That's fine with us
         SingleTask and SingleInstance create new Task and it deviates from normal behaviour and is not recommended to use in common cases
 
+        Unfortunately we had to go back to standard due to following problems
+        1. singleTop was holding a single instance and some activities were not finished immediately and in the mean time
+            if we saved another image it was routed through the newIntent whih was not processed properly.
+            So we have to create new instance for each activity
  */
 public class SaveImageActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -415,10 +421,39 @@ public class SaveImageActivity extends AppCompatActivity implements View.OnClick
             //exception when the background tries to access the context
             //Always use getApplicationCOntext() when the task should be run irrespective of current activity
             SaveImageTask saveImageTask = new SaveImageTask(saveImageInfo, getApplicationContext());
+            TaskManager taskManager = new TaskManager() {
+                @Override
+                public void postResult(long taskId, Object value) {
+
+                }
+
+                @Override
+                public void onTaskAdded(Object task) {
+
+                }
+
+                @Override
+                public void onTaskRemoved(Object task) {
+
+                }
+
+                @Override
+                public void onTaskFailed(Object task) {
+
+                }
+
+                @Override
+                public void onTaskCompleted(Object task) {
+
+                }
+            };
+            taskManager.initialize(this, 10);
+            saveImageTask.setTaskManager(taskManager);
             BackgroundWorker.getInstance().addTasktoExecute(saveImageTask);
             finish();
 
         } else {
+            //Maybe error dialogue would do
             //show error message or workaround for failure
         }
 

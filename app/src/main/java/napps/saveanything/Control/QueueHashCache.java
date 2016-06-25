@@ -5,6 +5,7 @@ import android.support.v4.util.LruCache;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Created by nithesh on 6/4/2016.
@@ -41,6 +42,9 @@ public class QueueHashCache<K, V> implements Cache<K, V> {
 
     private static QueueHashCache sInstance;
 
+    public static final int STORAGE_PREF_TOP = 0;
+
+    public static final int STORAGE_PREF_BOTTOM = 1;
     /*
         These top and bottom key references are required so that the values are checked and
         value V is put on top or bottom respectively.
@@ -64,7 +68,7 @@ public class QueueHashCache<K, V> implements Cache<K, V> {
     }
     private int lastInsertIndex;
 
-    private LinkedHashMap<K, V> objReference;
+    private AtomicReference<LinkedHashMap<K, V>> objReference;
 
     private LinkedList<Node> objCache;
 
@@ -75,7 +79,7 @@ public class QueueHashCache<K, V> implements Cache<K, V> {
     public void initialize(int CONSTANT_CAPACITY) {
         setCacheSize(CONSTANT_CAPACITY);
         objCache = new LinkedList<Node>();
-        objReference = new LinkedHashMap<K, V>();
+        objReference = new AtomicReference<LinkedHashMap<K, V>>(new LinkedHashMap<K, V>());
 
     }
 
@@ -83,7 +87,7 @@ public class QueueHashCache<K, V> implements Cache<K, V> {
     public void clear() {
         //This is a clever way of
         objCache.clear();
-        objReference.clear();
+        objReference.get().clear();
     }
 
     @Override
@@ -101,14 +105,14 @@ public class QueueHashCache<K, V> implements Cache<K, V> {
         //if size has reached constant capacity then
         if(size >= CONSTANT_CAPACITY){
             Node removalNode = objCache.getFirst();
-            objReference.remove(removalNode.getKey());
+            objReference.get().remove(removalNode.getKey());
             objCache.removeFirst();
             //After removing the top item, top key should be updated appropriately
             topKey = (K)objCache.getFirst().getKey();
         }
         Node addNode = new Node(key, value);
         objCache.addLast(addNode);
-        objReference.put((K)addNode.getKey(), (V)addNode.getValue());
+        objReference.get().put((K)addNode.getKey(), (V)addNode.getValue());
         bottomKey = key;
         if(topKey == null){
             topKey = bottomKey;
@@ -120,23 +124,24 @@ public class QueueHashCache<K, V> implements Cache<K, V> {
         //if size has reached constant capacity then
         if(size >= CONSTANT_CAPACITY){
             Node removalNode = objCache.getLast();
-            objReference.remove(removalNode.getKey());
+            objReference.get().remove(removalNode.getKey());
             objCache.removeLast();
             bottomKey = (K)objCache.getLast().getKey();
         }
         Node addNode = new Node(key, value);
         objCache.addFirst(addNode);
-        objReference.put((K)addNode.getKey(), (V)addNode.getValue());
+        objReference.get().put((K)addNode.getKey(), (V)addNode.getValue());
         topKey = key;
         if(bottomKey == null){
             bottomKey = topKey;
         }
     }
+
     @Override
     public V get(K key) {
 
-        if(objReference.containsKey(key)){
-            return objReference.get(key);
+        if(objReference.get().containsKey(key)){
+            return objReference.get().get(key);
         } else {
             return null;
         }
@@ -165,6 +170,10 @@ public class QueueHashCache<K, V> implements Cache<K, V> {
 
     public void setCONSTANT_CAPACITY(int CONSTANT_CAPACITY) {
         this.CONSTANT_CAPACITY = CONSTANT_CAPACITY;
+    }
+
+    public int getSize(){
+        return objCache.size();
     }
 
     public K getBottomKey() {

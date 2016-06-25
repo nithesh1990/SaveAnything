@@ -160,16 +160,17 @@ public class ImageFragment extends Fraggment implements LoaderManager.LoaderCall
         //7. This can be achieved keeping a reference of cursor per fragment and comparing new cursor with old cursor,
         //  check for data changes and change behaviour accordingly
         //8. Close this cursor onDestroy or OnDestroyView
+        int gridsize = 2;
         if(mImageListAdapter == null){
             DisplayMetrics displayMetrics = new DisplayMetrics();
             getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-            int deviceHeight = displayMetrics.heightPixels;
-            int deviceWidth = displayMetrics.widthPixels;
+            int deviceHeight = displayMetrics.heightPixels/gridsize;
+            int deviceWidth = displayMetrics.widthPixels/gridsize;
 
             mImageListAdapter = new ImageListAdapter(mContext, R.layout.image_card, data, deviceWidth, deviceHeight);
         }
 
-        mImageRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 2));
+        mImageRecyclerView.setLayoutManager(new GridLayoutManager(mContext, gridsize));
         mImageRecyclerView.addOnScrollListener(new RVScrollListener());
         mImageRecyclerView.setAdapter(mImageListAdapter);
 
