@@ -11,6 +11,9 @@
         android:padding="5dp"
         android:layout_gravity="center">
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
         <napps.saveanything.view.customviews.CustomTextView
             android:id="@+id/main_text"
             android:layout_width="match_parent"
