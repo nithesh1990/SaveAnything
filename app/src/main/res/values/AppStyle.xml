@@ -1,27 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+<!-- This is the parent theme names and values. Use these values to override anything
+    <style name="Base.ThemeOverlay.AppCompat.Light" parent="Platform.ThemeOverlay.AppCompat.Light">
+        <item name="android:windowBackground">@color/background_material_light</item>
+        <item name="android:colorForeground">@color/foreground_material_light</item>
+        <item name="android:colorForegroundInverse">@color/foreground_material_dark</item>
+        <item name="android:colorBackground">@color/background_material_light</item>
+        <item name="android:colorBackgroundCacheHint">@color/abc_background_cache_hint_selector_material_light</item>
 
-    <style name="BasicTheme" parent="AppTheme">
-        <item name="colorPrimary">@color/color_action_bar</item>
-        <item name="colorPrimaryDark">@color/color_notification_bar</item>
+        <item name="android:textColorPrimary">@color/abc_primary_text_material_light</item>
+        <item name="android:textColorPrimaryInverse">@color/abc_primary_text_material_dark</item>
+        <item name="android:textColorSecondary">@color/abc_secondary_text_material_light</item>
+        <item name="android:textColorSecondaryInverse">@color/abc_secondary_text_material_dark</item>
+        <item name="android:textColorTertiary">@color/abc_secondary_text_material_light</item>
+        <item name="android:textColorTertiaryInverse">@color/abc_secondary_text_material_dark</item>
+        <item name="android:textColorPrimaryDisableOnly">@color/abc_primary_text_disable_only_material_light</item>
+        <item name="android:textColorPrimaryInverseDisableOnly">@color/abc_primary_text_disable_only_material_dark</item>
+        <item name="android:textColorHint">@color/hint_foreground_material_light</item>
+        <item name="android:textColorHintInverse">@color/hint_foreground_material_dark</item>
+        <item name="android:textColorHighlight">@color/highlighted_text_material_light</item>
+
+        <item name="colorControlNormal">?android:attr/textColorSecondary</item>
+        <item name="colorControlHighlight">@color/ripple_material_light</item>
+        <item name="colorButtonNormal">@color/button_material_light</item>
+        <item name="colorSwitchThumbNormal">@color/switch_thumb_material_light</item>
+
+        <item name="isLightTheme">true</item>
+    </style> -->
+
+    <style name="BasicTheme.Light" parent="AppTheme.Light">
         <item name="android:windowBackground">@drawable/activity_background</item>
-        <!--<item name="android:actionButtonStyle">@sty</item>-->
+        <item name="cardBackground">@color/color_card_background_LT</item>
+        <item name="cardTextColor">@null</item>
+        <item name="cardTextColor2">@color/colorPrimaryDarkLT</item>
+        <item name="cardButtonStyle">@style/iconBackgroundDrawable.Light</item>
 
+        <!--<item name="android:actionButtonStyle">@sty</item>-->
+    </style>
+
+
+    <style name="BasicTheme.Dark" parent="AppTheme.Dark">
+
+        <item name="android:windowBackground">@null</item>
+        <item name="cardBackground">@color/color_card_background_DT</item>
+        <item name="cardTextColor">@color/colorTextPrimaryDT</item>
+        <item name="cardTextColor2">@color/colorPrimaryLT</item>
+        <item name="cardButtonStyle">@style/iconBackgroundDrawable.Dark</item>
+    </style>
+
+    <style name="BasicTheme.Plain" parent="AppTheme.Plain">
+        <item name="cardBackground">@color/color_card_background_PT</item>
+        <item name="cardTextColor">@null</item>
+        <item name="cardTextColor2">@color/colorPrimaryDarkPT</item>
+        <item name="cardButtonStyle">@style/iconBackgroundDrawable.Light</item>
+
+        <!--<item name="android:actionButtonStyle">@sty</item>-->
     </style>
 
     <style name="NavigationTextMenuStyle">
         <item name="android:textColor">@color/color_white</item>
         <item name="android:textSize">@dimen/nav_menu_item</item>
-        <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="iconBackgroundDrawable">
+        <item name="android:paddingLeft">@dimen/standard_16dp</item>
+        <item name="android:paddingRight">@dimen/standard_16dp</item>
+        <item name="android:paddingTop">@dimen/standard_8dp</item>
+        <item name="android:paddingBottom">@dimen/standard_8dp</item>
+    </style>
+
+    <style name="iconBackgroundDrawable.Light" parent="iconBackgroundDrawable">
+        <item name="android:background">@color/color_card_background_LT</item>
+    </style>
+
+    <style name="iconBackgroundDrawable.Dark" parent="iconBackgroundDrawable">
+        <item name="android:background">@color/color_card_background_DT</item>
+    </style>
     <!-- All these items are given some default styles/values in parent. We want to override some based on
         specific items-->
     <!-- if we use @drawable/@anim it will point to our drawable or animations folder. If we need to use some of android's
      provided builtin styles or animations we should use @andorid:anim/@android:styles -->
     <style name="SaveImageTheme" parent="AppTheme">
-        <item name="colorPrimary">@color/color_action_bar</item>
-        <item name="colorPrimaryDark">@color/color_notification_bar</item>
+        <item name="colorPrimary">@color/color_action_bar_LT</item>
+        <item name="colorPrimaryDark">@color/color_notification_bar_LT</item>
         <item name="android:title">@string/title_activity_save_image</item>
 
         <!--<item name="android:windowBackground">@drawable/activity_background</item>-->

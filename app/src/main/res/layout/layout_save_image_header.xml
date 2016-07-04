@@ -3,7 +3,7 @@
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="56dp"
     android:weightSum="20"
-    android:background="@color/color_action_bar">
+    android:background="@color/color_action_bar_LT">
 
     <ImageButton
         android:id="@+id/action_cancel"

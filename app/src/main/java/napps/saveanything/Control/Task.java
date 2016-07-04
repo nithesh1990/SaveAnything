@@ -1,6 +1,7 @@
 package napps.saveanything.Control;
 
 import java.util.concurrent.Callable;
+import java.util.concurrent.Future;
 
 import napps.saveanything.Utilities.AppLogger;
 
@@ -29,6 +30,8 @@ public abstract class Task<K, V> implements Callable<V> {
     private int mPriority;
 
     private long TASK_ID;
+
+    private Future<V> taskFuturereference;
 
     private V resultValue;
 
@@ -104,5 +107,13 @@ public abstract class Task<K, V> implements Callable<V> {
         }
 
         return value;
+    }
+
+    public Future<V> getTaskFuturereference() {
+        return taskFuturereference;
+    }
+
+    public void setTaskFuturereference(Future<V> taskFuturereference) {
+        this.taskFuturereference = taskFuturereference;
     }
 }

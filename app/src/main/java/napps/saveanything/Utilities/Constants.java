@@ -16,7 +16,7 @@ public class Constants {
     //Fragments Title
     public static final String ALLFRAGMENT_TITLE = "ALL";
     public static final String IMAGEFRAGMENT_TITLE = "IMAGES";
-    public static final String CLIPFRAGMENT_TITLE = "CLIPBOARD";
+    public static final String CLIPFRAGMENT_TITLE = "CLIPS";
 
     //Content Types
     public static final int CONTENT_CLIP = 100;
@@ -94,6 +94,7 @@ public class Constants {
     public static final long MONTH =   (4 * WEEK) + (2 * DAY);
     public static final long YEAR = 12 * MONTH;
 
+    public static final String TIME_PASSED = "ago";
     //BroadCast Alarms
     public static final int BROADCAST_START_SERVICE = 101;
 

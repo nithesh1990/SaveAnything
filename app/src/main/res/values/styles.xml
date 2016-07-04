@@ -3,9 +3,31 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="AppTheme.Light" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimaryLT</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkLT</item>
+        <item name="colorAccent">@color/colorAccentLT</item>
+        <item name="customToolBarStyle">@style/ToolBarStyle.Light</item>
+        <!--<item name="textColorPrimary">@color/colorTextPrimaryLT</item> -->
+    </style>
+
+    <style name="AppTheme.Dark" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimaryDT</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkDT</item>
+        <item name="colorAccent">@color/colorAccentDT</item>
+        <item name="customToolBarStyle">@style/ToolBarStyle.Dark</item>
+        <!--<item name="textColorPrimary">@color/colorTextPrimaryDT</item> -->
+    </style>
+
+    <style name="AppTheme.Plain" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimaryPT</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkPT</item>
+        <item name="colorAccent">@color/colorAccentPT</item>
+        <item name="customToolBarStyle">@style/ToolBarStyle.Plain</item>
+        <!--<item name="textColorPrimary">@color/colorTextPrimaryPT</item> -->
+
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -15,7 +37,18 @@
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="ToolBarStyle"/>
 
+    <style name="ToolBarStyle.Light" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:textColorPrimary">@color/colorTextPrimaryLT</item>
+    </style>
+
+    <style name="ToolBarStyle.Plain" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:textColorPrimary">@color/colorTextPrimaryPT</item>
+    </style>
+
+    <style name="ToolBarStyle.Dark" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:textColorPrimary">@color/colorTextPrimaryDT</item>
+    </style>
 
 </resources>

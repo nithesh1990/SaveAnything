@@ -2,6 +2,7 @@ package napps.saveanything.Control;
 
 import android.content.Context;
 
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.concurrent.Future;
 
@@ -69,6 +70,8 @@ public abstract class TaskManager<K, V> implements TaskListener<Task> {
 
     private Context mContext;
 
+    private LinkedHashMap<Integer, Future<V>> taskMap;
+
     public void initialize(Context context, int capacity){
         this.mContext = context;
         mQueue = FutureTaskQueue.getInstance();
@@ -78,6 +81,7 @@ public abstract class TaskManager<K, V> implements TaskListener<Task> {
         mTaskListener = this;
         mFailedTasks = new LinkedHashSet<Task>();
         lockObject = new Object();
+        taskMap = new LinkedHashMap<Integer, Future<V>>();
     }
 
     /*
@@ -86,7 +90,9 @@ public abstract class TaskManager<K, V> implements TaskListener<Task> {
     public void addTask(Task task){
         task.setTaskManager(this);
         //Submit the task to execute and add its future to taskqueue
-        mQueue.add(mWorker.addTasktoExecuteandgetFuture(task));
+        //task.execute();
+        mWorker.addTasktoExecuteandgetFuture(task);
+       //taskMap.put((int)task.getTASK_ID(), );
         mTaskListener.onTaskAdded(task);
     }
 
@@ -146,7 +152,14 @@ public abstract class TaskManager<K, V> implements TaskListener<Task> {
         long taskId = task.getTASK_ID();
         //Now remove the task and just send the result
 
-        postResult(task.getTASK_ID(), (V)task.getResultValue());
+        V value = (V)task.getResultValue();
+
+        //if(taskMap.containsKey(task.getTASK_ID())){
+        //    taskMap.remove(task.getTASK_ID());
+        //}
+
+        postResult(taskId, value);
+
     }
 
     public abstract void postResult(long taskId, V value);

@@ -54,7 +54,7 @@ public class BackgroundWorker<V> implements RejectedExecutionHandler{
     // we need to have right balance between
     // in our case we give jobs at once and not at time to time. If we are reusing the threads we should not kill them
     //Need to think about it a bit
-    private final long KEEP_ALIVE_TIME = 500;
+    private final long KEEP_ALIVE_TIME = 5;
 
     //keep alive time unit
     private final TimeUnit KEEP_ALIVE_TIME_UNIT = TimeUnit.MILLISECONDS;
@@ -87,11 +87,12 @@ public class BackgroundWorker<V> implements RejectedExecutionHandler{
         //avoiding overhead of creating a thread. But for single core processors let's keep it to 0
         //This is also called core pool size
         if(NUMBER_OF_CORES > 1){
-            INITIAL_THREAD_POOL_SIZE = 1;
+            INITIAL_THREAD_POOL_SIZE = 5;
         } else {
-            INITIAL_THREAD_POOL_SIZE = 0;
+            INITIAL_THREAD_POOL_SIZE = 5;
         }
-
+        //temporary
+        NUMBER_OF_CORES = 8;
 
         //this is a queue of runnables
         jobQueue = new LinkedBlockingQueue<Runnable>();
@@ -120,9 +121,11 @@ public class BackgroundWorker<V> implements RejectedExecutionHandler{
     @Override
     public void rejectedExecution(Runnable r, ThreadPoolExecutor executor) {
         try{
-            r.wait(REJECTED_TASK_WAIT_TIME);
-            BackgroundWorker.getInstance().jobExecutor.execute(r);
-        } catch (InterruptedException e){
+            //TODO: changing waiting time temporariy
+            //r.wait(200);
+            addTasktoExecute(r);
+            //BackgroundWorker.getInstance().jobExecutor.execute(r);
+        } catch (Exception e){
             e.printStackTrace();
         }
     }

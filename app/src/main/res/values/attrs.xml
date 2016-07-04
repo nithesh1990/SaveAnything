@@ -16,4 +16,41 @@
             <enum name="roboto_thin" value="11"/>
         </attr>
     </declare-styleable>
+
+    <declare-styleable name="CustomImageView">
+        <attr name="aspectratio">
+            <enum name="none" value="0"/>
+            <enum name="fixedWidth1to1" value="10"/>
+            <enum name="fixedWidth16to9" value="11"/>
+            <enum name="fixedWidth16to10" value="12"/>
+            <enum name="fixedWidth4to3" value="13"/>
+            <enum name="fixedHeight1to1" value="20"/>
+            <enum name="fixedHeight16to9" value="21"/>
+            <enum name="fixedHeight16to10" value="22"/>
+            <enum name="fixedHeight4to3" value="23"/>
+        </attr>
+    </declare-styleable>
+
+    <!-- We are creating custom attributes. These attributes act as a center data point. The activity theme
+     and custom styles fill data/values to these attributes and the reference in xml like android:textcolor: "?attr/cardTextColor" will
+     take the filled values and use them. We want to categorize some attributes to colors, dimens etc
+     This will prevent using colors for dimension like android:textSize="?attr/cardTextColor"
+     Background is retained as reference because the background can be drawable/color-->
+    <attr name="cardStyle" format="reference"/>
+
+    <attr name="cardBackground" format="reference"/>
+
+    <attr name="cardTextColor" format="color"/>
+
+    <attr name="cardTextColor2" format="color"/>
+
+    <attr name="cardTextSize" format="dimension"/>
+
+    <attr name="cardTextSize2" format="dimension"/>
+
+    <attr name="cardButtonStyle" format="reference"/>
+
+    <attr name="iconBackgroundDrawable" format="reference"/>
+
+    <attr name="customToolBarStyle" format="reference"/>
 </resources>

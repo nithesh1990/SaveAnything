@@ -1,7 +1,6 @@
 package napps.saveanything.view.activities;
 
 import android.app.Application;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -23,10 +22,10 @@ import java.util.List;
 import napps.saveanything.Control.SaveClipService;
 import napps.saveanything.Utilities.Utils;
 import napps.saveanything.R;
-import napps.saveanything.view.fragments.AllFragment;
-import napps.saveanything.view.fragments.ClipsFragment;
-import napps.saveanything.view.fragments.Fraggment;
-import napps.saveanything.view.fragments.ImageFragment;
+import napps.saveanything.view.Fragments.AllFragment;
+import napps.saveanything.view.Fragments.ClipsFragment;
+import napps.saveanything.view.Fragments.CustomFragment;
+import napps.saveanything.view.Fragments.ImageFragment;
 import napps.saveanything.view.adapters.PageAdapter;
 
 public class BaseActivity extends AppCompatActivity
@@ -37,8 +36,8 @@ public class BaseActivity extends AppCompatActivity
     private TabLayout mTabLayout;
 
     private int ALL_FRAGMENT_POSITION = 0;
-    private int CLIPS_FRAGMENT_POSITION = 1;
-    private int IMAGES_FRAGMENT_POSITION = 2;
+    private int CLIPS_FRAGMENT_POSITION = 0;
+    private int IMAGES_FRAGMENT_POSITION = 1;
 
     private Application mapp;
 
@@ -124,11 +123,6 @@ public class BaseActivity extends AppCompatActivity
         //The fragment 3 is not created prior because of FSPA and you navigate using mViewpager.setCurrentItem() which only recreates the view heirarchy(i.e layout views)
         //and not the whole fragment. So the fragment looks empty
         switch(id){
-            case R.id.nav_all:
-                mViewPager.setCurrentItem(ALL_FRAGMENT_POSITION);
-                //mViewPager.getAdapter().
-                break;
-
             case R.id.nav_clips:
                 mViewPager.setCurrentItem(CLIPS_FRAGMENT_POSITION);
                 break;
@@ -161,8 +155,7 @@ public class BaseActivity extends AppCompatActivity
     }
 
     public void populatePages(){
-        List<Fraggment> fragmentList = new ArrayList<Fraggment>();
-        fragmentList.add(AllFragment.newInstance());
+        List<CustomFragment> fragmentList = new ArrayList<CustomFragment>();
         fragmentList.add(ClipsFragment.newInstance());
         fragmentList.add(ImageFragment.newInstance());
         mPageAdapter = new PageAdapter(getSupportFragmentManager(), fragmentList);

@@ -1,4 +1,4 @@
-package napps.saveanything.view.fragments;
+package napps.saveanything.view.Fragments;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -18,14 +18,14 @@ import android.widget.TextView;
 import napps.saveanything.Control.DBQueryLoader;
 import napps.saveanything.Utilities.Constants;
 import napps.saveanything.R;
-import napps.saveanything.view.adapters.TextListAdapter;
+import napps.saveanything.view.adapters.ClipListAdapter;
 
 /**
  * Created by nithesh on 5/6/2016.
  */
-public class ClipsFragment extends Fraggment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class ClipsFragment extends CustomFragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    public TextListAdapter mTextListAdapter;
+    public ClipListAdapter mClipListAdapter;
     public Context mContext;
     RecyclerView mClipsRecyclerView;
     RelativeLayout mClipsProgressLayout;
@@ -115,9 +115,9 @@ public class ClipsFragment extends Fraggment implements LoaderManager.LoaderCall
             // show error page or return
         } else if(data != null && data.getCount() > 0){
 
-            mTextListAdapter = new TextListAdapter(mContext, R.layout.text_card, data);
+            mClipListAdapter = new ClipListAdapter(mContext, R.layout.clip_card, data);
             mClipsRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-            mClipsRecyclerView.setAdapter(mTextListAdapter);
+            mClipsRecyclerView.setAdapter(mClipListAdapter);
 
         } else {
             //TODO

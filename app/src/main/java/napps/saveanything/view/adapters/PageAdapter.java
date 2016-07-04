@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import java.util.List;
 
-import napps.saveanything.view.fragments.Fraggment;
+import napps.saveanything.view.Fragments.CustomFragment;
 
 /**
  * Created by nithesh on 5/6/2016.
@@ -30,8 +30,8 @@ import napps.saveanything.view.fragments.Fraggment;
  */
 public class PageAdapter extends FragmentStatePagerAdapter {
 
-    List<Fraggment> fragmentList;
-    public PageAdapter(FragmentManager fm, List<Fraggment> fragmentList) {
+    List<CustomFragment> fragmentList;
+    public PageAdapter(FragmentManager fm, List<CustomFragment> fragmentList) {
         super(fm);
         this.fragmentList = fragmentList;
     }

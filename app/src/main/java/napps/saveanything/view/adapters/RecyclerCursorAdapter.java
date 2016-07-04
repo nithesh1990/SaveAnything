@@ -52,4 +52,32 @@ public abstract class RecyclerCursorAdapter<ViewHolder extends RecyclerView.View
 
     }
 
+    public String getTimeText(long actualmilliSeconds){
+        String timeText = "";
+        long currentmillis = System.currentTimeMillis();
+        long secondsPassed = (currentmillis - actualmilliSeconds);
+
+        if(secondsPassed >= Constants.SECOND && secondsPassed < Constants.MINUTE){
+            long seconds = secondsPassed/Constants.SECOND;
+            timeText = String.valueOf(seconds)+" seconds "+Constants.TIME_PASSED;
+        } else if(secondsPassed >= Constants.MINUTE && secondsPassed < Constants.HOUR){
+            long minutes = secondsPassed/Constants.MINUTE;
+            timeText = String.valueOf(minutes)+" minutes "+Constants.TIME_PASSED;
+        } else if(secondsPassed >= Constants.HOUR && secondsPassed < Constants. DAY){
+            long hours = secondsPassed/Constants.HOUR;
+            timeText = String.valueOf(hours)+" hours "+Constants.TIME_PASSED;
+        } else if(secondsPassed >= Constants.DAY && secondsPassed < Constants.WEEK){
+            long days = secondsPassed/Constants.DAY;
+            timeText = String.valueOf(days)+" days "+Constants.TIME_PASSED;
+        } else if(secondsPassed >= Constants.WEEK && secondsPassed < Constants.MONTH){
+            long weeks = secondsPassed/Constants.WEEK;
+            timeText = String.valueOf(weeks)+" weeks "+Constants.TIME_PASSED;
+        } else if(secondsPassed >= Constants.MONTH && secondsPassed < Constants.YEAR) {
+            long months = secondsPassed/Constants.MONTH;
+            timeText = String.valueOf(months)+" months "+Constants.TIME_PASSED;
+        }
+
+        return timeText;
+    }
+
 }

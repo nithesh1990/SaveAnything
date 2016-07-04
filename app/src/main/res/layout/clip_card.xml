@@ -1,49 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
+<!-- specifying the layout style as cardStyle means the custom attributes/normal attributes in this
+    layout take the values defined in cardStyle attribute.
+     The above method did not work. Actually cardStyle contains further custom attributes, and they
+     contain some custom attributes and then the real attributes come into picture
+     Specifying parent custom attribute in theme is not working. So we have to specify each custom attribute
+     individually in the parent theme.
+     But for customTextView it's not working-->
     <RelativeLayout
         android:id="@+id/text_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="5dp"
+        android:background="?attr/cardBackground"
         android:layout_gravity="center">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <napps.saveanything.view.customviews.CustomTextView
-            android:id="@+id/main_text"
+        <RelativeLayout
+            android:id="@+id/main_content_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:fontFamily=""
-            android:maxLines="3"
-            android:text="sdlfndlsgnlnvl kklfdkldsgsdgsgsf sfgfgfgggggg sgf"
-            app:fontinfo="roboto_medium"
-            android:textSize="15dp"/>
+            android:paddingTop="@dimen/standard_8dp"
+            android:paddingRight="@dimen/standard_8dp"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/cc_source_icon"
+                android:layout_width="@dimen/cc_icon_width"
+                android:layout_height="@dimen/cc_icon_height"
+                android:layout_margin="@dimen/standard_8dp"
+                android:layout_centerVertical="true"/>
 
-        <TextView
-            android:id="@+id/time_text"
-            android:layout_width="wrap_content"
-            android:layout_marginTop="7dp"
-            android:layout_height="15dp"
-            android:gravity="bottom"
-            android:layout_below="@+id/main_text"
-            android:layout_alignParentLeft="true"
-            android:textColor="@color/colorPrimaryDark"
-            />
+            <napps.saveanything.view.customviews.CustomTextView
+                android:id="@+id/cc_main_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="3"
+                android:layout_centerVertical="true"
+                android:textColor="?attr/cardTextColor"
+                android:layout_toRightOf="@+id/cc_source_icon"
+                android:text="sdlfndlsgnlnvl kklfdkldsgsdgsgsf sfgfgfgggggg sgf"
+                app:fontinfo="roboto_regular"
+                android:textSize="@dimen/cc_main_text_size"/>
 
-        <ImageButton
-            android:id="@+id/share_button"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginRight="10dp"
-            android:layout_alignParentRight="true"
-            android:src="@drawable/ic_share_black_24dp"
-            android:layout_below="@+id/main_text"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/cc_extra_layout"
+            android:layout_width="match_parent"
+            android:layout_below="@+id/main_content_layout"
+            android:layout_height="wrap_content">
+
+            <napps.saveanything.view.customviews.CustomTextView
+                android:id="@+id/cc_time_text"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/ic_extra_layout_height"
+                android:textSize="@dimen/ic_time_text_size"
+                android:text="15 mins ago "
+                android:padding="@dimen/standard_8dp"
+                android:layout_centerVertical="true"
+                android:textColor="?attr/cardTextColor2" />
+
+            <ImageButton
+                android:id="@+id/cc_more_button"
+                android:src="@drawable/ic_more_vert_24dp"
+                android:layout_width="wrap_content"
+                style="?attr/cardButtonStyle"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                />
+
+
+            <ImageButton
+                android:id="@+id/cc_copy_button"
+                android:src="@drawable/ic_content_copy_24dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="?attr/cardButtonStyle"
+                android:layout_toLeftOf="@id/cc_more_button"
+                />
+
+            <ImageButton
+                android:id="@+id/cc_favorite_button"
+                android:src="@drawable/ic_favorite_unchecked_24dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="?attr/cardButtonStyle"
+                android:layout_toLeftOf="@id/cc_copy_button"
+                />
+            <ImageButton
+                android:id="@+id/cc_special_button"
+                android:layout_width="wrap_content"
+                style="?attr/cardButtonStyle"
+                android:visibility="gone"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/cc_favorite_button"
+                />
+
+        </RelativeLayout>
+
+
     </RelativeLayout>
-
 </android.support.v7.widget.CardView>

@@ -1,4 +1,4 @@
-package napps.saveanything.view.fragments;
+package napps.saveanything.view.Fragments;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -7,27 +7,31 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import napps.saveanything.Control.DBQueryLoader;
-import napps.saveanything.Utilities.AppLogger;
 import napps.saveanything.Utilities.Constants;
 import napps.saveanything.R;
+import napps.saveanything.view.adapters.ImageCursorAdapter;
 import napps.saveanything.view.adapters.ImageListAdapter;
 
 /**
  * Created by nithesh on 5/6/2016.
  */
-public class ImageFragment extends Fraggment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class ImageFragment extends CustomFragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
+    public static final int LIST_MODE = 11;
+    public static final int GRID_MODE = 12;
+
+    private int viewMode;
     private static final String CLASS_TAG = ImageFragment.class.getSimpleName();
     public ImageListAdapter mImageListAdapter;
     public Context mContext;
@@ -35,6 +39,9 @@ public class ImageFragment extends Fraggment implements LoaderManager.LoaderCall
     RelativeLayout mImageProgressLayout;
     TextView mNoImagesTextView;
 
+    ListView imagesListView;
+
+    ImageCursorAdapter mImageCursorAdapter;
     //static factory design pattern
     public static ImageFragment newInstance(/*we can pass the parameters that need to be set in fragment*/){
         ImageFragment imageFragment = new ImageFragment();
@@ -60,16 +67,18 @@ public class ImageFragment extends Fraggment implements LoaderManager.LoaderCall
         super.onCreate(savedInstanceState);
     }
 
-    @Nullable
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.layout_imagesfragment, null);
         mImageRecyclerView = (RecyclerView)view.findViewById(R.id.images_recycler_view);
         mImageProgressLayout = (RelativeLayout) view.findViewById(R.id.images_progress_layout);
         mNoImagesTextView = (TextView)view.findViewById(R.id.no_images_text);
+        //imagesListView = (ListView) view.findViewById(R.id.images_listview);
         mImageRecyclerView.setVisibility(View.GONE);
         mNoImagesTextView.setVisibility(View.GONE);
         mImageProgressLayout.setVisibility(View.VISIBLE);
+        viewMode = LIST_MODE;
         return view;
     }
 
@@ -160,20 +169,33 @@ public class ImageFragment extends Fraggment implements LoaderManager.LoaderCall
         //7. This can be achieved keeping a reference of cursor per fragment and comparing new cursor with old cursor,
         //  check for data changes and change behaviour accordingly
         //8. Close this cursor onDestroy or OnDestroyView
-        int gridsize = 1;
-        if(mImageListAdapter == null){
+        int gridSize = 1;
+        //if(mImageListAdapter == null){
             DisplayMetrics displayMetrics = new DisplayMetrics();
             getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-            int deviceHeight = displayMetrics.heightPixels/gridsize;
-            int deviceWidth = displayMetrics.widthPixels/gridsize;
+            int deviceWidth = displayMetrics.widthPixels;
+            int deviceHeight = displayMetrics.heightPixels;
 
-            mImageListAdapter = new ImageListAdapter(mContext, mImageRecyclerView, R.layout.image_card, data, deviceWidth, deviceHeight);
-        }
-        GridLayoutManager gridManager = new GridLayoutManager(mContext, 2);
+            if(viewMode == GRID_MODE){
+
+                mImageListAdapter = new ImageListAdapter(mContext, mImageRecyclerView, R.layout.image_card_grid_view, data, deviceWidth, deviceHeight, viewMode);
+                gridSize = 2;
+            } else {
+
+                mImageListAdapter = new ImageListAdapter(mContext, mImageRecyclerView, R.layout.image_card_list_view, data, deviceWidth, deviceHeight, viewMode);
+                gridSize = 1;
+            }
+        //}
+        GridLayoutManager gridManager = new GridLayoutManager(mContext, gridSize);
         mImageRecyclerView.setLayoutManager(gridManager);
-        mImageListAdapter.setGridLayoutManager(gridManager);
+        //mImageListAdapter.setGridLayoutManager(gridManager);
         mImageRecyclerView.setAdapter(mImageListAdapter);
 
+        //if(mImageCursorAdapter == null){
+//            mImageCursorAdapter = new ImageCursorAdapter(mContext, data, deviceWidth, deviceHeight);
+        //}
+//        mImageCursorAdapter.setImagesListViewforBM(imagesListView);
+//        imagesListView.setAdapter(mImageCursorAdapter);
     }
 
     @Override

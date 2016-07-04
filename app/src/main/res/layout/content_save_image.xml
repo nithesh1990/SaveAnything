@@ -52,7 +52,7 @@
                 android:id="@+id/show_hide_options"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/color_action_bar"
+                android:background="@color/color_action_bar_LT"
                 android:layout_gravity="center_horizontal"
                 android:src="@drawable/ic_keyboard_arrow_up_black_24dp" />
             <LinearLayout

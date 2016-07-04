@@ -14,7 +14,7 @@
             android:useLevel="false">
 
 
-            <solid android:color="@color/color_action_bar"/>
+            <solid android:color="@color/color_action_bar_LT"/>
 
         </shape>
 

@@ -6,10 +6,13 @@ import android.net.Uri;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
+import android.widget.ListView;
 
 import napps.saveanything.Database.DatabaseContract;
 import napps.saveanything.R;
 import napps.saveanything.Utilities.AppLogger;
+import napps.saveanything.view.adapters.ImageCursorAdapter;
+import napps.saveanything.view.adapters.ImageListAdapter;
 
 /**
  * Created by nithesh on 6/18/2016.
@@ -34,7 +37,15 @@ public class BitmapManager extends TaskManager<Integer, Bitmap> {
 
     private RecyclerView bitmapsViewHolder;
 
+    private ListView imagesListview;
+
+    private GridLayoutManager mLayoutManager;
+
     private static BitmapManager sInstance;
+
+    private int firstVisiblePos;
+
+    private int lastVisiblePos;
 
     public static BitmapManager getInstance(){
         if(sInstance == null){
@@ -99,9 +110,14 @@ public class BitmapManager extends TaskManager<Integer, Bitmap> {
     //2. Perform these add/remove top/bottom during the add of tasks itself
     @Override
     public void postResult(long taskId, Bitmap value) {
+        //if(taskId >=firstVisiblePos && taskId <=lastVisiblePos){
+        //    setImageforPosition((int)taskId, value);
+        //}//        //This is check for initial case when both topKey and bottomKey will be null
 
-//        boolean isTop;
-//        //This is check for initial case when both topKey and bottomKey will be null
+        ImageCursorAdapter.IVHolder ivHolder = (ImageCursorAdapter.IVHolder)imagesListview.getChildAt((int)taskId).getTag();
+        if(ivHolder != null){
+            ivHolder.mainImage.setImageBitmap(value);
+        }
 //        //if either of them is null
 //        if(mCache.getTopKey() == null || mCache.getBottomKey() == null){
 //            isTop = false;
@@ -148,8 +164,32 @@ public class BitmapManager extends TaskManager<Integer, Bitmap> {
     }
 
     public void setBitmapsViewHolder(RecyclerView bitmapsViewHolder) {
-        bitmapsViewHolder = bitmapsViewHolder;
+        this.bitmapsViewHolder = bitmapsViewHolder;
         bitmapsViewHolder.addOnScrollListener(new BitmapManager.RVScrollListener());
+    }
+
+    public GridLayoutManager getmLayoutManager() {
+        return mLayoutManager;
+    }
+
+    public void setmLayoutManager(GridLayoutManager mLayoutManager) {
+        this.mLayoutManager = mLayoutManager;
+    }
+
+    private void setImageforPosition(int position, Bitmap bitmap){
+        ImageListAdapter.ImageCardViewHolder ivHolder = (ImageListAdapter.ImageCardViewHolder)bitmapsViewHolder.findViewHolderForLayoutPosition(position); //        boolean isTop;
+        if(ivHolder != null){
+            ivHolder.mainImage.setImageBitmap(bitmap);
+        }
+
+    }
+
+    public ListView getImagesListview() {
+        return imagesListview;
+    }
+
+    public void setImagesListview(ListView imagesListview) {
+        this.imagesListview = imagesListview;
     }
 
     private class RVScrollListener extends RecyclerView.OnScrollListener {
@@ -160,11 +200,18 @@ public class BitmapManager extends TaskManager<Integer, Bitmap> {
             super.onScrollStateChanged(recyclerView, newState);
             GridLayoutManager lm = (GridLayoutManager) recyclerView.getLayoutManager();
             AppLogger.addLogMessage(AppLogger.DEBUG, CLASS_TAG, "OnScrollStateChanged", "Start");
+            firstVisiblePos = lm.findFirstCompletelyVisibleItemPosition();
+            Bitmap bm = getCachedResultIfavailable(firstVisiblePos);
+            if(bm != null){
+                setImageforPosition(firstVisiblePos, bm);
+            } else {
 
+            }
+            lastVisiblePos = lm.findLastCompletelyVisibleItemPosition();
             AppLogger.addLogMessage(AppLogger.DEBUG, CLASS_TAG, "OnScrollStateChanged", "FirstVisibleItemPos: "+lm.findFirstVisibleItemPosition());
-            AppLogger.addLogMessage(AppLogger.DEBUG, CLASS_TAG, "OnScrollStateChanged", "FirstCompletelyVisibleItemPos: "+lm.findFirstCompletelyVisibleItemPosition());
+            AppLogger.addLogMessage(AppLogger.DEBUG, CLASS_TAG, "OnScrollStateChanged", "FirstCompletelyVisibleItemPos: "+firstVisiblePos);
             AppLogger.addLogMessage(AppLogger.DEBUG, CLASS_TAG, "OnScrollStateChanged", "LastVisibleItemPos: "+lm.findLastVisibleItemPosition());
-            AppLogger.addLogMessage(AppLogger.DEBUG, CLASS_TAG, "OnScrollStateChanged", "LastCompletelyVisibleItemPos: "+lm.findLastCompletelyVisibleItemPosition());
+            AppLogger.addLogMessage(AppLogger.DEBUG, CLASS_TAG, "OnScrollStateChanged", "LastCompletelyVisibleItemPos: "+lastVisiblePos);
 
             switch(newState){
                 case RecyclerView.SCROLL_STATE_DRAGGING:

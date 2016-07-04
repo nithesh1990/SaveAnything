@@ -71,7 +71,7 @@ public class BitmapTask extends Task<Integer, Bitmap> {
             //we have set scaleType as centercrop in xml imageview so it will automatically centercrop
             //here we have to specify the width and height that's it
             //we will create square image based on width so
-            int boxSize = mDeviceWidth;
+            int boxSize = width;
             int startx = 0;
             int starty = 0;
             if(width > boxSize){
@@ -83,8 +83,8 @@ public class BitmapTask extends Task<Integer, Bitmap> {
             }
 
             sourceStream.close();
-            resizedBitmap = Bitmap.createBitmap(resizedBitmap, startx, starty, boxSize, boxSize);
-            //resizedBitmap = Bitmap.createScaledBitmap(resizedBitmap, , mDeviceHeight, true);
+            //resizedBitmap = Bitmap.createBitmap(resizedBitmap, startx, starty, boxSize, boxSize);
+            resizedBitmap = Bitmap.createScaledBitmap(resizedBitmap, boxSize, boxSize, true);
             AppLogger.addLogMessage(AppLogger.DEBUG, CLASS_TAG, "CustomLib", "cache size check before inserting: "+cache.getSize());
             int capacity = BitmapManager.BITMAP_HOLDING_CAPACITY;
             cache.addItem((int)getTASK_ID(), resizedBitmap, (int)(getTASK_ID()+capacity), (int)(getTASK_ID()-capacity));
@@ -98,9 +98,13 @@ public class BitmapTask extends Task<Integer, Bitmap> {
 //            }
         } catch(FileNotFoundException e){
             AppLogger.addLogMessage(AppLogger.ERROR, this.getClass().getSimpleName(), "execute()", "File not found exception in decoding bitmap");
+            e.printStackTrace();
         } catch(IOException e){
             AppLogger.addLogMessage(AppLogger.ERROR, this.getClass().getSimpleName(), "execute()", "Exception during inputstream closing in decoding bitmap");
-        }finally {
+            e.printStackTrace();
+        } catch(Exception e) {
+            e.printStackTrace();
+        } finally {
             return resizedBitmap;
         }
     }

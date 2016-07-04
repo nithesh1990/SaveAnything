@@ -1,4 +1,4 @@
-package napps.saveanything.view.fragments;
+package napps.saveanything.view.Fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,7 +13,7 @@ import napps.saveanything.R;
 /**
  * Created by nithesh on 5/6/2016.
  */
-public class AllFragment extends Fraggment {
+public class AllFragment extends CustomFragment {
 
     public static AllFragment newInstance(/*we can pass the parameters that need to be set in fragment*/){
         AllFragment allFragment = new AllFragment();
