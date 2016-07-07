@@ -122,6 +122,14 @@ public class QueueHashCache<K, V> implements Cache<K, V> {
         }
     }
 
+    //This strategy works as follows
+    //New key is added replacing the old key that's 'constant capacity far away from it
+    //Let's say the current cache has the following values
+    // x4, x5, x6, x7, x8, x9, x10, x11, x12, x13
+    //Now say x14 is requested because it's not in the cache
+    //replaceKey1 = 14 - 10 = 4
+    //replaceKey2 = 14 + 10 = 24
+    //This checks which key is present and replaces the key correspondingly
     public void addItem(K actualKey, V actualValue, K replaceKey1, K replaceKey2){
         int size = objReference.get().size();
         if(size >= CONSTANT_CAPACITY){

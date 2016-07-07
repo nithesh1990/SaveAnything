@@ -60,7 +60,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                style="@style/iconBackgroundDrawable"
+                style="?attr/cardButtonStyle"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 />
@@ -70,7 +70,7 @@
                 android:src="@drawable/ic_edit_24dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/iconBackgroundDrawable"
+                style="?attr/cardButtonStyle"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@id/ic_share_button"
@@ -82,7 +82,7 @@
                 android:src="@drawable/ic_favorite_unchecked_24dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/iconBackgroundDrawable"
+                style="?attr/cardButtonStyle"
                 android:layout_toLeftOf="@id/ic_edit_button"
                 />
         </RelativeLayout>

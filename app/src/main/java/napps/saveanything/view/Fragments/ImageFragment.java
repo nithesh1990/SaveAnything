@@ -178,17 +178,17 @@ public class ImageFragment extends CustomFragment implements LoaderManager.Loade
 
             if(viewMode == GRID_MODE){
 
-                mImageListAdapter = new ImageListAdapter(mContext, mImageRecyclerView, R.layout.image_card_grid_view, data, deviceWidth, deviceHeight, viewMode);
+                mImageListAdapter = new ImageListAdapter(mContext, mImageRecyclerView, R.layout.image_card_grid_view, data, deviceWidth/2, deviceWidth/2, viewMode);
                 gridSize = 2;
             } else {
 
-                mImageListAdapter = new ImageListAdapter(mContext, mImageRecyclerView, R.layout.image_card_list_view, data, deviceWidth, deviceHeight, viewMode);
+                mImageListAdapter = new ImageListAdapter(mContext, mImageRecyclerView, R.layout.image_card_list_view, data, deviceWidth, (9*deviceWidth)/16, viewMode);
                 gridSize = 1;
             }
         //}
         GridLayoutManager gridManager = new GridLayoutManager(mContext, gridSize);
         mImageRecyclerView.setLayoutManager(gridManager);
-        //mImageListAdapter.setGridLayoutManager(gridManager);
+        mImageListAdapter.setGridLayoutManager(gridManager);
         mImageRecyclerView.setAdapter(mImageListAdapter);
 
         //if(mImageCursorAdapter == null){

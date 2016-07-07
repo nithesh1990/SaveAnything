@@ -4,18 +4,18 @@
     <!-- Plain Theme resources -->
     <color name="colorPrimaryPT">#F5F5F5</color>
     <color name="colorPrimaryDarkPT">#E0E0E0</color>
-    <color name="colorAccentPT">#FF4081</color>
+    <color name="colorAccentPT">#E0E0E0</color>
     <color name="color_action_bar_PT">#F5F5F5</color>
     <color name="color_notification_bar_PT">#E0E0E0</color>
     <color name="color_window_background_PT">#FAFAFA</color>
     <color name="color_card_background_PT">#ffffff</color>
     <color name="colorTextPrimaryPT">#000000</color>
 
-
+    <color name="colorPrimaryPurple">#9b26af</color>
     <!-- Light Theme resources -->
     <color name="colorPrimaryLT">#1e88e5</color>
     <color name="colorPrimaryDarkLT">#005ce6</color>
-    <color name="colorAccentLT">#FF4081</color>
+    <color name="colorAccentLT">#1e88e5</color>
     <color name="color_action_bar_LT">#1e88e5</color>
     <color name="color_notification_bar_LT">#005ce6</color>
     <color name="color_window_background_LT">#e6ffff</color>
@@ -25,7 +25,7 @@
     <!-- Dark Theme resources -->
     <color name="colorPrimaryDT">#212121</color>
     <color name="colorPrimaryDarkDT">#000000</color>
-    <color name="colorAccentDT">#FF4081</color>
+    <color name="colorAccentDT">#212121</color>
     <color name="color_action_bar_DT">#212121</color>
     <color name="color_notification_bar_DT">#000000</color>
     <color name="color_window_background_DT">#303030</color>

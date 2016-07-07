@@ -4,10 +4,6 @@
     <item android:title="Menu">
         <menu>
             <item
-                android:id="@+id/nav_all"
-                android:icon="@drawable/ic_folder_black_24dp"
-                android:title="All" />
-            <item
                 android:id="@+id/nav_clips"
                 android:icon="@drawable/ic_content_copy_black_24dp"
                 android:title="ClipBoard" />

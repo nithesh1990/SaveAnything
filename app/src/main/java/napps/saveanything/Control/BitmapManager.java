@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 
@@ -17,7 +18,7 @@ import napps.saveanything.view.adapters.ImageListAdapter;
 /**
  * Created by nithesh on 6/18/2016.
  */
-public class BitmapManager extends TaskManager<Integer, Bitmap> {
+public class BitmapManager extends TaskManager<Integer, Bitmap> implements ResponseListener<Integer, Bitmap>{
 
     private static final String CLASS_TAG = BitmapManager.class.getSimpleName();
 //  Let's keep this constant capacity as 15 where 10 is for actual storage and remaining 5 is for error handling
@@ -95,6 +96,7 @@ public class BitmapManager extends TaskManager<Integer, Bitmap> {
 
             BitmapTask bitmapTask = new BitmapTask(mContext, position, mCache, storagepref);
             bitmapTask.setImageResources(requiredWidth, requiredHeight, uri);
+            bitmapTask.setResponseListener(this);
             bitmapTask.setTASK_ID(position);
             addTask(bitmapTask);
         }
@@ -234,6 +236,34 @@ public class BitmapManager extends TaskManager<Integer, Bitmap> {
             AppLogger.addLogMessage(AppLogger.DEBUG, CLASS_TAG, "OnScrolled", "dy: "+dy);
 
         }
+    }
+    @Override
+    public void OnFailure(Integer key, int errorCode) {
+
+    }
+
+    @Override
+    public void OnSuccess(Integer key, Bitmap bitmap) {
+        int position = key.intValue();
+        View holderView = getmLayoutManager().findViewByPosition(position);
+        if(holderView != null){
+            ImageView imageView = (ImageView)holderView.findViewById(R.id.ic_main_image);
+            imageView.setImageBitmap(bitmap);
+        }
+
+    }
+
+    @Override
+    public void OnStatus(Integer key, int statusCode) {
+        if(statusCode == CLEAR_BITMAP_SPACE){
+            int position = key.intValue();
+            View holderView = getmLayoutManager().findViewByPosition(position);
+            if(holderView != null){
+                ImageView imageView = (ImageView)holderView.findViewById(R.id.ic_main_image);
+                imageView.setImageBitmap(null);
+            }
+        }
+
     }
 
 }

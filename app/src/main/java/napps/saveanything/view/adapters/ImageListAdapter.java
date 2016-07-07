@@ -39,9 +39,9 @@ public class ImageListAdapter extends RecyclerCursorAdapter {
         this.deviceWidth = deviceWidth;
         this.mContext = context;
         this.viewMode = viewMode;
-        //bitmapManager = BitmapManager.getInstance();
-        //bitmapManager.initializeBM(context);
-        //bitmapManager.setBitmapsViewHolder(currentView);
+        bitmapManager = BitmapManager.getInstance();
+        bitmapManager.initializeBM(context);
+        bitmapManager.setBitmapsViewHolder(currentView);
 
     }
 
@@ -65,13 +65,12 @@ public class ImageListAdapter extends RecyclerCursorAdapter {
             String imageUri = cursor.getString(cursor.getColumnIndex(DatabaseContract.ImageBoard.COLUMN_NAME_SAVEDPATH));
             //imageCardHolder.mainImage.setImageURI(Uri.parse(imageUri));
             int boxSize = imageCardHolder.mainImage.getWidth();
-
+            imageCardHolder.mainImage.setImageDrawable(null);
 
             if(viewMode == ImageFragment.GRID_MODE){
-                //Glide.with(mContext).load(imageUri).override(deviceWidth/2, deviceWidth/2).into(imageCardHolder.mainImage);
+                Glide.with(mContext).load(imageUri).override(deviceWidth/2, deviceWidth/2).centerCrop().into(imageCardHolder.mainImage);
             } else {
-                //Glide.with(mContext).load(imageUri).override(deviceWidth, (9*deviceWidth)/16).into(imageCardHolder.mainImage);
-
+                Glide.with(mContext).load(imageUri).override(deviceWidth, (9*deviceWidth)/16).centerCrop().into(imageCardHolder.mainImage);
             }
             //Glide.with(mContext).load(imageUri).diskCacheStrategy(DiskCacheStrategy.ALL).fitCenter().placeholder(R.drawable.image_loading).into(imageCardHolder.mainImage);
             //Glide.with(mContext).load(imageUri).asBitmap().transform(new GlideBitmapTransformation(mContext, (deviceWidth/2), position, viewMode)).placeholder(R.drawable.image_loading).into(imageCardHolder.mainImage);

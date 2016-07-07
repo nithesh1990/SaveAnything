@@ -21,7 +21,7 @@
         <!--<item name="textColorPrimary">@color/colorTextPrimaryDT</item> -->
     </style>
 
-    <style name="AppTheme.Plain" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme.Plain" parent="Theme.AppCompat.Light">
         <item name="colorPrimary">@color/colorPrimaryPT</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDarkPT</item>
         <item name="colorAccent">@color/colorAccentPT</item>
@@ -29,6 +29,16 @@
         <!--<item name="textColorPrimary">@color/colorTextPrimaryPT</item> -->
 
     </style>
+
+    <style name="AppTheme.PurpleGreen" parent="Theme.AppCompat.Light">
+        <item name="colorPrimary">@color/colorPrimaryPT</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkPT</item>
+        <item name="colorAccent">@color/colorAccentPT</item>
+        <item name="customToolBarStyle">@style/ToolBarStyle.Plain</item>
+        <!--<item name="textColorPrimary">@color/colorTextPrimaryPT</item> -->
+
+    </style>
+
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -39,7 +49,7 @@
 
     <style name="ToolBarStyle"/>
 
-    <style name="ToolBarStyle.Light" parent="ThemeOverlay.AppCompat.Light">
+    <style name="ToolBarStyle.Light" parent="ThemeOverlay.AppCompat">
         <item name="android:textColorPrimary">@color/colorTextPrimaryLT</item>
     </style>
 

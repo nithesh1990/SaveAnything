@@ -35,7 +35,8 @@ public class SaveImageTask extends Task<Integer, Bitmap> {
     @Override
     public Bitmap execute() {
         ContentValues contentValues = new ContentValues();
-
+        //TODO check if there is any exception in creating the file
+        //sometimes it happens that storage is not mounted and there is an exception
         try{
             Uri uri = Uri.parse(mImageInfo.getOriginalPath());
             String saveFileName = Constants.PREFIX_IMAGE + String.valueOf(mImageInfo.getTimestamp())+Constants.IMAGE_FORMAT_PNG;

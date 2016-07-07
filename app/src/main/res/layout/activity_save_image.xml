@@ -10,14 +10,13 @@
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        app:popupTheme="?attr/customToolBarStyle">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/share_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="?attr/customToolBarStyle">
+            android:background="?attr/colorPrimary">
 
             <napps.saveanything.view.customviews.CustomTextView
                 android:layout_width="wrap_content"

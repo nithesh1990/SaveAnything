@@ -11,4 +11,13 @@
         <item name="android:colorPrimary">@color/material_grey_50</item>
         <item name="colorPrimary">@android:color/holo_green_light</item>
     </style>
+
+    <style name="AppTheme.Plain" parent="Theme.AppCompat.Light">
+        <item name="colorPrimary">@color/colorPrimaryPT</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkPT</item>
+        <item name="colorAccent">@color/colorAccentPT</item>
+        <item name="customToolBarStyle">@style/ToolBarStyle.Plain</item>
+        <!--<item name="textColorPrimary">@color/colorTextPrimaryPT</item> -->
+
+    </style>
 </resources>
