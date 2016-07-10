@@ -5,8 +5,10 @@
     <dimen name="standard_icon_height">36dp</dimen>
     <dimen name="standard_icon_width">36dp</dimen>
     <dimen name="standard_16dp">16dp</dimen>
+    <dimen name="standard_12dp">12dp</dimen>
     <dimen name="standard_8dp">8dp</dimen>
     <dimen name="standard_4dp">4dp</dimen>
+    <dimen name="standard_card_elevation">4dp</dimen>
 
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="nav_header_vertical_spacing">16dp</dimen>
@@ -20,6 +22,7 @@
 
     <!--Text Sizes -->
     <dimen name="nav_menu_item">18sp</dimen>
+    <dimen name="tab_text_size">16sp</dimen>
 
     <!--Clip Card Full Screen -->
     <dimen name="cc_margin">4dp</dimen>

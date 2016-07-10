@@ -11,11 +11,10 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/BasicTheme.OrangeTeal">
         <activity
-            android:name=".view.activities.BaseActivity"
-            android:label="@string/app_name"
-            android:theme="@style/BasicTheme.Dark">
+            android:name=".view.Activities.BaseActivity"
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,10 +29,9 @@
 
 
         <activity
-            android:name=".view.activities.SaveImageActivity"
+            android:name=".view.Activities.SaveImageActivity"
             android:label="@string/title_activity_save_image"
-            android:launchMode="standard"
-            android:theme="@style/SaveImageTheme">
+            android:launchMode="standard">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
 

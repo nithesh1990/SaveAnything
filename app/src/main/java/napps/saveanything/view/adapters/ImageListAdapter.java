@@ -2,10 +2,12 @@ package napps.saveanything.view.adapters;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -98,14 +100,25 @@ public class ImageListAdapter extends RecyclerCursorAdapter {
     public class ImageCardViewHolder extends RecyclerView.ViewHolder {
 
         public ImageView mainImage;
-        public TextView timeTextView;
-        public CustomTextView descTextView;
+        TextView timeTextView;
+        CustomTextView descTextView;
+        AppCompatImageView favoriteButton;
+        AppCompatImageView shareButton;
+        AppCompatImageView editButton;
 
         public ImageCardViewHolder(View itemView) {
             super(itemView);
             this.mainImage = (ImageView) itemView.findViewById(R.id.ic_main_image);
             this.timeTextView = (TextView) itemView.findViewById(R.id.ic_time_text);
             this.descTextView = (CustomTextView) itemView.findViewById(R.id.ic_desc_text);
+            //int iconColorFilter = getIconColorFilter(R.styleable.CustomIconColors_iconColorNormal);
+            this.favoriteButton = (AppCompatImageView) itemView.findViewById(R.id.ic_favorite_button);
+            //this.favoriteButton.setColorFilter(iconColorFilter);
+            this.shareButton = (AppCompatImageView) itemView.findViewById(R.id.ic_share_button);
+            //this.shareButton.setColorFilter(iconColorFilter);
+            this.editButton = (AppCompatImageView) itemView.findViewById(R.id.ic_edit_button);
+            //this.editButton.setColorFilter(iconColorFilter);
+
         }
     }
 

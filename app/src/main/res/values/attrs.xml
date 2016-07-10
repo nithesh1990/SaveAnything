@@ -44,6 +44,15 @@
 
     <attr name="cardTextColor2" format="color"/>
 
+    <declare-styleable name="CustomIconColors">
+        <attr name="colorTintIcNormal" format="color"/>
+
+        <attr name="colorTintIcHighlight" format="color"/>
+
+    </declare-styleable>
+
+    <attr name="iconStyle" format="reference"/>
+
     <attr name="cardTextSize" format="dimension"/>
 
     <attr name="cardTextSize2" format="dimension"/>
@@ -52,5 +61,20 @@
 
     <attr name="iconBackgroundDrawable" format="reference"/>
 
+    <declare-styleable name="colorAccentFallback">
+        <attr name="colorAccentFallbackLow" format="color"/>
+
+        <attr name="colorAccentFallbackMed" format="color"/>
+    </declare-styleable>
+
+    <declare-styleable name="colorPrimaryFallback">
+        <attr name="colorPrimaryFallbackLow" format="color"/>
+
+        <attr name="colorPrimaryFallbackMed" format="color"/>
+    </declare-styleable>
+
+    <attr name="tintHighlight" format="color"/>
+
     <attr name="customToolBarStyle" format="reference"/>
+
 </resources>

@@ -1,4 +1,4 @@
-package napps.saveanything.view.activities;
+package napps.saveanything.view.Activities;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -11,6 +11,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.TextInputEditText;
+import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatRadioButton;
 import android.support.v7.widget.Toolbar;
@@ -24,7 +25,6 @@ import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 
 import java.io.FileNotFoundException;
@@ -33,7 +33,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import napps.saveanything.Control.BackgroundWorker;
-import napps.saveanything.Control.BitmapManager;
 import napps.saveanything.Control.SaveImageTask;
 import napps.saveanything.Control.TaskManager;
 import napps.saveanything.Utilities.Constants;
@@ -42,6 +41,7 @@ import napps.saveanything.Database.DBContentProvider;
 import napps.saveanything.Database.DBHelper;
 import napps.saveanything.Model.ImageInfo;
 import napps.saveanything.R;
+import napps.saveanything.view.customviews.CustomImageView;
 import napps.saveanything.view.customviews.CustomTextView;
 
 /*
@@ -78,12 +78,12 @@ import napps.saveanything.view.customviews.CustomTextView;
 public class SaveImageActivity extends AppCompatActivity implements View.OnClickListener{
 
     private ImageView mMainImage;
-    private ProgressBar mProgressBar;
+    private ContentLoadingProgressBar mProgressBar;
     private CustomTextView mStatusTextview;
     private LinearLayout mOptionsLayout;
     private RadioGroup mRadioGroup;
     private ImageButton mCancelButton;
-    private ImageButton mDoneButton;
+    private CustomImageView mDoneButton;
     private ImageButton mShowHideOptions;
     private int selectSampleSize;
 
@@ -96,11 +96,11 @@ public class SaveImageActivity extends AppCompatActivity implements View.OnClick
         Toolbar toolbar = (Toolbar) findViewById(R.id.share_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        toolbar.setNavigationIcon(R.drawable.ic_close_white_36dp);
+        toolbar.setNavigationIcon(R.drawable.ic_clear_white_24dp_vector);
 
         mMainImage = (ImageView) findViewById(R.id.share_image);
 
-        mProgressBar = (ProgressBar) findViewById(R.id.share_progress_bar);
+        mProgressBar = (ContentLoadingProgressBar) findViewById(R.id.share_progress_bar);
         mStatusTextview = (CustomTextView) findViewById(R.id.share_progress_text);
         mRadioGroup = (RadioGroup) findViewById(R.id.selection_layout);
         mOptionsLayout = (LinearLayout) findViewById(R.id.options_layout);

@@ -1,7 +1,10 @@
 package napps.saveanything.view.customviews;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
+import android.graphics.PorterDuff;
+import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
@@ -10,7 +13,7 @@ import napps.saveanything.R;
 /**
  * Created by nithesh on 7/2/2016.
  */
-public class CustomImageView extends ImageView {
+public class CustomImageView extends AppCompatImageView {
 
     private final int DEFAULT_ASPECT_RATIO = 0;
     private final int ONETOONE_ASPECT_RATIO_FIXED_WIDTH = 10;
@@ -43,6 +46,13 @@ public class CustomImageView extends ImageView {
         aspectRatio = typedArray.getInt(R.styleable.CustomImageView_aspectratio, DEFAULT_ASPECT_RATIO);
 
     }
+
+    //This is for icon purpose only
+//    public void setIconSelected(){
+//        final TypedArray typedArray = getContext().obtainStyledAttributes()
+//        this.setColorFilter(, PorterDuff.Mode.SRC_IN);
+//    }
+//
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {

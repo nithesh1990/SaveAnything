@@ -1,6 +1,7 @@
-package napps.saveanything.view.activities;
+package napps.saveanything.view.Activities;
 
 import android.app.Application;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -20,9 +21,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import napps.saveanything.Control.SaveClipService;
+import napps.saveanything.Model.CustomGradientDrawable;
+import napps.saveanything.Utilities.ColorUtilities;
 import napps.saveanything.Utilities.Utils;
 import napps.saveanything.R;
-import napps.saveanything.view.Fragments.AllFragment;
 import napps.saveanything.view.Fragments.ClipsFragment;
 import napps.saveanything.view.Fragments.CustomFragment;
 import napps.saveanything.view.Fragments.ImageFragment;
@@ -64,7 +66,16 @@ public class BaseActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
+        GradientDrawable navigationBackgroundDrawable = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{});
+        CustomGradientDrawable.Builder gradientBuilder = new CustomGradientDrawable.Builder();
+        gradientBuilder.Orientation(GradientDrawable.Orientation.LEFT_RIGHT);
+        gradientBuilder.setStartColorAttribute(R.attr.colorPrimary);
+        gradientBuilder.setEndColorAttribute(R.attr.colorPrimaryFallbackMed);
+        gradientBuilder.type(GradientDrawable.RECTANGLE);
+        CustomGradientDrawable customGradientDrawable = gradientBuilder.build(this, gradientBuilder);
+
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setBackground(customGradientDrawable);
         navigationView.setNavigationItemSelectedListener(this);
 
         populatePages();

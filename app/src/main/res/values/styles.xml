@@ -30,7 +30,7 @@
 
     </style>
 
-    <style name="AppTheme.PurpleGreen" parent="Theme.AppCompat.Light">
+    <style name="AppTheme.PlainTheme" parent="Theme.AppCompat.Light">
         <item name="colorPrimary">@color/colorPrimaryPT</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDarkPT</item>
         <item name="colorAccent">@color/colorAccentPT</item>
@@ -55,10 +55,6 @@
 
     <style name="ToolBarStyle.Plain" parent="ThemeOverlay.AppCompat.Light">
         <item name="android:textColorPrimary">@color/colorTextPrimaryPT</item>
-    </style>
-
-    <style name="ToolBarStyle.Dark" parent="ThemeOverlay.AppCompat.Light">
-        <item name="android:textColorPrimary">@color/colorTextPrimaryDT</item>
     </style>
 
 </resources>

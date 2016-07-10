@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-
+    app:cardBackgroundColor="?attr/cardBackground"
+    app:cardElevation="@dimen/standard_card_elevation"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
 <!-- specifying the layout style as cardStyle means the custom attributes/normal attributes in this
     layout take the values defined in cardStyle attribute.
      The above method did not work. Actually cardStyle contains further custom attributes, and they
@@ -15,7 +17,6 @@
         android:id="@+id/text_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/cardBackground"
         android:layout_gravity="center">
 
         <RelativeLayout
@@ -24,7 +25,8 @@
             android:paddingTop="@dimen/standard_8dp"
             android:paddingRight="@dimen/standard_8dp"
             android:layout_height="wrap_content">
-            <ImageView
+
+            <napps.saveanything.view.customviews.CustomImageView
                 android:id="@+id/cc_source_icon"
                 android:layout_width="@dimen/cc_icon_width"
                 android:layout_height="@dimen/cc_icon_height"
@@ -38,7 +40,6 @@
                 android:ellipsize="end"
                 android:maxLines="3"
                 android:layout_centerVertical="true"
-                android:textColor="?attr/cardTextColor"
                 android:layout_toRightOf="@+id/cc_source_icon"
                 android:text="sdlfndlsgnlnvl kklfdkldsgsdgsgsf sfgfgfgggggg sgf"
                 app:fontinfo="roboto_regular"
@@ -59,41 +60,41 @@
                 android:textSize="@dimen/ic_time_text_size"
                 android:text="15 mins ago "
                 android:padding="@dimen/standard_8dp"
-                android:layout_centerVertical="true"
-                android:textColor="?attr/cardTextColor2" />
+                android:layout_centerVertical="true" />
 
-            <ImageButton
+            <napps.saveanything.view.customviews.CustomImageView
                 android:id="@+id/cc_more_button"
-                android:src="@drawable/ic_more_vert_24dp"
+                android:src="@drawable/ic_more_vert_grey_700_24dp_vector"
                 android:layout_width="wrap_content"
-                style="?attr/cardButtonStyle"
                 android:layout_height="wrap_content"
+                style="?attr/iconStyle"
                 android:layout_alignParentRight="true"
                 />
 
 
-            <ImageButton
+            <napps.saveanything.view.customviews.CustomImageView
                 android:id="@+id/cc_copy_button"
-                android:src="@drawable/ic_content_copy_24dp"
+                android:src="@drawable/ic_copy_grey_700_24dp_vector"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="?attr/cardButtonStyle"
+                style="?attr/iconStyle"
                 android:layout_toLeftOf="@id/cc_more_button"
                 />
 
-            <ImageButton
+            <napps.saveanything.view.customviews.CustomImageView
                 android:id="@+id/cc_favorite_button"
-                android:src="@drawable/ic_favorite_unchecked_24dp"
+                android:src="@drawable/ic_favorite_unchecked_grey_700_24dp_vector"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="?attr/cardButtonStyle"
+                style="?attr/iconStyle"
                 android:layout_toLeftOf="@id/cc_copy_button"
                 />
-            <ImageButton
+
+            <napps.saveanything.view.customviews.CustomImageView
                 android:id="@+id/cc_special_button"
                 android:layout_width="wrap_content"
-                style="?attr/cardButtonStyle"
                 android:visibility="gone"
+                style="?attr/iconStyle"
                 android:layout_height="wrap_content"
                 android:layout_toLeftOf="@+id/cc_favorite_button"
                 />

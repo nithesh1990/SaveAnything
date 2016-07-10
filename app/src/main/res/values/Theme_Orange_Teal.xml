@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primaryot">#FF9800</color>
+    <color name="primaryotfb100">#ffe0b2</color>
+    <color name="primaryotfb300">#ffb74d</color>
+    <color name="primary_dark_ot">#F57C00</color>
+    <color name="primary_light_ot">#FFE0B2</color>
+    <color name="accentot">#009688</color>
+    <color name="accentotfb100">#b2dfdb</color>
+    <color name="accentotfb300">#4db6ac</color>
+    <color name="primary_text_ot">#212121</color>
+    <color name="secondary_text_ot">#727272</color>
+    <color name="text_on_primary_ot">#ffffff</color>
+    <color name="iconTintNormalot">#616161</color>
+    <color name="dividerot">#B6B6B6</color>
+
+    <style name="BasicTheme.OrangeTeal" parent="AppTheme.OrangeTeal">
+        <item name="cardBackground">@color/primaryotfb100</item>
+        <item name="android:windowBackground">@color/primaryotfb300</item>
+        <item name="iconStyle">@style/iconStyle.OrangeTeal</item>
+
+        <!--<item name="android:actionButtonStyle">@sty</item>-->
+    </style>
+
+    <style name="AppTheme.OrangeTeal" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/primaryot</item>
+        <item name="colorPrimaryFallbackMed">@color/primaryotfb300</item>
+        <item name="colorPrimaryFallbackLow">@color/primaryotfb100</item>
+        <item name="colorAccentFallbackMed">@color/accentbgfb300</item>
+        <item name="colorAccentFallbackLow">@color/accentotfb100</item>
+        <item name="colorPrimaryDark">@color/primary_dark_ot</item>
+        <item name="colorAccent">@color/accentot</item>
+        <item name="customToolBarStyle">@style/ToolBarStyle.OrangeTeal</item>
+        <item name="tabIndicatorColor">@color/color_white</item>
+        <!--<item name="textColorPrimary">@color/colorTextPrimaryLT</item> -->
+    </style>
+
+    <style name="ToolBarStyle.OrangeTeal" parent="Widget.Design.TabLayout">
+        <item name="tabIndicatorColor">@color/color_white</item>
+        <item name="tabIndicatorHeight">@dimen/tab_indicator_height</item>
+        <item name="tabTextAppearance">@style/TabLayoutTextStyle</item>
+        <item name="tabBackground">@color/primaryot</item>
+    </style>
+
+    <style name="iconStyle.OrangeTeal" parent="iconStyle">
+        <item name="android:tint">@color/iconTintNormalot</item>
+        <item name="tintHighlight">@color/accentot</item>
+        <!-- For Future Use -->
+    </style>
+
+</resources>

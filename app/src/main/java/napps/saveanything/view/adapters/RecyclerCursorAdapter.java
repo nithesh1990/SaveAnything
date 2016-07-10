@@ -1,7 +1,9 @@
 package napps.saveanything.view.adapters;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -79,5 +81,7 @@ public abstract class RecyclerCursorAdapter<ViewHolder extends RecyclerView.View
 
         return timeText;
     }
+
+
 
 }

@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:background="@color/color_black"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="napps.saveanything.view.activities.SaveImageActivity"
+    tools:context="napps.saveanything.view.Activities.SaveImageActivity"
     tools:showIn="@layout/activity_save_image">
 
 
@@ -24,12 +24,11 @@
             android:layout_height="match_parent"
             android:layout_centerHorizontal="true"/>
 
-        <ProgressBar
+        <android.support.v4.widget.ContentLoadingProgressBar
             android:id="@+id/share_progress_bar"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_centerInParent="true"
-            android:indeterminateDrawable="@drawable/progress_drawable"/>
+            android:layout_centerInParent="true"/>
 
         <napps.saveanything.view.customviews.CustomTextView
             android:id="@+id/share_progress_text"
@@ -52,7 +51,7 @@
                 android:id="@+id/show_hide_options"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/color_action_bar_LT"
+                android:background="?attr/colorPrimary"
                 android:layout_gravity="center_horizontal"
                 android:src="@drawable/ic_keyboard_arrow_up_black_24dp" />
             <LinearLayout

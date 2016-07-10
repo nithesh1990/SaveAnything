@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primaryplain">#2196F3</color>
+    <color name="primaryplainfb100">#BBDEFB</color>
+    <color name="primaryplainfb300">#64B5F6</color>
+    <color name="primary_dark_plain">#1976D2</color>
+    <color name="primary_light_plain">#BBDEFB</color>
+    <color name="accentplain">#4CAF50</color>
+    <color name="accentplainfb100">#c8e6c9</color>
+    <color name="accentplainfb300">#81c784</color>
+    <color name="primary_text_plain">#212121</color>
+    <color name="secondary_text_plain">#727272</color>
+    <color name="iconsplain">#FFFFFF</color>
+    <color name="dividerplain">#B6B6B6</color>
+
+
+
+    <style name="iconStyle.Plain" parent="iconStyle">
+        <!-- For Future Use -->
+    </style>
+
+</resources>

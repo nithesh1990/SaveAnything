@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="primarydpp">#673AB7</color>
+    <color name="primarydppfb100">#d1c4e9</color>
+    <color name="primarydppfb300">#9575cd</color>
+    <color name="primary_dark_dpp">#512DA8</color>
+    <color name="primary_light_dpp">#D1C4E9</color>
+    <color name="accentdpp">#E91E63</color>
+    <color name="accentdppfb100">#f8bbd0</color>
+    <color name="accentdppfb300">#f06292</color>
+    <color name="primary_text_dpp">#212121</color>
+    <color name="secondary_text_dpp">#727272</color>
+    <color name="text_on_primary_dpp">#ffffff</color>
+    <color name="iconTintNormaldpp">#616161</color>
+    <color name="dividerdpp">#B6B6B6</color>
+
+    <style name="BasicTheme.DpurplePink" parent="AppTheme.DpurplePink">
+        <item name="cardBackground">@color/primarydppfb100</item>
+        <item name="android:windowBackground">@color/primarydppfb300</item>
+        <item name="iconStyle">@style/iconStyle.DpurplePink</item>
+
+        <!--<item name="android:actionButtonStyle">@sty</item>-->
+    </style>
+
+    <style name="AppTheme.DpurplePink" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/primarydpp</item>
+        <item name="colorPrimaryFallbackMed">@color/primarydppfb300</item>
+        <item name="colorPrimaryFallbackLow">@color/primarydppfb100</item>
+        <item name="colorAccentFallbackMed">@color/accentdppfb300</item>
+        <item name="colorAccentFallbackLow">@color/accentdppfb100</item>
+        <item name="colorPrimaryDark">@color/primary_dark_dpp</item>
+        <item name="colorAccent">@color/accentdpp</item>
+        <item name="customToolBarStyle">@style/ToolBarStyle.DpurplePink</item>
+        <item name="tabIndicatorColor">@color/color_white</item>
+        <!--<item name="textColorPrimary">@color/colorTextPrimaryLT</item> -->
+    </style>
+
+    <style name="ToolBarStyle.DpurplePink" parent="Widget.Design.TabLayout">
+        <item name="tabIndicatorColor">@color/color_white</item>
+        <item name="tabIndicatorHeight">@dimen/tab_indicator_height</item>
+        <item name="tabTextAppearance">@style/TabLayoutTextStyle</item>
+        <item name="tabBackground">@color/primarydpp</item>
+    </style>
+
+    <style name="iconStyle.DpurplePink" parent="iconStyle">
+        <item name="android:tint">@color/iconTintNormalri</item>
+        <item name="tintHighlight">@color/accentdpp</item>
+        <!-- For Future Use -->
+    </style>
+
+</resources>

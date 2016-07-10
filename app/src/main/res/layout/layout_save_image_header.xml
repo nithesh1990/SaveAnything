@@ -9,7 +9,7 @@
         android:id="@+id/action_cancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_cancel_white_48dp"
+        android:src="@drawable/ic_clear_white_24dp_vector"
         android:layout_weight="1"/>
 
     <napps.saveanything.view.customviews.CustomTextView
@@ -22,11 +22,11 @@
         android:layout_gravity="center_vertical"
         android:layout_weight="18"/>
 
-    <ImageButton
+    <napps.saveanything.view.customviews.CustomImageView
         android:id="@+id/action_done"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_done_white_48dp"
+        android:src="@drawable/ic_done_white_24dp_vector"
         android:layout_weight="1"
         />
 </LinearLayout>

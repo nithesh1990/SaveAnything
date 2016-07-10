@@ -33,26 +33,18 @@
         <item name="cardBackground">@color/color_card_background_LT</item>
         <item name="cardTextColor">@null</item>
         <item name="cardTextColor2">@color/colorPrimaryDarkLT</item>
-        <item name="cardButtonStyle">@style/iconBackgroundDrawable.Light</item>
+        <item name="cardButtonStyle">@style/iconStyle</item>
 
         <!--<item name="android:actionButtonStyle">@sty</item>-->
     </style>
 
 
-    <style name="BasicTheme.Dark" parent="AppTheme.Dark">
-
-        <item name="android:windowBackground">@null</item>
-        <item name="cardBackground">@color/color_card_background_DT</item>
-        <item name="cardTextColor">@color/colorTextPrimaryDT</item>
-        <item name="cardTextColor2">@color/colorPrimaryLT</item>
-        <item name="cardButtonStyle">@style/iconBackgroundDrawable.Dark</item>
-    </style>
 
     <style name="BasicTheme.Plain" parent="AppTheme.Plain">
         <item name="cardBackground">@color/color_card_background_PT</item>
         <item name="cardTextColor">@null</item>
         <item name="cardTextColor2">@color/colorPrimaryDarkPT</item>
-        <item name="cardButtonStyle">@style/iconBackgroundDrawable.Light</item>
+        <item name="cardButtonStyle">@style/iconStyle</item>
 
         <!--<item name="android:actionButtonStyle">@sty</item>-->
     </style>
@@ -62,20 +54,15 @@
         <item name="android:textSize">@dimen/nav_menu_item</item>
     </style>
 
-    <style name="iconBackgroundDrawable">
-        <item name="android:paddingLeft">@dimen/standard_16dp</item>
-        <item name="android:paddingRight">@dimen/standard_16dp</item>
-        <item name="android:paddingTop">@dimen/standard_8dp</item>
-        <item name="android:paddingBottom">@dimen/standard_8dp</item>
+    <style name="TabLayoutTextStyle">
+        <item name="android:textColor">@color/color_white</item>
+        <item name="android:textSize">@dimen/tab_text_size</item>
+    </style>
+    <style name="iconStyle">
+        <item name="android:paddingRight">@dimen/standard_12dp</item>
     </style>
 
-    <style name="iconBackgroundDrawable.Light" parent="iconBackgroundDrawable">
-        <item name="android:background">@color/color_card_background_LT</item>
-    </style>
 
-    <style name="iconBackgroundDrawable.Dark" parent="iconBackgroundDrawable">
-        <item name="android:background">@color/color_card_background_DT</item>
-    </style>
     <!-- All these items are given some default styles/values in parent. We want to override some based on
         specific items-->
     <!-- if we use @drawable/@anim it will point to our drawable or animations folder. If we need to use some of android's
