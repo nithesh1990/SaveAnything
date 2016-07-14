@@ -6,10 +6,15 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
@@ -23,7 +28,7 @@ import napps.saveanything.view.adapters.ClipListAdapter;
 /**
  * Created by nithesh on 5/6/2016.
  */
-public class ClipsFragment extends CustomFragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class ClipsFragment extends CustomFragment implements LoaderManager.LoaderCallbacks<Cursor>, SearchView.OnQueryTextListener {
 
     public ClipListAdapter mClipListAdapter;
     public Context mContext;
@@ -54,6 +59,7 @@ public class ClipsFragment extends CustomFragment implements LoaderManager.Loade
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Nullable
@@ -86,6 +92,16 @@ public class ClipsFragment extends CustomFragment implements LoaderManager.Loade
     @Override
     public void onPause() {
         super.onPause();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.clips_menu, menu);
+
+        final MenuItem searchMenu = (MenuItem) menu.findItem(R.id.clips_search);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchMenu);
+        searchView.setOnQueryTextListener(this);
     }
 
 
@@ -133,6 +149,16 @@ public class ClipsFragment extends CustomFragment implements LoaderManager.Loade
         //this is called when we reset the loader to requery before it finishes the existing query
 
 
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        return false;
     }
 }
 

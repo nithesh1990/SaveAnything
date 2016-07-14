@@ -11,6 +11,8 @@ import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
@@ -65,6 +67,8 @@ public class ImageFragment extends CustomFragment implements LoaderManager.Loade
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Usually activity has the right to populate options menu
+        setHasOptionsMenu(true);
     }
 
 
@@ -96,13 +100,18 @@ public class ImageFragment extends CustomFragment implements LoaderManager.Loade
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
+        //Usually activity has the right to populate the menu. We are telling that this fragment will participate in
+        //populating menu. This will create options menu and it's fine. Clips Fragment will also create menu options.
+        //The problem is since we are using fragment state pager adapter fragment will not be destroyed and
+        //oncreate options menu will not be called again and menu won't change.
+        setHasOptionsMenu(true);
         getLoaderManager().initLoader(DBQueryLoader.QUERY_ALL_IMAGES, null, this);
     }
 
     @Override
     public void onResume() {
         super.onResume();
+
     }
 
     @Override
@@ -123,6 +132,13 @@ public class ImageFragment extends CustomFragment implements LoaderManager.Loade
     public void onDestroy() {
         super.onDestroy();
         //TODO: Release all remaining resouces apart from OnDestroyView
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.images_menu, menu);
+
     }
 
     @Override

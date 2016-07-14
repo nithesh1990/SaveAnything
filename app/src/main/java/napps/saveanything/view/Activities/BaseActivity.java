@@ -2,6 +2,7 @@ package napps.saveanything.view.Activities;
 
 import android.app.Application;
 import android.graphics.drawable.GradientDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -37,7 +38,6 @@ public class BaseActivity extends AppCompatActivity
     private PageAdapter mPageAdapter;
     private TabLayout mTabLayout;
 
-    private int ALL_FRAGMENT_POSITION = 0;
     private int CLIPS_FRAGMENT_POSITION = 0;
     private int IMAGES_FRAGMENT_POSITION = 1;
 
@@ -75,7 +75,12 @@ public class BaseActivity extends AppCompatActivity
         CustomGradientDrawable customGradientDrawable = gradientBuilder.build(this, gradientBuilder);
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setBackground(customGradientDrawable);
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN){
+            navigationView.setBackgroundDrawable(customGradientDrawable);
+        } else{
+            navigationView.setBackground(customGradientDrawable);
+        }
+
         navigationView.setNavigationItemSelectedListener(this);
 
         populatePages();
@@ -99,13 +104,13 @@ public class BaseActivity extends AppCompatActivity
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.base, menu);
-        return true;
-    }
-
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        // Inflate the menu; this adds items to the action bar if it is present.
+//        getMenuInflater().inflate(R.menu.clips_menu, menu);
+//        return true;
+//    }
+//
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -143,7 +148,7 @@ public class BaseActivity extends AppCompatActivity
                 break;
 
             default:
-                mViewPager.setCurrentItem(ALL_FRAGMENT_POSITION);
+                mViewPager.setCurrentItem(CLIPS_FRAGMENT_POSITION);
                 break;
         }
 //        if (id == R.id.nav_camera) {

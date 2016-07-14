@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primarybw">#f5f5f5</color>
+    <color name="primarybwfb100">#fafafa</color>
+    <color name="primarybwfb300">#ffffff</color>
+    <color name="primary_dark_bw">#e0e0e0</color>>
+    <color name="accentbw">#000000</color>
+    <color name="accentbwfb100">#424242</color>
+    <color name="accentbwfb300">#303030</color>
+    <color name="primary_text_bw">#ffffff</color>
+    <color name="secondary_text_bw">#212121</color>
+    <color name="text_on_primary_bw">#000000</color>
+    <color name="iconTintNormalbw">#616161</color>
+    <color name="dividerbw">#B6B6B6</color>
+
+
+    <style name="BasicTheme.BlackWhite" parent="AppTheme.BlackWhite">
+        <item name="cardBackground">@color/color_white</item>
+        <item name="android:windowBackground">@color/primarybwfb100</item>
+        <item name="iconStyle">@style/iconStyle.BlackWhite</item>
+    </style>
+    <style name="AppTheme.BlackWhite" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/primarybw</item>
+        <item name="colorPrimaryFallbackMed">@color/primarybwfb300</item>
+        <item name="colorPrimaryFallbackLow">@color/primarybwfb100</item>
+        <item name="colorAccentFallbackMed">@color/accentbwfb300</item>
+        <item name="colorAccentFallbackLow">@color/accentbwfb100</item>
+        <item name="colorPrimaryDark">@color/primary_dark_bw</item>
+        <item name="colorAccent">@color/accentbw</item>
+        <item name="customToolBarStyle">@style/ToolBarStyle.BlackWhite</item>
+        <!--<item name="textColorPrimary">@color/colorTextPrimaryLT</item> -->
+    </style>
+
+    <style name="ToolBarStyle.BlackWhite" parent="Widget.Design.TabLayout">
+        <item name="tabIndicatorColor">@color/color_black</item>
+        <item name="tabIndicatorHeight">@dimen/tab_indicator_height</item>
+        <item name="tabTextAppearance">@style/TabLayoutTextStyle</item>
+        <item name="tabBackground">@color/primarybw</item>
+    </style>
+
+    <style name="TabLayoutTextStyle.BlackWhite" parent="TabLayoutTextStyle">
+        <item name="android:textColor">@color/color_black</item>
+    </style>
+
+    <style name="iconStyle.BlackWhite" parent="iconStyle">
+        <item name="android:tint">@color/iconTintNormalbw</item>
+        <item name="tintHighlight">@color/accentbw</item>
+    </style>
+</resources>
