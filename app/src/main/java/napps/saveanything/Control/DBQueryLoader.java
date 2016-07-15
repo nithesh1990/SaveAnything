@@ -82,7 +82,30 @@ public class DBQueryLoader extends AsyncTaskLoader<Cursor> {
     //                      and then applies string comparison to check exact matching value and returns its index (ofCourse index should be stored in filtered hashed list)
     //                      Here hash computing algorithm also plays an important role. It shouldn't take long time.
     //      which is mentioned in this post http://stackoverflow.com/questions/3183582/what-is-the-fastest-substring-search-algorithm
-    //4. (Current Best Solution)Using FTS with Indexing and Union
+    //4. (Current Best Solution)Using FTS with Indexing and Union - Only applicable for clips table
+    //      For fastest searching we have to index the contents table. The columns that are unique in our case is
+    //      Timestamp, Primary Key, and clipId.
+    //      We have an issue that a clip which has same contents can be copied again and again. Even though this happens our application should not allow duplicates.
+    //      To make sure this doesn't happen when we are going to save a clip we have to see if table already contains a clip with similar content. This can be easily
+    //      done using a simple sql query. But when the application is scaled to contain very large number of entries, and if the string is at the bottom block as in actual storage
+    //      it takes lot of time because it might require a full table scan and sometimes the query might fail and the app will be waiting to save the clip and meantime
+    //      some other clip might be copied and current clip object is replaced which becomes messy. So the plan is to generate unique hashes and store alongside contents to improve
+    //      scanning. But this also requires full table scan if the hash value is at the bottom. This is where Column indexing comes into picture.
+    //      Database Indexing - It is nothing but storing the values of columns along with memory references.
+    //                  Index is a separate data structure that is created and stored apart from actual database in the database storage
+    //                  So this will actually require a separate space. The main use of index is to make searching and sorting faster.
+    //                  In actual database data is stored in serial blocks which is nothing but linked list. But if we separate values and keep it in an ordered way
+    //                  we can search and store easily. So the indexed values are stored in a B-Tree data structure. For more information check this link
+    //                  http://www.programmerinterview.com/index.php/database-sql/what-is-an-index/
+    //                  There are also hash indexes available but sqlite doesn't support hash indexing.
+    //
+    //      Once we are done with indexing of hash values we can search and sort easily. Actually sql search first checks if the specified query column is indexed and if it is indexed
+    //      it will search in the indexed data structure which makes search faster.
+    //      Searching of clip contents can be optimized by using indexed hash values.
+    //
+    //      Now comes the need for hashing. Generally hashing performs 2 major functions, generate unique value and encryption.
+    //      Here we are not concerned with
+    //
     public static final int QUERY_CLIPS_BY_CONTENT = 11;
 
     public static final int QUERY_ALL_IMAGES = 20;

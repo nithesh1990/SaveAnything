@@ -20,6 +20,9 @@ import napps.saveanything.view.adapters.ImageListAdapter;
  */
 public class BitmapManager extends TaskManager<Integer, Bitmap> implements ResponseListener<Integer, Bitmap>{
 
+    /*
+
+     */
     private static final String CLASS_TAG = BitmapManager.class.getSimpleName();
 //  Let's keep this constant capacity as 15 where 10 is for actual storage and remaining 5 is for error handling
     // Let's say if the view at position 15 is queried the window might be in between
