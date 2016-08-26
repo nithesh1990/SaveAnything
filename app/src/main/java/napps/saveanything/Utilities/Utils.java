@@ -167,4 +167,22 @@ public class Utils {
     public static class OutofStorageError extends Exception {
 
     }
+
+    public static File getDatabaseStoragePath(){
+        String diskState = Environment.getExternalStorageState();
+        File folder = null;
+        if(diskState.equals(Environment.MEDIA_MOUNTED)) {
+            folder = new File(Environment.getExternalStorageDirectory(), Constants.STORAGE_MAIN_DIRECTORY);
+            if (!folder.exists()) {
+                folder.mkdir();
+            }
+            folder = new File(Environment.getExternalStorageDirectory(), Constants.STORAGE_DATABASE_DIRECTORY);
+            if (!folder.exists()) {
+                folder.mkdir();
+            }
+
+        }
+        return folder;
+
+    }
 }

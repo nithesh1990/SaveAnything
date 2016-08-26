@@ -68,7 +68,7 @@ public class ImageFragment extends CustomFragment implements LoaderManager.Loade
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //Usually activity has the right to populate options menu
-        setHasOptionsMenu(true);
+        setHasOptionsMenu(false);
     }
 
 

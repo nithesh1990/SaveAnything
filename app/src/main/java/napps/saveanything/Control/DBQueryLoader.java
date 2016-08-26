@@ -2,6 +2,7 @@ package napps.saveanything.Control;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.CursorLoader;
 
@@ -98,6 +99,12 @@ public class DBQueryLoader extends AsyncTaskLoader<Cursor> {
     //                  we can search and store easily. So the indexed values are stored in a B-Tree data structure. For more information check this link
     //                  http://www.programmerinterview.com/index.php/database-sql/what-is-an-index/
     //                  There are also hash indexes available but sqlite doesn't support hash indexing.
+    //      (2nd part in optimization)
+    //      It's found that indexing FTS tables is useless as they are already  indexed. FTS Tables create data duplicacy and consume lot of memory.
+    //      So we have decided to make a contentless table. What is this contentless table and where is it used specifically and how it is implemented ? See below
+    //      http://cocoamine.net/blog/2015/09/07/contentless-fts4-for-large-immutable-documents/
+    //      http://www.sqlite.org/fts3.html#section_6_2_2
+    //      So contentless table
     //
     //      Once we are done with indexing of hash values we can search and sort easily. Actually sql search first checks if the specified query column is indexed and if it is indexed
     //      it will search in the indexed data structure which makes search faster.
@@ -146,12 +153,13 @@ public class DBQueryLoader extends AsyncTaskLoader<Cursor> {
         Cursor cursor;
 
         DBHelper dbHelper = DBHelper.getInstance(mContext);
+        SQLiteDatabase sqLiteDatabase = dbHelper.getReadableDatabase();
         switch (mLoaderId){
             case QUERY_ALL_CLIPS:
-                cursor = DBContentProvider.getAllClipsforDisplay(dbHelper, mSortType);
+                cursor = DBContentProvider.getAllClipsforDisplay(sqLiteDatabase, mSortType);
                 break;
             case QUERY_ALL_IMAGES:
-                cursor = DBContentProvider.getAllImagesforDisplay(dbHelper, mSortType);
+                cursor = DBContentProvider.getAllImagesforDisplay(sqLiteDatabase, mSortType);
                 break;
             case QUERY_CLIPS_BY_CONTENT:
 

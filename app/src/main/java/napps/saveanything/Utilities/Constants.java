@@ -1,7 +1,13 @@
 package napps.saveanything.Utilities;
 
+import napps.saveanything.Database.DBHelper;
+
 /**
  * Created by nithesh on 5/6/2016.
+ */
+
+/*
+    Keep all values greater than 0 so that it makes easy to check values
  */
 public class Constants {
 
@@ -13,6 +19,8 @@ public class Constants {
     //The class no longer requires a <clinit> method, because the constants go into static field initializers in the dex file.
     //Code that refers to variable will use the value directly  and accesses to that variable will use a relatively inexpensive "constant" instruction instead of a field lookup.
     public static final String APPLICATION_TAG = "SaveAnything";
+
+    public static final String APP_PACKAGE_NAME = "napps.saveanything";
     //Fragments Title
     public static final String ALLFRAGMENT_TITLE = "ALL";
     public static final String IMAGEFRAGMENT_TITLE = "IMAGES";
@@ -83,6 +91,9 @@ public class Constants {
     public static final String STORAGE_MAIN_DIRECTORY = "/SaveAnything";
     public static final String STORAGE_CLIPS_DIRECTORY = "/SaveAnything/Clips";
     public static final String STORAGE_IMAGES_DIRECTORY = "/SaveAnything/Images";
+    public static final String STORAGE_DATABASE_DIRECTORY = "/SaveAnything/Database";
+
+    public static final String DATABASE_PATH = "/data/data/"+APP_PACKAGE_NAME+"/databases/"+ DBHelper.DATABASE_NAME;
 
     //From month it's not accurate
     public static final long MILLISECOND = 1;

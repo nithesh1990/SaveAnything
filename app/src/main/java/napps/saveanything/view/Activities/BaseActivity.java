@@ -4,6 +4,7 @@ import android.app.Application;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
@@ -18,12 +19,17 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.List;
 
 import napps.saveanything.Control.SaveClipService;
 import napps.saveanything.Model.CustomGradientDrawable;
 import napps.saveanything.Utilities.ColorUtilities;
+import napps.saveanything.Utilities.Constants;
 import napps.saveanything.Utilities.Utils;
 import napps.saveanything.R;
 import napps.saveanything.view.Fragments.ClipsFragment;
@@ -147,6 +153,9 @@ public class BaseActivity extends AppCompatActivity
                 mViewPager.setCurrentItem(IMAGES_FRAGMENT_POSITION);
                 break;
 
+            case R.id.nav_database:
+                saveDatabaseFile();
+                break;
             default:
                 mViewPager.setCurrentItem(CLIPS_FRAGMENT_POSITION);
                 break;
@@ -170,6 +179,25 @@ public class BaseActivity extends AppCompatActivity
         return true;
     }
 
+    public void saveDatabaseFile(){
+        String diskState = Environment.getExternalStorageState();
+        if(diskState.equals(Environment.MEDIA_MOUNTED)) {
+            File dbFile = new File(Constants.DATABASE_PATH);
+            if(dbFile.exists()){
+                try{
+                    File backUpDB = new File(Utils.getDatabaseStoragePath(), "backup.db");
+                    FileChannel src = new FileInputStream(dbFile).getChannel();
+                    FileChannel dst = new FileOutputStream(backUpDB).getChannel();
+                    dst.transferFrom(src, 0, src.size());
+                    src.close();
+                    dst.close();
+                }catch (Exception e){
+
+                }
+            }
+
+        }
+    }
     public void populatePages(){
         List<CustomFragment> fragmentList = new ArrayList<CustomFragment>();
         fragmentList.add(ClipsFragment.newInstance());

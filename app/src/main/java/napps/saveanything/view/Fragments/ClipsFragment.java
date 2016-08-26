@@ -59,7 +59,7 @@ public class ClipsFragment extends CustomFragment implements LoaderManager.Loade
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
+        setHasOptionsMenu(false);
     }
 
     @Nullable
@@ -98,7 +98,7 @@ public class ClipsFragment extends CustomFragment implements LoaderManager.Loade
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.clips_menu, menu);
-
+        //This searchview has some problem
         final MenuItem searchMenu = (MenuItem) menu.findItem(R.id.clips_search);
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchMenu);
         searchView.setOnQueryTextListener(this);

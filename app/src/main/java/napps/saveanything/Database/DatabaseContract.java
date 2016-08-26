@@ -11,14 +11,18 @@ public final class DatabaseContract {
     public DatabaseContract() {
     }
 
+    //The columns are not implementing BaseCol
     public static abstract class ClipBoard implements BaseColumns {
         public static final String TABLE_NAME = "clipData";
         public static final String COLUMN_NAME_CLIPID = "clipId";
         public static final String COLUMN_NAME_SOURCE_PACKAGE = "sourcepackage";
+        public static final String COLUMN_NAME_CLIPSTATUS = "clipStatus";
         public static final String COLUMN_NAME_CONTENTTYPE = "contentType";
         public static final String COLUMN_NAME_CONTENT = "content";
         public static final String COLUMN_NAME_TIMESTAMP = "timeStamp";
+        public static final String COLUMN_NAME_SECONDARY_CONTENT = "secondaryContent";
     }
+
 
     public static abstract class ImageBoard implements BaseColumns {
         public static final String TABLE_NAME = "imageData";
@@ -32,6 +36,7 @@ public final class DatabaseContract {
         public static final String COLUMN_NAME_TIMESTAMP = "timeStamp";
         public static final String COLUMN_NAME_IMAGESIZE = "imageSize";
     }
+
 
 
 }

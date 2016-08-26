@@ -413,7 +413,7 @@ public class SaveImageActivity extends AppCompatActivity implements View.OnClick
         saveImageInfo.setScaleFactor(mRadioGroup.getCheckedRadioButtonId());
 
         //save image to db
-        if(DBContentProvider.insertImage(DBHelper.getInstance(this), saveImageInfo)){
+        if(DBContentProvider.insertImage(DBHelper.getInstance(this).getWritableDatabase(), saveImageInfo)){
             //this says insert was succesful, start background task for saving image
 
             //here we should use getApplicationContext() because it stays for the lifetime

@@ -30,7 +30,8 @@ public class DBContentProvider {
     //creating a common static methods would solve the problem
     //We don't need to synchronize this method because dbHelper.getWritableDatabase()/dbHelper.getReadableDatabase() is already synchronized
     //synchronized inside synchronized reduces degrades performance
-    public static boolean insertClip(DBHelper dbHelper, ClipInfo clipInfo){
+    //THe method is changed to take sqLitedatabase instance as that would make more sense
+    public static boolean insertClip(SQLiteDatabase sqLiteDatabase, ClipInfo clipInfo){
         AppLogger.addLogMessage(AppLogger.DEBUG, CLASS_TAG, "insertClip","Called");
         if(clipInfo == null){
             return false;
@@ -42,17 +43,20 @@ public class DBContentProvider {
         if(clipInfo.getSourcePackage() != null && !clipInfo.getSourcePackage().isEmpty()){
             contentValues.put(DatabaseContract.ClipBoard.COLUMN_NAME_SOURCE_PACKAGE, clipInfo.getSourcePackage());
         }
+        if(clipInfo.getClipStatus() > 0){
+            contentValues.put(DatabaseContract.ClipBoard.COLUMN_NAME_CLIPSTATUS, clipInfo.getClipStatus());
+        }
         if(clipInfo.getContent() != null && !clipInfo.getContent().isEmpty()){
             contentValues.put(DatabaseContract.ClipBoard.COLUMN_NAME_CONTENT, clipInfo.getContent());
         }
-        if(clipInfo.getContentType() != 0 ){
+        if(clipInfo.getContentType() > 0 ){
             contentValues.put(DatabaseContract.ClipBoard.COLUMN_NAME_CONTENTTYPE, clipInfo.getContentType());
         }
-        if(clipInfo.getTimestamp() != 0 ){
+        if(clipInfo.getTimestamp() > 0 ){
             contentValues.put(DatabaseContract.ClipBoard.COLUMN_NAME_TIMESTAMP, clipInfo.getTimestamp());
         }
         if(contentValues.size() > 0){
-            return dbHelper.getWritableDatabase().insert(DatabaseContract.ClipBoard.TABLE_NAME, null, contentValues) > 0 ? true : false;
+            return sqLiteDatabase.insert(DatabaseContract.ClipBoard.TABLE_NAME, null, contentValues) > 0 ? true : false;
         } else {
             return false;
         }
@@ -66,7 +70,7 @@ public class DBContentProvider {
     //We don't need to synchronize this method because dbHelper.getWritableDatabase()/dbHelper.getReadableDatabase() is already synchronized
     //synchronized inside synchronized reduces degrades performance
 
-    public static boolean insertImage(DBHelper dbHelper, ImageInfo imageInfo){
+    public static boolean insertImage(SQLiteDatabase sqLiteDatabase, ImageInfo imageInfo){
         if(imageInfo == null){
             return false;
         }
@@ -106,7 +110,7 @@ public class DBContentProvider {
         }
 
         if(contentValues.size() > 0){
-            return dbHelper.getWritableDatabase().insert(DatabaseContract.ImageBoard.TABLE_NAME, null, contentValues) > 0 ? true : false;
+            return sqLiteDatabase.insert(DatabaseContract.ImageBoard.TABLE_NAME, null, contentValues) > 0 ? true : false;
         } else {
             return false;
         }
@@ -120,11 +124,9 @@ public class DBContentProvider {
     //Need to research more on using synchronized keyword because query() doesn't seem to be synchronized internally
 
 
-    public static synchronized Cursor getAllClipsforDisplay(DBHelper dbHelper, int sortType){
-        SQLiteDatabase sqLiteDatabase = dbHelper.getReadableDatabase();
+    public static synchronized Cursor getAllClipsforDisplay(SQLiteDatabase sqLiteDatabase, int sortType){
 
         String[] projection = {
-                DatabaseContract.ClipBoard._ID,
                 DatabaseContract.ClipBoard.COLUMN_NAME_CLIPID,
                 DatabaseContract.ClipBoard.COLUMN_NAME_SOURCE_PACKAGE,
                 DatabaseContract.ClipBoard.COLUMN_NAME_CONTENT,
@@ -155,8 +157,7 @@ public class DBContentProvider {
         return cursor;
     }
 
-    public static synchronized Cursor getAllImagesforDisplay(DBHelper dbHelper, int sortType){
-        SQLiteDatabase sqLiteDatabase = dbHelper.getReadableDatabase();
+    public static synchronized Cursor getAllImagesforDisplay(SQLiteDatabase sqLiteDatabase, int sortType){
 
         String[] projection = {
                 DatabaseContract.ImageBoard._ID,

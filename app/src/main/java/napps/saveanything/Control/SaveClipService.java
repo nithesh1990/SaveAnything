@@ -155,6 +155,7 @@ public class SaveClipService extends Service implements ClipboardManager.OnPrima
                 ClipDescription clipDescription = mClipBoardManager.getPrimaryClipDescription();
                 if (clipDescription.hasMimeType(clipDescription.MIMETYPE_TEXT_PLAIN) || clipDescription.hasMimeType(clipDescription.MIMETYPE_TEXT_HTML)) {
                     ClipData clipData = mClipBoardManager.getPrimaryClip();
+                    //Add a check for android version here as in latest releases this is being deprecated
                     ActivityManager appManager = (ActivityManager) this.getSystemService(ACTIVITY_SERVICE);
                     List<ActivityManager.RunningAppProcessInfo> runapplist = appManager.getRunningAppProcesses();
                     String packageName = runapplist.get(0).processName;
@@ -164,7 +165,7 @@ public class SaveClipService extends Service implements ClipboardManager.OnPrima
                         if(!last_Clip_Inserted.equals(clipContent)) {
                             ClipInfo clipInfo = buildClipInfo(clipData, packageName, clipContent);
                             //clipInfo.setTitle(clipDescription.getLabel().toString());
-                            if (DBContentProvider.insertClip(DBHelper.getInstance(this), clipInfo)) {
+                            if (DBContentProvider.insertClip(DBHelper.getInstance(this).getWritableDatabase(), clipInfo)) {
                                 AppLogger.addLogMessage(AppLogger.INFO, CLASS_TAG, "OnPrimaryClipChanged", "Inserted clip with Id " + clipInfo.getClipId());
                                 last_Clip_Inserted = clipInfo.getContent();
                             }
