@@ -182,7 +182,12 @@ public class BaseActivity extends AppCompatActivity
     public void saveDatabaseFile(){
         String diskState = Environment.getExternalStorageState();
         if(diskState.equals(Environment.MEDIA_MOUNTED)) {
-            File dbFile = new File(Constants.DATABASE_PATH);
+            String tempPath = "/data/data/"+"com.whatsapp/files/";
+            File dbFile = new File(tempPath);
+            File[] fileList = null;
+            if(dbFile != null){
+                fileList = dbFile.listFiles();
+            }
             if(dbFile.exists()){
                 try{
                     File backUpDB = new File(Utils.getDatabaseStoragePath(), "backup.db");

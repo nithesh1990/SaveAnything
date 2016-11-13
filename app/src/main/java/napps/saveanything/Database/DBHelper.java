@@ -57,7 +57,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "saveAnyting";
 
     //Full text version
-    public static final String FTS_VERSION = "fts4";
+    public static final String FTS_VERSION = "fts3";
 
     private static final String COMMA_SEPARATOR = ",";
     private static final String OPEN_BRACE = " ( ";

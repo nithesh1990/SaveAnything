@@ -82,7 +82,7 @@ public class ImageFragment extends CustomFragment implements LoaderManager.Loade
         mImageRecyclerView.setVisibility(View.GONE);
         mNoImagesTextView.setVisibility(View.GONE);
         mImageProgressLayout.setVisibility(View.VISIBLE);
-        viewMode = LIST_MODE;
+        viewMode = GRID_MODE;
         return view;
     }
 
