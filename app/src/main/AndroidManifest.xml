@@ -7,11 +7,12 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
+        android:name=".Control.BaseApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/BasicTheme.OrangeTeal">
+        android:theme="@style/BasicTheme.BlueGreen">
         <activity
             android:name=".view.Activities.BaseActivity"
             android:label="@string/app_name">
