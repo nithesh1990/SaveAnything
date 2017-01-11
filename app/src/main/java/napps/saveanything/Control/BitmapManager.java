@@ -87,7 +87,7 @@ public class BitmapManager extends TaskManager<Integer, Bitmap> implements Respo
                 imageView.setImageBitmap(cachedBitMap);
             }
         } else {
-            imageView.setImageResource(R.drawable.image_loading);
+            imageView.setImageResource(R.drawable.background_image_loading);
             int storagepref;
             if(position > bottomPos){
                 bottomPos = position;

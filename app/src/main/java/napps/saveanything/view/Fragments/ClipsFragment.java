@@ -20,7 +20,10 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import napps.saveanything.Control.DBQueryLoader;
+import io.realm.RealmResults;
+import napps.saveanything.Control.RealmQueryLoader;
+import napps.saveanything.Database.RealmContentProvider;
+import napps.saveanything.Model.Clip;
 import napps.saveanything.Utilities.Constants;
 import napps.saveanything.R;
 import napps.saveanything.view.adapters.ClipListAdapter;
@@ -28,13 +31,14 @@ import napps.saveanything.view.adapters.ClipListAdapter;
 /**
  * Created by nithesh on 5/6/2016.
  */
-public class ClipsFragment extends CustomFragment implements LoaderManager.LoaderCallbacks<Cursor>, SearchView.OnQueryTextListener {
+public class ClipsFragment extends CustomFragment implements LoaderManager.LoaderCallbacks<RealmResults<Clip>>{
 
     public ClipListAdapter mClipListAdapter;
     public Context mContext;
     RecyclerView mClipsRecyclerView;
     RelativeLayout mClipsProgressLayout;
     TextView mNoClipssTextView;
+    RealmResults<Clip> clipsList;
 
     //static factory design pattern
     public static ClipsFragment newInstance(/*we can pass the parameters that need to be set in fragment*/){
@@ -71,16 +75,28 @@ public class ClipsFragment extends CustomFragment implements LoaderManager.Loade
         mNoClipssTextView = (TextView)view.findViewById(R.id.no_clips_text);
         mClipsRecyclerView.setVisibility(View.GONE);
         mNoClipssTextView.setVisibility(View.GONE);
-        mClipsProgressLayout.setVisibility(View.VISIBLE);
-        //TODO
+        mClipsRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+
         //show progress bar
+        mClipsProgressLayout.setVisibility(View.VISIBLE);
+
         return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        getLoaderManager().initLoader(DBQueryLoader.QUERY_ALL_CLIPS, null, this);
+        //getLoaderManager().initLoader(RealmQueryLoader.QUERY_ALL_CLIPS, null, this);
+        clipsList = RealmContentProvider.getAllClipsForDisplay(Constants.SORT_DEFAULT);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mClipListAdapter = new ClipListAdapter(mContext, R.layout.clip_card, clipsList);
+        mClipsProgressLayout.setVisibility(View.GONE);
+        mClipsRecyclerView.setVisibility(View.VISIBLE);
+        mClipsRecyclerView.setAdapter(mClipListAdapter);
     }
 
 
@@ -101,7 +117,6 @@ public class ClipsFragment extends CustomFragment implements LoaderManager.Loade
         //This searchview has some problem
         final MenuItem searchMenu = (MenuItem) menu.findItem(R.id.clips_search);
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchMenu);
-        searchView.setOnQueryTextListener(this);
     }
 
 
@@ -116,20 +131,20 @@ public class ClipsFragment extends CustomFragment implements LoaderManager.Loade
     }
 
     @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return new DBQueryLoader(mContext, DBQueryLoader.QUERY_ALL_CLIPS, Constants.SORT_DEFAULT);
+    public Loader<RealmResults<Clip>> onCreateLoader(int id, Bundle args) {
+        return new RealmQueryLoader(mContext, RealmQueryLoader.QUERY_ALL_CLIPS, Constants.SORT_DEFAULT);
     }
 
     @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        DBQueryLoader queryLoader = (DBQueryLoader) loader;
+    public void onLoadFinished(Loader<RealmResults<Clip>> loader, RealmResults<Clip> data) {
+        RealmQueryLoader queryLoader = (RealmQueryLoader) loader;
         mClipsProgressLayout.setVisibility(View.GONE);
         mClipsRecyclerView.setVisibility(View.VISIBLE);
 
-        if(queryLoader.mLoaderId != DBQueryLoader.QUERY_ALL_CLIPS){
+        if(queryLoader.mLoaderId != RealmQueryLoader.QUERY_ALL_CLIPS){
             //TODO
             // show error page or return
-        } else if(data != null && data.getCount() > 0){
+        } else if(data != null && data.size() > 0){
 
             mClipListAdapter = new ClipListAdapter(mContext, R.layout.clip_card, data);
             mClipsRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
@@ -145,21 +160,12 @@ public class ClipsFragment extends CustomFragment implements LoaderManager.Loade
     }
 
     @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
+    public void onLoaderReset(Loader<RealmResults<Clip>> loader) {
         //this is called when we reset the loader to requery before it finishes the existing query
 
 
     }
 
-    @Override
-    public boolean onQueryTextSubmit(String query) {
-        return false;
-    }
-
-    @Override
-    public boolean onQueryTextChange(String newText) {
-        return false;
-    }
 }
 
 

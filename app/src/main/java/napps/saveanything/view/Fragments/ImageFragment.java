@@ -19,7 +19,10 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import napps.saveanything.Control.DBQueryLoader;
+import io.realm.RealmResults;
+import napps.saveanything.Control.RealmQueryLoader;
+import napps.saveanything.Database.RealmContentProvider;
+import napps.saveanything.Model.Image;
 import napps.saveanything.Utilities.Constants;
 import napps.saveanything.R;
 import napps.saveanything.view.adapters.ImageCursorAdapter;
@@ -28,7 +31,7 @@ import napps.saveanything.view.adapters.ImageListAdapter;
 /**
  * Created by nithesh on 5/6/2016.
  */
-public class ImageFragment extends CustomFragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class ImageFragment extends CustomFragment implements LoaderManager.LoaderCallbacks<RealmResults<Image>> {
 
     public static final int LIST_MODE = 11;
     public static final int GRID_MODE = 12;
@@ -40,6 +43,7 @@ public class ImageFragment extends CustomFragment implements LoaderManager.Loade
     RecyclerView mImageRecyclerView;
     RelativeLayout mImageProgressLayout;
     TextView mNoImagesTextView;
+    RealmResults<Image> imagesList;
 
     ListView imagesListView;
 
@@ -82,7 +86,7 @@ public class ImageFragment extends CustomFragment implements LoaderManager.Loade
         mImageRecyclerView.setVisibility(View.GONE);
         mNoImagesTextView.setVisibility(View.GONE);
         mImageProgressLayout.setVisibility(View.VISIBLE);
-        viewMode = LIST_MODE;
+        viewMode = GRID_MODE;
         return view;
     }
 
@@ -105,7 +109,37 @@ public class ImageFragment extends CustomFragment implements LoaderManager.Loade
         //The problem is since we are using fragment state pager adapter fragment will not be destroyed and
         //oncreate options menu will not be called again and menu won't change.
         setHasOptionsMenu(true);
-        getLoaderManager().initLoader(DBQueryLoader.QUERY_ALL_IMAGES, null, this);
+        //getLoaderManager().initLoader(RealmQueryLoader.QUERY_ALL_IMAGES, null, this);
+        imagesList = RealmContentProvider.getAllImagesForDisplay(Constants.SORT_DEFAULT);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        int gridSize = 1;
+        //if(mImageListAdapter == null){
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int deviceWidth = displayMetrics.widthPixels;
+        int deviceHeight = displayMetrics.heightPixels;
+
+        if(viewMode == GRID_MODE){
+
+            mImageListAdapter = new ImageListAdapter(mContext, mImageRecyclerView, R.layout.image_card_grid_view, imagesList, deviceWidth/2, deviceWidth/2, viewMode);
+            gridSize = 2;
+        } else {
+
+            mImageListAdapter = new ImageListAdapter(mContext, mImageRecyclerView, R.layout.image_card_list_view, imagesList, deviceWidth, (9*deviceWidth)/16, viewMode);
+            gridSize = 1;
+        }
+        //}
+        GridLayoutManager gridManager = new GridLayoutManager(mContext, gridSize);
+        mImageRecyclerView.setLayoutManager(gridManager);
+        mImageListAdapter.setGridLayoutManager(gridManager);
+        mImageProgressLayout.setVisibility(View.GONE);
+        mImageRecyclerView.setVisibility(View.VISIBLE);
+        mImageRecyclerView.setAdapter(mImageListAdapter);
+
     }
 
     @Override
@@ -151,21 +185,21 @@ public class ImageFragment extends CustomFragment implements LoaderManager.Loade
     }
 
     @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return new DBQueryLoader(mContext, DBQueryLoader.QUERY_ALL_IMAGES, Constants.SORT_DEFAULT);
+    public Loader<RealmResults<Image>> onCreateLoader(int id, Bundle args) {
+        return new RealmQueryLoader(mContext, RealmQueryLoader.QUERY_ALL_IMAGES, Constants.SORT_DEFAULT);
     }
 
     @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+    public void onLoadFinished(Loader<RealmResults<Image>> loader, RealmResults<Image> data) {
 
-        DBQueryLoader queryLoader = (DBQueryLoader) loader;
+        RealmQueryLoader queryLoader = (RealmQueryLoader) loader;
         mImageProgressLayout.setVisibility(View.GONE);
         mImageRecyclerView.setVisibility(View.VISIBLE);
 
-        if(queryLoader.mLoaderId != DBQueryLoader.QUERY_ALL_IMAGES){
+        if(queryLoader.mLoaderId != RealmQueryLoader.QUERY_ALL_IMAGES){
             //TODO
             // show error page or return
-        } else if(data.getCount() == 0){
+        } else if(data.size() == 0){
             //TODO
             //show empty page
         } else {
@@ -173,7 +207,7 @@ public class ImageFragment extends CustomFragment implements LoaderManager.Loade
 
 
         }
-        //DBQueryLoader makes sure the query is refreshed everytime on state change screenoff/on
+        //RealmQueryLoader makes sure the query is refreshed everytime on state change screenoff/on
         //Everytime this is called after query is finished. Here we have to handle the following cases
         //1. Is it first time loading the list (mImageListAdapter will be null)
         //2. Screen On/Off (mImageListAdapter will not be null so no need to assign new adapter
@@ -215,7 +249,7 @@ public class ImageFragment extends CustomFragment implements LoaderManager.Loade
     }
 
     @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
+    public void onLoaderReset(Loader<RealmResults<Image>> loader) {
 
     }
 

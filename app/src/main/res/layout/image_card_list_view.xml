@@ -17,7 +17,7 @@
      <napps.saveanything.view.customviews.CustomImageView
          android:id="@+id/ic_main_image"
          android:layout_width="match_parent"
-         android:src="@drawable/image_loading"
+         android:src="@drawable/background_image_loading"
          app:aspectratio="fixedWidth16to9"
          android:scaleType="centerCrop"
          android:layout_height="wrap_content"

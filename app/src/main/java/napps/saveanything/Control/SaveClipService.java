@@ -17,6 +17,10 @@ import android.util.Log;
 
 import java.util.List;
 
+import io.realm.RealmConfiguration;
+import napps.saveanything.Database.RealmContentProvider;
+import napps.saveanything.Model.Builder;
+import napps.saveanything.Model.Clip;
 import napps.saveanything.Utilities.AppLogger;
 import napps.saveanything.Utilities.Constants;
 import napps.saveanything.Utilities.Utils;
@@ -163,12 +167,13 @@ public class SaveClipService extends Service implements ClipboardManager.OnPrima
                         String clipContent = clipData.getItemAt(0).getText().toString();
                         //check if the clip is not same as last clip
                         if(!last_Clip_Inserted.equals(clipContent)) {
-                            ClipInfo clipInfo = buildClipInfo(clipData, packageName, clipContent);
+                            Builder.ClipBuilder clipBuilder = buildClip(packageName, clipContent);
                             //clipInfo.setTitle(clipDescription.getLabel().toString());
-                            if (DBContentProvider.insertClip(DBHelper.getInstance(this).getWritableDatabase(), clipInfo)) {
-                                AppLogger.addLogMessage(AppLogger.INFO, CLASS_TAG, "OnPrimaryClipChanged", "Inserted clip with Id " + clipInfo.getClipId());
-                                last_Clip_Inserted = clipInfo.getContent();
-                            }
+                            RealmContentProvider.insertClip(clipBuilder);
+                            //if (DBContentProvider.insertClip(DBHelper.getInstance(this).getWritableDatabase(), clipInfo)) {
+                                AppLogger.addLogMessage(AppLogger.INFO, CLASS_TAG, "OnPrimaryClipChanged", "Inserted clip with Id " + clipBuilder.clipId);
+                                last_Clip_Inserted = clipContent;
+                            //}
                         }
                     }
                 }
@@ -178,9 +183,9 @@ public class SaveClipService extends Service implements ClipboardManager.OnPrima
         }
     }
 
-
+/*Old Implementation
     private ClipInfo buildClipInfo(ClipData clipData, String packageName, String content){
-        ClipInfo.Builder clipBuilder = new ClipInfo.Builder();
+        ClipInfo.ClipBuilder clipBuilder = new ClipInfo.ClipBuilder();
         clipBuilder.ClipId(Utils.getUniqueId(this, Constants.PREFIX_CLIP));
         clipBuilder.Content(content);
         clipBuilder.ClipStatus(Constants.STATUS_CLIP_SAVED);
@@ -194,5 +199,24 @@ public class SaveClipService extends Service implements ClipboardManager.OnPrima
         return clipBuilder.build();
     }
 
+*/
 
+    private Builder.ClipBuilder buildClip(String packageName, String content){
+        long idOrTimeStamp = System.currentTimeMillis();
+
+        /* We can't stop builder in between to check and add content Type So we are using ternary operator
+        if(Utils.isNetworkUrl(content)){
+            contentType = Constants.CLIP_HTTP_LINK;
+        } else {
+            contentType = Constants.CLIP_PLAIN_TEXT;
+        }*/
+        Builder.ClipBuilder clipBuilder = new Builder.ClipBuilder(idOrTimeStamp);
+        return clipBuilder.ClipId(Utils.getUniqueId(this, Constants.PREFIX_CLIP, idOrTimeStamp))
+                    .Content(content)
+                    .ClipStatus(Constants.STATUS_CLIP_SAVED)
+                    .SourcePackage(packageName)
+                    .ContentType(Utils.isNetworkUrl(content) ? Constants.CLIP_HTTP_LINK : Constants.CLIP_PLAIN_TEXT)
+                    .Timestamp(idOrTimeStamp);
+
+    }
 }

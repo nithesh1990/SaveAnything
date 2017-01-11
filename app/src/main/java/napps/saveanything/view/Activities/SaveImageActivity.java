@@ -35,6 +35,8 @@ import java.util.Map;
 import napps.saveanything.Control.BackgroundWorker;
 import napps.saveanything.Control.SaveImageTask;
 import napps.saveanything.Control.TaskManager;
+import napps.saveanything.Database.RealmContentProvider;
+import napps.saveanything.Model.Builder;
 import napps.saveanything.Utilities.Constants;
 import napps.saveanything.Utilities.Utils;
 import napps.saveanything.Database.DBContentProvider;
@@ -381,7 +383,7 @@ public class SaveImageActivity extends AppCompatActivity implements View.OnClick
         mOptionsLayout.setAnimation(slideUpAnimation);
         mShowHideOptions.setAnimation(slideUpAnimation);
         mOptionsLayout.setVisibility(View.VISIBLE);
-        mShowHideOptions.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
+        mShowHideOptions.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp_vector);
     }
 
     private void closeSaveOptionsMenu(){
@@ -390,72 +392,72 @@ public class SaveImageActivity extends AppCompatActivity implements View.OnClick
         mOptionsLayout.setAnimation(slideDownAnimation);
         mShowHideOptions.setAnimation(slideDownAnimation);
         mOptionsLayout.setVisibility(View.GONE);
-        mShowHideOptions.setImageResource(R.drawable.ic_keyboard_arrow_up_black_24dp);
+        mShowHideOptions.setImageResource(R.drawable.ic_keyboard_arrow_up_black_24dp_vector);
 
     }
 
 
     private void saveImage(){
         ImageInfo saveImageInfo = new ImageInfo();
-        saveImageInfo.setImageId(Utils.getUniqueId(this, Constants.PREFIX_IMAGE));
-        saveImageInfo.setOriginalPath(currentImage.getImageUri().toString());
-        saveImageInfo.setStatus(Constants.STATUS_IMAGE_ADDED);
-        saveImageInfo.setTimestamp(System.currentTimeMillis());
+        /*This is java native method which might involve lot of overhead. Make sure you call it ver less times*/
+        long idorTimeStamp = System.currentTimeMillis();
+        Builder.ImageBuilder imageBuilder = new Builder.ImageBuilder(idorTimeStamp);
+        imageBuilder.imageId(Utils.getUniqueId(this, Constants.PREFIX_IMAGE, idorTimeStamp));
+        imageBuilder.originalPath(currentImage.getImageUri().toString());
+        imageBuilder.status(Constants.STATUS_IMAGE_ADDED);
+        imageBuilder.timeStamp(idorTimeStamp);
         // Good approach
         // Get edit text reference only when it's required
         TextInputEditText editDesc = (TextInputEditText) findViewById(R.id.editDesc);
-        saveImageInfo.setDesc(editDesc.getText().toString());
-        saveImageInfo.setScaleStatus(currentImage.getScaleStatus());
-        saveImageInfo.setSourceHeight(currentImage.getHeight());
-        saveImageInfo.setSourceWidth(currentImage.getWidth());
+        imageBuilder.desc(editDesc.getText().toString());
+        imageBuilder.scaleStatus(currentImage.getScaleStatus());
+        imageBuilder.sourceHeight(currentImage.getHeight());
+        imageBuilder.sourceWidth(currentImage.getWidth());
 
         // set the current selected sample
-        saveImageInfo.setScaleFactor(mRadioGroup.getCheckedRadioButtonId());
+        imageBuilder.scaleFactor(mRadioGroup.getCheckedRadioButtonId());
 
         //save image to db
-        if(DBContentProvider.insertImage(DBHelper.getInstance(this).getWritableDatabase(), saveImageInfo)){
+        //DBContentProvider.insertImage(DBHelper.getInstance(this).getWritableDatabase(), saveImageInfo);
+        RealmContentProvider.insertImage(imageBuilder);
             //this says insert was succesful, start background task for saving image
 
             //here we should use getApplicationContext() because it stays for the lifetime
             //if we use this/getActivity() it might be destroyed as soon as the activity is removed which will cause
             //exception when the background tries to access the context
             //Always use getApplicationCOntext() when the task should be run irrespective of current activity
-            SaveImageTask saveImageTask = new SaveImageTask(saveImageInfo, getApplicationContext());
-            TaskManager taskManager = new TaskManager() {
-                @Override
-                public void postResult(long taskId, Object value) {
+        SaveImageTask saveImageTask = new SaveImageTask(imageBuilder, getApplicationContext());
+        TaskManager taskManager = new TaskManager() {
+            @Override
+            public void postResult(long taskId, Object value) {
 
-                }
+            }
 
-                @Override
-                public void onTaskAdded(Object task) {
+            @Override
+            public void onTaskAdded(Object task) {
 
-                }
+            }
 
-                @Override
-                public void onTaskRemoved(Object task) {
+            @Override
+            public void onTaskRemoved(Object task) {
 
-                }
+            }
 
-                @Override
-                public void onTaskFailed(Object task) {
+            @Override
+            public void onTaskFailed(Object task) {
 
-                }
+            }
 
-                @Override
-                public void onTaskCompleted(Object task) {
+            @Override
+            public void onTaskCompleted(Object task) {
 
-                }
-            };
-            taskManager.initialize(this, 10);
-            saveImageTask.setTaskManager(taskManager);
-            BackgroundWorker.getInstance().addTasktoExecuteandgetFuture(saveImageTask);
-            finish();
+            }
+        };
+        taskManager.initialize(this, 10);
+        saveImageTask.setTaskManager(taskManager);
+        BackgroundWorker.getInstance().addTasktoExecuteandgetFuture(saveImageTask);
+        finish();
 
-        } else {
-            //Maybe error dialogue would do
-            //show error message or workaround for failure
-        }
 
     }
     private CompoundButton.OnCheckedChangeListener radioChangeListener = new CompoundButton.OnCheckedChangeListener() {

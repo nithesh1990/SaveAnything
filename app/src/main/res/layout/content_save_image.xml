@@ -53,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:background="?attr/colorPrimary"
                 android:layout_gravity="center_horizontal"
-                android:src="@drawable/ic_keyboard_arrow_up_black_24dp" />
+                android:src="@drawable/ic_keyboard_arrow_up_black_24dp_vector" />
             <LinearLayout
                 android:id="@+id/options_layout"
                 android:layout_width="match_parent"

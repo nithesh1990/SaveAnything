@@ -72,6 +72,7 @@ public class Constants {
 
     //extension types
     public static final String IMAGE_FORMAT_PNG = ".png";
+
     //image source
     public static final String SCHEME_CONTENT = "content";
     public static final String SCHEME_FILE = "file";

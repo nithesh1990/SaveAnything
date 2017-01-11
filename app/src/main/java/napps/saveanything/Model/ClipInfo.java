@@ -4,7 +4,7 @@ package napps.saveanything.Model;
  * Created by nithesh on 5/12/2016.
  */
 /*
-    Builder Pattern along with getter methods
+    ClipBuilder Pattern along with getter methods
     Dependency Injection :
         Using getters and setters comes under Dependency Injection Design Pattern
         Dependency injection is basically providing the objects that an object needs (its dependencies) instead of having it construct them itself.

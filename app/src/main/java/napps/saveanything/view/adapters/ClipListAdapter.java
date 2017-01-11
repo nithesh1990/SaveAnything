@@ -2,40 +2,41 @@ package napps.saveanything.view.adapters;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.content.res.TypedArray;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import io.realm.RealmResults;
 import napps.saveanything.Database.DatabaseContract;
+import napps.saveanything.Model.Clip;
 import napps.saveanything.R;
 import napps.saveanything.view.customviews.CustomImageView;
 
 /**
  * Created by nithesh on 5/12/2016.
  */
-public class ClipListAdapter extends RecyclerCursorAdapter {
+public class ClipListAdapter extends RecyclerRealmAdapter<ClipListAdapter.ClipCardViewHolder, Clip> {
 
      private Context mContext;
-     public ClipListAdapter(Context context, int layout, Cursor cursor) {
-        super(context, layout, cursor);
+     public ClipListAdapter(Context context, int layout, RealmResults<Clip> realmResults) {
+        super(context, layout, realmResults);
          mContext = context;
     }
 
     @Override
-    public void bindView(RecyclerView.ViewHolder holder, Cursor cursor, int position) {
+    public void bindView(ClipCardViewHolder holder, Clip clip, int position) {
         ClipCardViewHolder clipHolder = (ClipCardViewHolder) holder;
-        clipHolder.mainTextView.setText(cursor.getString(cursor.getColumnIndex(DatabaseContract.ClipBoard.COLUMN_NAME_CONTENT)));
-
-        String timeText = getTimeText(cursor.getLong(cursor.getColumnIndex(DatabaseContract.ClipBoard.COLUMN_NAME_TIMESTAMP)));
+        //clipHolder.mainTextView.setText(cursor.getString(cursor.getColumnIndex(DatabaseContract.ClipBoard.COLUMN_NAME_CONTENT)));
+        clipHolder.mainTextView.setText(clip.getContent());
+        //String timeText = getTimeText(cursor.getLong(cursor.getColumnIndex(DatabaseContract.ClipBoard.COLUMN_NAME_TIMESTAMP)));
+        String timeText = getTimeText(clip.getTimeStamp());
         clipHolder.timeTextView.setText(timeText);
-        String sourcePackage = cursor.getString(cursor.getColumnIndex(DatabaseContract.ClipBoard.COLUMN_NAME_SOURCE_PACKAGE));
+        //String sourcePackage = cursor.getString(cursor.getColumnIndex(DatabaseContract.ClipBoard.COLUMN_NAME_SOURCE_PACKAGE));
+        String sourcePackage = clip.getSourcePackage();
         try{
             Drawable iconDrawable = mContext.getPackageManager().getApplicationIcon(sourcePackage);
             clipHolder.sourceImageView.setImageDrawable(iconDrawable);
@@ -49,13 +50,13 @@ public class ClipListAdapter extends RecyclerCursorAdapter {
     }
 
     @Override
-    public RecyclerView.ViewHolder newView(ViewGroup parent, Context context, Cursor cursor, View view) {
+    public ClipCardViewHolder newView(ViewGroup parent, Context context, View view) {
         //first we have to inflate the layoutfile into a view which will convert layout into viewgroup and
         //we can find layout elements by using findviewbyid
          return new ClipCardViewHolder(view, mContext);
     }
 
-    private class ClipCardViewHolder extends RecyclerView.ViewHolder {
+    public class ClipCardViewHolder extends RecyclerView.ViewHolder {
 
         Context context;
         ImageView sourceImageView;

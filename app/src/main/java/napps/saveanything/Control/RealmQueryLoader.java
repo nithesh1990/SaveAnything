@@ -6,8 +6,13 @@ import android.database.sqlite.SQLiteDatabase;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.CursorLoader;
 
+import java.util.List;
+
+import io.realm.RealmObject;
+import io.realm.RealmResults;
 import napps.saveanything.Database.DBContentProvider;
 import napps.saveanything.Database.DBHelper;
+import napps.saveanything.Database.RealmContentProvider;
 
 /**
  * Created by nithesh on 5/16/2016.
@@ -21,9 +26,22 @@ import napps.saveanything.Database.DBHelper;
     4. If we initialize cursorLoader it simply initializes many variables and objects which we don't require
     5. Here we initialize only required variables and objects
  */
-public class DBQueryLoader extends AsyncTaskLoader<Cursor> {
 
-    CursorLoader mLoader;
+    /*The reason for using List instead of realmresults is realm, realmobjects and realmresults cannot be passed between the threads
+        Those can be accessed across different threads but can't be passed between the threads. So we need a intermediate model object
+        that takes data in realm and pass it to other threads.
+        So we retrieve realresults, copy data and then pass the list objects.
+     */
+
+    /*LATEST UPDATE: As of now we are dropping the idea of using AsyncTaskLoader for query of realm objects. The reasons are below
+        1. It does only 2 operations get clips and get images.
+        2. We can't pass realmobjects to main thread for which we need a intermediate model.
+        3. Intermediate model is also a java object, realm is also java object. We can directly keep list of realm objects in UI thread.
+            Whenever realm changes it is automatically updated and we don't need to call background async task loader again.
+        4. Although it creates a light overhead on main thread, it is balanced off by background thread creation, execution and passing off objects.
+     */
+public class RealmQueryLoader<T> extends AsyncTaskLoader<List<T>> {
+
     public int mLoaderId;
     private Context mContext;
     private int mSortType;
@@ -125,7 +143,7 @@ public class DBQueryLoader extends AsyncTaskLoader<Cursor> {
     //which becomes useful like once you have set all the available instance variables through setters or getters method
     //we can directly call the methods in test classes and do rigorous testing by passing arbitrary values.
 
-    public DBQueryLoader(Context context, int loaderId, int sortType) {
+    public RealmQueryLoader(Context context, int loaderId, int sortType) {
         super(context);
         this.mContext = context;
         this.mLoaderId = loaderId;
@@ -144,34 +162,36 @@ public class DBQueryLoader extends AsyncTaskLoader<Cursor> {
     }
 
     @Override
-    public void onCanceled(Cursor data) {
+    public void onCanceled(List<T> data) {
         super.onCanceled(data);
     }
 
     @Override
-    public Cursor loadInBackground() {
-        Cursor cursor;
-
-        DBHelper dbHelper = DBHelper.getInstance(mContext);
-        SQLiteDatabase sqLiteDatabase = dbHelper.getReadableDatabase();
+    public List<T> loadInBackground() {
+        RealmResults realmResults;
+        //DBHelper dbHelper = DBHelper.getInstance(mContext);
+        //SQLiteDatabase sqLiteDatabase = dbHelper.getReadableDatabase();
         switch (mLoaderId){
             case QUERY_ALL_CLIPS:
-                cursor = DBContentProvider.getAllClipsforDisplay(sqLiteDatabase, mSortType);
+                realmResults = RealmContentProvider.getAllClipsForDisplay(mSortType);
+
+                //cursor = DBContentProvider.getAllClipsforDisplay(sqLiteDatabase, mSortType);
                 break;
             case QUERY_ALL_IMAGES:
-                cursor = DBContentProvider.getAllImagesforDisplay(sqLiteDatabase, mSortType);
+                realmResults = RealmContentProvider.getAllImagesForDisplay(mSortType);
+                //cursor = DBContentProvider.getAllImagesforDisplay(sqLiteDatabase, mSortType);
                 break;
             case QUERY_CLIPS_BY_CONTENT:
 
             default:
-                cursor = null;
+                realmResults = null;
         }
 
-        return cursor;
+        return realmResults;
     }
 
     @Override
-    protected Cursor onLoadInBackground() {
+    protected List<T> onLoadInBackground() {
         return super.onLoadInBackground();
     }
 

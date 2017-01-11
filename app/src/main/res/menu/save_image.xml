@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item android:id="@+id/menu_save_image"
-        android:icon="@drawable/ic_done_white_48dp"
+        android:icon="@drawable/ic_done_white_48dp_vector"
         android:title="Save"
         app:showAsAction="always"/>
 

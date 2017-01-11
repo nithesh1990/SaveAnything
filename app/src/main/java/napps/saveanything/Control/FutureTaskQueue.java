@@ -17,7 +17,7 @@ public class FutureTaskQueue<V> {
 
     /*
         This is made volatile for the following reasons
-        1. We want queue to be synchronized but not strictly. If we make it synchronized then it degrades performane
+        1. We want queue to be synchronized but not strictly. If we make it synchronized then it degrades performance
             because everytime lock is acquired by thread operation is performed and then released. Since the request queue is
              constantly added and updated making synchronized would drastically degrade the performance
 

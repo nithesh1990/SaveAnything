@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item android:id="@+id/clips_search"
-        android:icon="@drawable/ic_search_white_24dp"
+        android:icon="@drawable/ic_search_white_24dp_vector"
         android:title="Search"
         app:showAsAction="collapseActionView|always"
         android:actionViewClass="android.support.v7.widget.SearchView" />
 
     <item android:id="@+id/action_sort"
-        android:icon="@drawable/ic_sort_white_24dp"
+        android:icon="@drawable/ic_sort_white_24dp_vector"
         android:title="Sort"
         app:showAsAction="ifRoom">
         <menu>
@@ -24,7 +24,7 @@
     </item>
 
     <item android:id="@+id/action_settings"
-        android:icon="@drawable/ic_more_vert_white_24dp"
+        android:icon="@drawable/ic_more_vert_white_24dp_vector"
         android:title="@string/action_settings"
         app:showAsAction="ifRoom" />
 </menu>

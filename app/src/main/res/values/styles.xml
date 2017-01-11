@@ -47,7 +47,7 @@
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="ToolBarStyle"/>
+    <style name="ToolBarStyle" />
 
     <style name="ToolBarStyle.Light" parent="ThemeOverlay.AppCompat">
         <item name="android:textColorPrimary">@color/colorTextPrimaryLT</item>
@@ -56,5 +56,9 @@
     <style name="ToolBarStyle.Plain" parent="ThemeOverlay.AppCompat.Light">
         <item name="android:textColorPrimary">@color/colorTextPrimaryPT</item>
     </style>
+
+    <style name="BasicTheme.BlueGreen.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="BasicTheme.BlueGreen.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>

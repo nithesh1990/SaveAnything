@@ -1,12 +1,17 @@
 package napps.saveanything.Model;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by "nithesh" on 11/13/2016.
  */
 
 public class Image extends RealmObject {
+
+    @PrimaryKey
+    private long id;
+
     private int sourceWidth;
     private int sourceHeight;
     private int saveWidth;
@@ -14,13 +19,15 @@ public class Image extends RealmObject {
     private int status;
     private int scaleStatus;
     private int scaleFactor;
-    private long id;
-    private long timestamp;
+    private int imageAccess;
+    private long timeStamp;
     private long imageSize;
     private String imageId;
     private String desc;
     private String originalPath;
     private String savedPath;
+    private String sourcePackage;
+    private boolean isFavorite;
 
     public int getSourceWidth() {
         return sourceWidth;
@@ -86,12 +93,12 @@ public class Image extends RealmObject {
         this.id = id;
     }
 
-    public long getTimestamp() {
-        return timestamp;
+    public long getTimeStamp() {
+        return timeStamp;
     }
 
-    public void setTimestamp(long timestamp) {
-        this.timestamp = timestamp;
+    public void setTimeStamp(long timeStamp) {
+        this.timeStamp = timeStamp;
     }
 
     public long getImageSize() {
@@ -132,5 +139,29 @@ public class Image extends RealmObject {
 
     public void setSavedPath(String savedPath) {
         this.savedPath = savedPath;
+    }
+
+    public int getImageAccess() {
+        return imageAccess;
+    }
+
+    public void setImageAccess(int imageAccess) {
+        this.imageAccess = imageAccess;
+    }
+
+    public boolean isFavorite() {
+        return isFavorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        isFavorite = favorite;
+    }
+
+    public String getSourcePackage() {
+        return sourcePackage;
+    }
+
+    public void setSourcePackage(String sourcePackage) {
+        this.sourcePackage = sourcePackage;
     }
 }

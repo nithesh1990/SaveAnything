@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="napps.saveanything.view.Activities.ClipDetailActivity"
+    tools:showIn="@layout/activity_clip_detail">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+            <napps.saveanything.view.customviews.CustomTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="?attr/colorAccent"
+                android:text="Detail"
+                app:fontinfo="roboto_medium"
+                android:textSize="@dimen/standard_text_20sp"
+                android:layout_margin="@dimen/standard_8dp" />
+            <napps.saveanything.view.customviews.CustomTextView
+                android:id="@+id/clip_detail_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/standard_text_12sp"
+                app:fontinfo="roboto_thin"
+                android:text="@string/large_text" />
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>

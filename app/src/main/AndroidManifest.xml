@@ -21,15 +21,11 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
-
         </activity>
 
         <service
             android:name=".Control.SaveClipService"
-            android:stopWithTask="false">
-        </service>
-
+            android:stopWithTask="false"></service>
 
         <activity
             android:name=".view.Activities.SaveImageActivity"
@@ -44,15 +40,20 @@
             </intent-filter>
         </activity>
 
-        <!--enabled tells the system to instantiate this receiver or else we need to instantiate when it's required -->
+        <!-- enabled tells the system to instantiate this receiver or else we need to instantiate when it's required -->
         <receiver
             android:name=".Control.AlarmReceiver"
             android:enabled="true"
             android:exported="false">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+
+        <activity
+            android:name=".view.Activities.ClipDetailActivity"
+            android:label="@string/title_activity_clip_detail"
+            android:theme="@style/BasicTheme.BlueGreen"></activity>
     </application>
 
 </manifest>

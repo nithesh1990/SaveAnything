@@ -11,46 +11,48 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SimpleCursorAdapter;
 
+import io.realm.RealmObject;
+import io.realm.RealmResults;
 import napps.saveanything.Utilities.AppLogger;
 import napps.saveanything.Utilities.Constants;
 
 /**
  * Created by nithesh on 5/12/2016.
  */
-public abstract class RecyclerCursorAdapter<ViewHolder extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<ViewHolder> {
+public abstract class RecyclerRealmAdapter<V extends RecyclerView.ViewHolder, T extends RealmObject> extends RecyclerView.Adapter<V> {
 
-    public Cursor mCursor;
+    /*This object is generic and can be used for both clips or images. T should be made that extends Realmobject to avoid usage of other objects */
+    public RealmResults<T> mRealmResults;
     public Context mContext;
     public int mLayoutResource;
     public LayoutInflater mLayoutInflater;
-    public RecyclerCursorAdapter(Context context, int layout, Cursor cursor){
+    public RecyclerRealmAdapter(Context context, int layout, RealmResults<T> realmResults){
         mContext = context;
-        mCursor = cursor;
+        mRealmResults = realmResults;
         mLayoutResource = layout;
 
     }
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public V onCreateViewHolder(ViewGroup parent, int viewType) {
         mLayoutInflater = LayoutInflater.from(parent.getContext());
         View view = mLayoutInflater.inflate(mLayoutResource, parent, false);
-        return newView(parent, mContext, mCursor, view);
+        return newView(parent, mContext, view);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-            mCursor.moveToPosition(position);
+    public void onBindViewHolder(V holder, int position) {
             Log.d(Constants.APPLICATION_TAG, "On bind view called for position "+position);
-            bindView(holder, mCursor, position);
+            bindView(holder, mRealmResults.get(position), position);
     }
 
-    public abstract void bindView(ViewHolder holder, Cursor cursor, int position);
+    public abstract void bindView(V holder, T realmObject, int position);
 
-    public abstract ViewHolder newView(ViewGroup parent, Context context, Cursor mCursor, View view);
+    public abstract V newView(ViewGroup parent, Context context, View view);
 
     @Override
     public int getItemCount() {
 
-        return mCursor.getCount();
+        return mRealmResults.size();
 
     }
 

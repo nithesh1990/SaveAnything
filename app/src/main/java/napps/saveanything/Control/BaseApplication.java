@@ -2,6 +2,8 @@ package napps.saveanything.Control;
 
 import android.app.Application;
 
+import com.facebook.stetho.Stetho;
+
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
@@ -17,13 +19,15 @@ import io.realm.RealmConfiguration;
 
 public class BaseApplication extends Application {
 
-    public String REALM_DATABASE_NAME = "Realm_SA";
+    public static String REALM_DATABASE_NAME = "Realm_APP";
     public long REALM_SCHEMA_VERSION = 0;
 
 
     @Override
     public void onCreate() {
         super.onCreate();
+        Stetho.initializeWithDefaults(this);
+        Realm.init(this);
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder()
                 .name(REALM_DATABASE_NAME)
                 .schemaVersion(REALM_SCHEMA_VERSION)

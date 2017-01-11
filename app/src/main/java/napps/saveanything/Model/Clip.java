@@ -9,18 +9,18 @@ import io.realm.annotations.PrimaryKey;
 
 public class Clip extends RealmObject {
 
+    @PrimaryKey
+    private  long Id;
 
     private  int contentType;
-
-    @PrimaryKey
-    private  long id;
-    
     private  String clipId;
     private  String sourcePackage;
     private  String content;
-    private  long timestamp;
+    private  long timeStamp;
     private  int clipStatus;
+    private  int clipAccess;
     private  String date;
+    private boolean isFavorite;
 
     public int getContentType() {
         return contentType;
@@ -31,11 +31,11 @@ public class Clip extends RealmObject {
     }
 
     public long getId() {
-        return id;
+        return Id;
     }
 
     public void setId(long id) {
-        this.id = id;
+        this.Id = id;
     }
 
     public String getClipId() {
@@ -62,12 +62,12 @@ public class Clip extends RealmObject {
         this.content = content;
     }
 
-    public long getTimestamp() {
-        return timestamp;
+    public long getTimeStamp() {
+        return timeStamp;
     }
 
-    public void setTimestamp(long timestamp) {
-        this.timestamp = timestamp;
+    public void setTimeStamp(long timeStamp) {
+        this.timeStamp = timeStamp;
     }
 
     public int getClipStatus() {
@@ -84,5 +84,21 @@ public class Clip extends RealmObject {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public int getClipAccess() {
+        return clipAccess;
+    }
+
+    public void setClipAccess(int clipAccess) {
+        this.clipAccess = clipAccess;
+    }
+
+    public boolean isFavorite() {
+        return isFavorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        isFavorite = favorite;
     }
 }

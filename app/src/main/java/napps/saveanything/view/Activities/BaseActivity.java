@@ -16,7 +16,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 
 import java.io.File;
@@ -28,7 +27,6 @@ import java.util.List;
 
 import napps.saveanything.Control.SaveClipService;
 import napps.saveanything.Model.CustomGradientDrawable;
-import napps.saveanything.Utilities.ColorUtilities;
 import napps.saveanything.Utilities.Constants;
 import napps.saveanything.Utilities.Utils;
 import napps.saveanything.R;
@@ -53,7 +51,7 @@ public class BaseActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.clip_toolbar);
         setSupportActionBar(toolbar);
 
 
