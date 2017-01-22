@@ -103,6 +103,7 @@ public class RealmContentProvider {
         Clip clip = realm.where(Clip.class).equalTo(RealmContract.ClipFields.FIELD_NAME_ID, Id).findFirst();
         return clip;
     }
+
     public static Image queryImage(long Id){
         Realm realm = Realm.getDefaultInstance();
         Image image = realm.where(Image.class).equalTo(RealmContract.ImageFields.FIELD_NAME_ID, Id).findFirst();

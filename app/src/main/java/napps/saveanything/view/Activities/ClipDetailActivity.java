@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import napps.saveanything.Database.RealmContentProvider;
 import napps.saveanything.Model.Clip;
 import napps.saveanything.R;
 import napps.saveanything.view.customviews.CustomTextView;
@@ -42,8 +43,11 @@ public class ClipDetailActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-
-        mCurrentClip = (Clip)getIntent().getSerializableExtra("ClipObject");
+        long clipId = getIntent().getLongExtra("ClipId", -1);
+        if(clipId < 0){
+            //TODO: Show a snackbar and close the activity
+        }
+        mCurrentClip = RealmContentProvider.queryClip(clipId);
         initViews();
         setUpViews();
     }

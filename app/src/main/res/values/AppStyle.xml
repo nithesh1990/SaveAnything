@@ -27,7 +27,7 @@
 
         <item name="isLightTheme">true</item>
     </style> -->
-
+    <color name="navMenuTextColor">#888888</color>
     <style name="BasicTheme.Light" parent="AppTheme.Light">
         <item name="android:windowBackground">@drawable/activity_background</item>
         <item name="cardBackground">@color/color_card_background_LT</item>
@@ -50,7 +50,7 @@
     </style>
 
     <style name="NavigationTextMenuStyle">
-        <item name="android:textColor">@color/color_white</item>
+        <item name="android:textColor">@color/navMenuTextColor</item>
         <item name="android:textSize">@dimen/nav_menu_item</item>
     </style>
 

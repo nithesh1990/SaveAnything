@@ -10,6 +10,7 @@
     <color name="color_window_background_PT">#FAFAFA</color>
     <color name="color_card_background_PT">#ffffff</color>
     <color name="colorTextPrimaryPT">#000000</color>
+    <color name="colorFavorite">#ff0000</color>
 
     <color name="colorPrimaryPurple">#9b26af</color>
     <!-- Light Theme resources -->

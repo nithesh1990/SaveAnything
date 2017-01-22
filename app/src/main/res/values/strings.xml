@@ -20,7 +20,7 @@
     <string name="title_activity_save_image">Save Image</string>
     <string name="res_options_title">Select Resolution</string>
     <string name="title_activity_clip_detail">ClipDetailActivity</string>
-    <String name="clip_detail_title">Detail</String>
+    <string name="clip_detail_title">Detail</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"
 

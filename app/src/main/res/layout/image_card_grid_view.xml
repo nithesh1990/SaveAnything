@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     app:cardBackgroundColor="?attr/cardBackground"
     android:layout_height="wrap_content"
+    android:layout_margin="@dimen/standard_2dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <!-- All the padding, margin, text size and font are all given based on material design guidelines -->

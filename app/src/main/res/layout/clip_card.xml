@@ -3,6 +3,7 @@
     app:cardBackgroundColor="?attr/cardBackground"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="@dimen/standard_2dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     >
 <!-- specifying the layout style as cardStyle means the custom attributes/normal attributes in this
@@ -83,7 +84,7 @@
                 android:src="@drawable/ic_favorite_unchecked_grey_700_24dp_vector"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                style="?attr/iconStyle"
+                android:paddingRight="@dimen/standard_32dp"
                 android:layout_toLeftOf="@id/cc_copy_button"
                 />
 

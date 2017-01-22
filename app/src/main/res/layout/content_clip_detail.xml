@@ -16,7 +16,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="?attr/colorAccent"
-                android:text="Detail"
+                android:text="@string/clip_detail_title"
                 app:fontinfo="roboto_medium"
                 android:textSize="@dimen/standard_text_20sp"
                 android:layout_margin="@dimen/standard_8dp" />

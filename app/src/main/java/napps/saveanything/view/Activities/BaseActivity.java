@@ -73,7 +73,7 @@ public class BaseActivity extends AppCompatActivity
         GradientDrawable navigationBackgroundDrawable = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{});
         CustomGradientDrawable.Builder gradientBuilder = new CustomGradientDrawable.Builder();
         gradientBuilder.Orientation(GradientDrawable.Orientation.LEFT_RIGHT);
-        gradientBuilder.setStartColorAttribute(R.attr.colorPrimary);
+        gradientBuilder.setStartColorAttribute(R.attr.colorPrimaryFallbackLow);
         gradientBuilder.setEndColorAttribute(R.attr.colorPrimaryFallbackMed);
         gradientBuilder.type(GradientDrawable.RECTANGLE);
         CustomGradientDrawable customGradientDrawable = gradientBuilder.build(this, gradientBuilder);

@@ -2,8 +2,8 @@
 <resources>
 
     <color name="primarybg">#2196F3</color>
-    <color name="primarybgfb100">#BBDEFB</color>
-    <color name="primarybgfb300">#64B5F6</color>
+    <color name="primarybgfb100">#FFFFFF</color>
+    <color name="primarybgfb300">#e1e1e1</color>
     <color name="primary_dark_bg">#1976D2</color>
     <color name="primary_light_bg">#BBDEFB</color>
     <color name="accentbg">#4CAF50</color>

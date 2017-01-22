@@ -1,8 +1,6 @@
 package napps.saveanything.view.adapters;
 
 import android.content.Context;
-import android.database.Cursor;
-import android.net.Uri;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,7 +13,6 @@ import com.bumptech.glide.Glide;
 
 import io.realm.RealmResults;
 import napps.saveanything.Control.BitmapManager;
-import napps.saveanything.Database.DatabaseContract;
 import napps.saveanything.Model.Image;
 import napps.saveanything.R;
 import napps.saveanything.Utilities.AppLogger;
@@ -60,7 +57,7 @@ public class ImageListAdapter extends RecyclerRealmAdapter<ImageListAdapter.Imag
         String timeText = getTimeText(image.getTimeStamp());
         imageCardHolder.timeTextView.setText(timeText);
         if(image.isFavorite()){
-            imageCardHolder.favoriteButton.setImageResource(R.drawable.ic_favorite_checked_grey_600_24dp_vector);
+            imageCardHolder.favoriteButton.setImageResource(R.drawable.ic_favorite_checked_24dp_vector);
         }
         AppLogger.addLogMessage(AppLogger.DEBUG, ImageListAdapter.class.getSimpleName(), "bindView()", "ImageListAdapter bind view called for position "+position);
         try{
