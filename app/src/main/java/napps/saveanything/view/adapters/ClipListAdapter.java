@@ -6,29 +6,37 @@ import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.facebook.rebound.BaseSpringSystem;
+import com.facebook.rebound.Spring;
+import com.facebook.rebound.SpringConfig;
+import com.facebook.rebound.SpringListener;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
 import napps.saveanything.Model.Builder;
 import napps.saveanything.Model.Clip;
 import napps.saveanything.R;
+import napps.saveanything.Utilities.Constants;
 import napps.saveanything.view.Activities.ClipDetailActivity;
 import napps.saveanything.view.customviews.CustomImageView;
 
 /**
  * Created by nithesh on 5/12/2016.
  */
-public class ClipListAdapter extends RecyclerRealmAdapter<ClipListAdapter.ClipCardViewHolder, Clip> implements View.OnClickListener {
+public class ClipListAdapter extends RecyclerRealmAdapter<ClipListAdapter.ClipCardViewHolder, Clip> implements View.OnClickListener{
+
 
      private Context mContext;
-     public ClipListAdapter(Context context, int layout, RealmResults<Clip> realmResults) {
-        super(context, layout, realmResults);
+     public ClipListAdapter(Context context, int layout, RealmResults<Clip> realmResults, BaseSpringSystem baseSpringSystem) {
+        super(context, layout, realmResults, baseSpringSystem);
          mContext = context;
-    }
+      }
 
     @Override
     public void bindView(ClipCardViewHolder holder, Clip clip, int position) {
@@ -43,10 +51,7 @@ public class ClipListAdapter extends RecyclerRealmAdapter<ClipListAdapter.ClipCa
         //String timeText = getTimeText(cursor.getLong(cursor.getColumnIndex(DatabaseContract.ClipBoard.COLUMN_NAME_TIMESTAMP)));
         String timeText = getTimeText(clip.getTimeStamp());
         clipHolder.timeTextView.setText(timeText);
-        if(clip.isFavorite()){
-            clipHolder.favoriteButton.setImageResource(R.drawable.ic_favorite_checked_24dp_vector);
-            Log.d("ClipAdapter", "Favorite Clip: "+clip.getContent());
-        }
+        setFavoriteIcon(clipHolder.favoriteButton, clip.isFavorite());
 
         //String sourcePackage = cursor.getString(cursor.getColumnIndex(DatabaseContract.ClipBoard.COLUMN_NAME_SOURCE_PACKAGE));
         String sourcePackage = clip.getSourcePackage();
@@ -70,6 +75,18 @@ public class ClipListAdapter extends RecyclerRealmAdapter<ClipListAdapter.ClipCa
     }
 
     @Override
+    public boolean changeFavorite(CustomImageView favoriteIcon) {
+        Clip clip = (Clip)favoriteIcon.getTag();
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        clip.setFavorite(!clip.isFavorite());
+        Log.d("ClipAdapter", "Toggling Favorite of Clip: "+clip.getContent());
+        realm.copyToRealmOrUpdate(clip);
+        realm.commitTransaction();
+        return clip.isFavorite();
+    }
+
+    @Override
     public void onClick(View view) {
         int id = view.getId();
         Clip clip = (Clip)view.getTag();
@@ -81,22 +98,13 @@ public class ClipListAdapter extends RecyclerRealmAdapter<ClipListAdapter.ClipCa
                 break;
             case R.id.cc_copy_button:
                 break;
-            case R.id.cc_favorite_button:
-                //We could have called updateclip method in realmContentprovider but that's not an efficient method as
-                //it updates each and every value which is not necessary. We should actually remove that update method as it is inefficient althought it looks technically beautiful
-                Realm realm = Realm.getDefaultInstance();
-                realm.beginTransaction();
-                clip.setFavorite(!clip.isFavorite());
-                Log.d("ClipAdapter", "Toggling Favorite of Clip: "+clip.getContent());
-                realm.copyToRealmOrUpdate(clip);
-                realm.commitTransaction();
-                break;
             case R.id.cc_more_button:
                 break;
             case R.id.cc_special_button:
                 break;
         }
     }
+
 
     public class ClipCardViewHolder extends RecyclerView.ViewHolder {
 
@@ -126,7 +134,7 @@ public class ClipListAdapter extends RecyclerRealmAdapter<ClipListAdapter.ClipCa
             this.moreButton.setOnClickListener(ClipListAdapter.this);
             //this.moreButton.setColorFilter(iconColor);
             this.favoriteButton = (CustomImageView) itemView.findViewById(R.id.cc_favorite_button);
-            this.favoriteButton.setOnClickListener(ClipListAdapter.this);
+            this.favoriteButton.setOnTouchListener(ClipListAdapter.this);
             //this.favoriteButton.setColorFilter(iconColor);
             this.specialButton = (CustomImageView) itemView.findViewById(R.id.cc_special_button);
             this.specialButton.setOnClickListener(ClipListAdapter.this);

@@ -93,12 +93,12 @@
                 /> -->
 
 
-            <android.support.v7.widget.AppCompatImageView
+            <napps.saveanything.view.customviews.CustomImageView
                 android:id="@+id/ic_favorite"
                 android:src="@drawable/ic_favorite_unchecked_grey_700_24dp_vector"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="?attr/iconStyle"
+                android:paddingRight="@dimen/standard_32dp"
                 android:layout_toLeftOf="@id/ic_share_button"
                 android:layout_centerVertical="true"
                 />

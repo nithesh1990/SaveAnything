@@ -110,4 +110,11 @@ public class Constants {
     //BroadCast Alarms
     public static final int BROADCAST_START_SERVICE = 101;
 
+
+    //Spring Animation Constants
+    public static final int SPRING_FAV_ICON_TENSION = 60;
+    public static final int SPRING_FAV_ICON_FRICTION = 3;
+
+    public static final double SPRING_SCALE_START = 0.5;
+    public static final double SPRING_SCALE_END_DEFAULT = 1.0;
 }

@@ -184,7 +184,7 @@ public class BitmapManager extends TaskManager<Integer, Bitmap> implements Respo
     private void setImageforPosition(int position, Bitmap bitmap){
         ImageListAdapter.ImageCardViewHolder ivHolder = (ImageListAdapter.ImageCardViewHolder)bitmapsViewHolder.findViewHolderForLayoutPosition(position); //        boolean isTop;
         if(ivHolder != null){
-            ivHolder.mainImage.setImageBitmap(bitmap);
+            //ivHolder.mainImage.setImageBitmap(bitmap);
         }
 
     }

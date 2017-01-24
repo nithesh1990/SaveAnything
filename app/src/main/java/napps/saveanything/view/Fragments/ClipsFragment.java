@@ -52,6 +52,7 @@ public class ClipsFragment extends CustomFragment implements LoaderManager.Loade
 
     public ClipsFragment() {
         super.setTitle(Constants.CLIPFRAGMENT_TITLE);
+        super.setUp();
     }
 
     @Override
@@ -93,7 +94,7 @@ public class ClipsFragment extends CustomFragment implements LoaderManager.Loade
     @Override
     public void onStart() {
         super.onStart();
-        mClipListAdapter = new ClipListAdapter(mContext, R.layout.clip_card, clipsList);
+        mClipListAdapter = new ClipListAdapter(mContext, R.layout.clip_card, clipsList, getBaseSpringSystem());
         mClipsProgressLayout.setVisibility(View.GONE);
         mClipsRecyclerView.setVisibility(View.VISIBLE);
         mClipsRecyclerView.setAdapter(mClipListAdapter);
@@ -146,7 +147,7 @@ public class ClipsFragment extends CustomFragment implements LoaderManager.Loade
             // show error page or return
         } else if(data != null && data.size() > 0){
 
-            mClipListAdapter = new ClipListAdapter(mContext, R.layout.clip_card, data);
+            mClipListAdapter = new ClipListAdapter(mContext, R.layout.clip_card, data, getBaseSpringSystem());
             mClipsRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
             mClipsRecyclerView.setAdapter(mClipListAdapter);
 

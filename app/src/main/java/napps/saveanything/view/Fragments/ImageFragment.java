@@ -19,6 +19,9 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.facebook.rebound.BaseSpringSystem;
+import com.facebook.rebound.SpringSystem;
+
 import io.realm.RealmResults;
 import napps.saveanything.Control.RealmQueryLoader;
 import napps.saveanything.Database.RealmContentProvider;
@@ -60,6 +63,7 @@ public class ImageFragment extends CustomFragment implements LoaderManager.Loade
 
     public ImageFragment() {
         super.setTitle(Constants.IMAGEFRAGMENT_TITLE);
+        super.setUp();
     }
 
     @Override
@@ -125,11 +129,11 @@ public class ImageFragment extends CustomFragment implements LoaderManager.Loade
 
         if(viewMode == GRID_MODE){
 
-            mImageListAdapter = new ImageListAdapter(mContext, mImageRecyclerView, R.layout.image_card_grid_view, imagesList, deviceWidth/2, deviceWidth/2, viewMode);
+            mImageListAdapter = new ImageListAdapter(mContext, mImageRecyclerView, R.layout.image_card_grid_view, imagesList, deviceWidth/2, deviceWidth/2, viewMode, getBaseSpringSystem());
             gridSize = 2;
         } else {
 
-            mImageListAdapter = new ImageListAdapter(mContext, mImageRecyclerView, R.layout.image_card_list_view, imagesList, deviceWidth, (9*deviceWidth)/16, viewMode);
+            mImageListAdapter = new ImageListAdapter(mContext, mImageRecyclerView, R.layout.image_card_list_view, imagesList, deviceWidth, (9*deviceWidth)/16, viewMode, getBaseSpringSystem());
             gridSize = 1;
         }
         //}
@@ -228,11 +232,11 @@ public class ImageFragment extends CustomFragment implements LoaderManager.Loade
 
             if(viewMode == GRID_MODE){
 
-                mImageListAdapter = new ImageListAdapter(mContext, mImageRecyclerView, R.layout.image_card_grid_view, data, deviceWidth/2, deviceWidth/2, viewMode);
+                mImageListAdapter = new ImageListAdapter(mContext, mImageRecyclerView, R.layout.image_card_grid_view, data, deviceWidth/2, deviceWidth/2, viewMode, getBaseSpringSystem());
                 gridSize = 2;
             } else {
 
-                mImageListAdapter = new ImageListAdapter(mContext, mImageRecyclerView, R.layout.image_card_list_view, data, deviceWidth, (9*deviceWidth)/16, viewMode);
+                mImageListAdapter = new ImageListAdapter(mContext, mImageRecyclerView, R.layout.image_card_list_view, data, deviceWidth, (9*deviceWidth)/16, viewMode, getBaseSpringSystem());
                 gridSize = 1;
             }
         //}
