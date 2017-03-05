@@ -151,9 +151,9 @@ public class BaseActivity extends AppCompatActivity
                 mViewPager.setCurrentItem(IMAGES_FRAGMENT_POSITION);
                 break;
 
-            case R.id.nav_database:
-                saveDatabaseFile();
-                break;
+            //case R.id.nav_database:
+            //    saveDatabaseFile();
+            //    break;
             default:
                 mViewPager.setCurrentItem(CLIPS_FRAGMENT_POSITION);
                 break;

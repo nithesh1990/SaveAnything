@@ -33,7 +33,7 @@ public class RealmContentProvider {
                     Clip newClip = backgroundRealm.createObject(Clip.class, builder.id);
                     builder.build(newClip);
 //                    newClip.setId(builder.id);
-//                    newClip.setClipId(builder.clipId);
+//                    newClip.setNoteId(builder.clipId);
 //                    newClip.setContent(builder.content);
 //                    newClip.setClipStatus(builder.clipStatus);
 //                    newClip.setContentType(builder.contentType);
