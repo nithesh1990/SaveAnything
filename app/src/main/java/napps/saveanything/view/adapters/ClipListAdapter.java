@@ -6,24 +6,17 @@ import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.facebook.rebound.BaseSpringSystem;
-import com.facebook.rebound.Spring;
-import com.facebook.rebound.SpringConfig;
-import com.facebook.rebound.SpringListener;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
-import napps.saveanything.Model.Builder;
 import napps.saveanything.Model.Clip;
 import napps.saveanything.R;
-import napps.saveanything.Utilities.Constants;
-import napps.saveanything.view.Activities.ClipDetailActivity;
 import napps.saveanything.view.Activities.DetailClipActivity;
 import napps.saveanything.view.customviews.CustomImageView;
 
@@ -94,6 +87,7 @@ public class ClipListAdapter extends RecyclerRealmAdapter<ClipListAdapter.ClipCa
             case R.id.text_card :
                 Intent detailIntent = new Intent(mContext, DetailClipActivity.class);
                 detailIntent.putExtra(DetailClipActivity.EXTRA_CLIP_ID, clip.getId());
+
                 mContext.startActivity(detailIntent);
                 break;
             case R.id.cc_copy_button:

@@ -112,5 +112,6 @@
     </string>
     <string name="title_activity_create_note">Create Note</string>
     <string name="title_activity_save_note">Save Image</string>
+    <string name="title_activity_detail_clip">DetailClipActivity</string>
 
 </resources>
