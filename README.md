@@ -28,6 +28,7 @@ The application uses some of the support libraries for android to provide a grea
 * [Glide] - Image Loading and caching library. 
 * [Rebound] - Facebook Java library that models spring dynamics helpful in creating spring animations
 * [Realm] - LightWeight Mobile Database
+
 ### Installation
 
 SaveAnything requires Android IceCreamSandwich(4.0) and above to run.
