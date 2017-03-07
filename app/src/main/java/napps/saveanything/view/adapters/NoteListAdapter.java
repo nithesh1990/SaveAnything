@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -11,7 +12,9 @@ import android.widget.TextView;
 
 import com.facebook.rebound.BaseSpringSystem;
 
+import io.realm.Realm;
 import io.realm.RealmResults;
+import napps.saveanything.Model.Clip;
 import napps.saveanything.Model.Note;
 import napps.saveanything.R;
 import napps.saveanything.view.customviews.CustomImageView;
@@ -60,7 +63,14 @@ public class NoteListAdapter extends RecyclerRealmAdapter<NoteListAdapter.NoteCa
 
     @Override
     public boolean changeFavorite(CustomImageView favoriteIcon) {
-        return false;
+        Note note = (Note)favoriteIcon.getTag();
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        note.setFavorite(!note.isFavorite());
+        Log.d("ClipAdapter", "Toggling Favorite of Clip: "+note.getContent());
+        realm.copyToRealmOrUpdate(note);
+        realm.commitTransaction();
+        return note.isFavorite();
     }
 
     public class NoteCardViewHolder extends RecyclerView.ViewHolder {

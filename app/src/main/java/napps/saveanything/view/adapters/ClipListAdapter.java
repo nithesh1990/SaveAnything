@@ -41,24 +41,23 @@ public class ClipListAdapter extends RecyclerRealmAdapter<ClipListAdapter.ClipCa
 
     @Override
     public void bindView(ClipCardViewHolder holder, Clip clip, int position) {
-        ClipCardViewHolder clipHolder = (ClipCardViewHolder) holder;
         holder.attachedView.setTag(clip);
         holder.favoriteButton.setTag(clip);
         holder.copyButton.setTag(clip);
         holder.moreButton.setTag(clip);
         holder.specialButton.setTag(clip);
         //clipHolder.mainTextView.setText(cursor.getString(cursor.getColumnIndex(DatabaseContract.ClipBoard.COLUMN_NAME_CONTENT)));
-        clipHolder.mainTextView.setText(clip.getContent());
+        holder.mainTextView.setText(clip.getContent());
         //String timeText = getTimeText(cursor.getLong(cursor.getColumnIndex(DatabaseContract.ClipBoard.COLUMN_NAME_TIMESTAMP)));
         String timeText = getTimeText(clip.getTimeStamp());
-        clipHolder.timeTextView.setText(timeText);
-        setFavoriteIcon(clipHolder.favoriteButton, clip.isFavorite());
+        holder.timeTextView.setText(timeText);
+        setFavoriteIcon(holder.favoriteButton, clip.isFavorite());
 
         //String sourcePackage = cursor.getString(cursor.getColumnIndex(DatabaseContract.ClipBoard.COLUMN_NAME_SOURCE_PACKAGE));
         String sourcePackage = clip.getSourcePackage();
         try{
             Drawable iconDrawable = mContext.getPackageManager().getApplicationIcon(sourcePackage);
-            clipHolder.sourceImageView.setImageDrawable(iconDrawable);
+            holder.sourceImageView.setImageDrawable(iconDrawable);
         } catch(PackageManager.NameNotFoundException e){
             //TODO: set application not found icon
             e.printStackTrace();
@@ -121,7 +120,7 @@ public class ClipListAdapter extends RecyclerRealmAdapter<ClipListAdapter.ClipCa
 
         public ClipCardViewHolder(View itemView) {
             super(itemView);
-            attachedView = itemView;
+            attachedView = itemView.findViewById(R.id.text_card);
             attachedView.setOnClickListener(ClipListAdapter.this);
             this.sourceImageView = (ImageView) itemView.findViewById(R.id.cc_source_icon);
             this.mainTextView = (TextView) itemView.findViewById(R.id.cc_main_text);
