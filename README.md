@@ -4,7 +4,9 @@ An android application to save text clips and bookmark images for easy access an
 
 Whenever you copy some text to cliboard in an android smartphone, it is saved temporarily. A new text copied overrides the old text you copied before. You might not want to lose the texts you copied before. This application stores each and every text you copied in app-specific database. All the texts are visible inside the app in the form of a listview. 
 
-Whenever you capture an image from camera or recieve an image in any application, you might want to save some of them to share/use them later. As you save more and more images, it becomes difficult to search for images saved in different locations. This application helps you to bookmark images from different applications with a text, so that you can easily search for those images 
+Whenever you capture an image from camera or recieve an image in any application, you might want to save some of them to share/use them later. As you save more and more images, it becomes difficult to search for images saved in different locations. This application helps you to bookmark images from different applications with a text, so that you can easily search for those images.
+
+Some of the things that app offers you:
 
   - Unlimited storage for clips and image bookmarks
   - LightWeight storage and faster access of saved data
