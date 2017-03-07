@@ -98,7 +98,7 @@ public class SaveImageActivity extends AppCompatActivity implements View.OnClick
         Toolbar toolbar = (Toolbar) findViewById(R.id.share_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        toolbar.setNavigationIcon(R.drawable.ic_clear_white_24dp_vector);
+        toolbar.setNavigationIcon(R.drawable.ic_clear_white_36dp_vector);
 
         mMainImage = (ImageView) findViewById(R.id.share_image);
 

@@ -15,7 +15,7 @@
          But for customTextView it's not working-->
     <!-- We   -->
     <LinearLayout
-        android:id="@+id/text_card"
+        android:id="@+id/note_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/standard_2dp"
@@ -26,35 +26,28 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <napps.saveanything.view.customviews.CustomImageView
-                android:id="@+id/cc_source_icon"
-                android:layout_width="@dimen/cc_icon_width"
-                android:layout_height="@dimen/cc_icon_height"
-                android:layout_margin="@dimen/standard_4dp"
-                android:layout_centerVertical="true"/>
-
             <napps.saveanything.view.customviews.CustomTextView
-                android:id="@+id/cc_main_text"
+                android:id="@+id/nc_main_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="3"
                 android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/cc_source_icon"
+                android:layout_marginLeft="@dimen/standard_4dp"
                 android:text="sdlfndlsgnlnvl kklfdkldsgsdgsgsf sfgfgfgggggg sgf"
                 app:fontinfo="roboto_regular"
-                android:textSize="@dimen/cc_main_text_size"/>
+                android:textSize="@dimen/nc_main_text_size"/>
 
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/cc_extra_layout"
+            android:id="@+id/nc_extra_layout"
             android:layout_width="match_parent"
             android:layout_height="@dimen/ic_extra_layout_height"
             android:layout_margin="@dimen/standard_4dp">
 
             <napps.saveanything.view.customviews.CustomTextView
-                android:id="@+id/cc_time_text"
+                android:id="@+id/nc_time_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/ic_time_text_size"
@@ -62,7 +55,7 @@
                 android:layout_centerVertical="true"/>
 
             <napps.saveanything.view.customviews.CustomImageView
-                android:id="@+id/cc_more_button"
+                android:id="@+id/nc_more_button"
                 android:src="@drawable/ic_more_vert_grey_700_24dp_vector"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -71,30 +64,30 @@
 
 
             <napps.saveanything.view.customviews.CustomImageView
-                android:id="@+id/cc_copy_button"
+                android:id="@+id/nc_copy_button"
                 android:src="@drawable/ic_copy_grey_700_24dp_vector"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 style="?attr/iconStyle"
-                android:layout_toLeftOf="@id/cc_more_button"
+                android:layout_toLeftOf="@id/nc_more_button"
                 />
 
             <napps.saveanything.view.customviews.CustomImageView
-                android:id="@+id/cc_favorite_button"
+                android:id="@+id/nc_favorite_button"
                 android:src="@drawable/ic_favorite_unchecked_grey_700_24dp_vector"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:paddingRight="@dimen/standard_32dp"
-                android:layout_toLeftOf="@id/cc_copy_button"
+                android:layout_toLeftOf="@id/nc_copy_button"
                 />
 
             <napps.saveanything.view.customviews.CustomImageView
-                android:id="@+id/cc_special_button"
+                android:id="@+id/nc_special_button"
                 android:layout_width="wrap_content"
                 android:visibility="gone"
                 style="?attr/iconStyle"
                 android:layout_height="match_parent"
-                android:layout_toLeftOf="@+id/cc_favorite_button"
+                android:layout_toLeftOf="@+id/nc_favorite_button"
                 />
 
         </RelativeLayout>

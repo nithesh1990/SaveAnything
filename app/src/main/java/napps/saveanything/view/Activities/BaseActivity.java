@@ -1,6 +1,8 @@
 package napps.saveanything.view.Activities;
 
 import android.app.Application;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -33,19 +35,24 @@ import napps.saveanything.R;
 import napps.saveanything.view.Fragments.ClipsFragment;
 import napps.saveanything.view.Fragments.CustomFragment;
 import napps.saveanything.view.Fragments.ImageFragment;
+import napps.saveanything.view.Fragments.NotesFragment;
 import napps.saveanything.view.adapters.PageAdapter;
 
 public class BaseActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, ViewPager.OnPageChangeListener {
 
     private ViewPager mViewPager;
     private PageAdapter mPageAdapter;
     private TabLayout mTabLayout;
 
-    private int CLIPS_FRAGMENT_POSITION = 0;
-    private int IMAGES_FRAGMENT_POSITION = 1;
+    private Context activityContext;
+
+    private final int CLIPS_FRAGMENT_POSITION = 0;
+    private final int NOTES_FRAMGENT_POSITION = 1;
+    //private final int IMAGES_FRAGMENT_POSITION = 2;
 
     private Application mapp;
+    FloatingActionButton fButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,14 +60,15 @@ public class BaseActivity extends AppCompatActivity
         setContentView(R.layout.activity_base);
         Toolbar toolbar = (Toolbar) findViewById(R.id.clip_toolbar);
         setSupportActionBar(toolbar);
+        activityContext = this;
 
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        fButton = (FloatingActionButton) findViewById(R.id.fab);
+        fButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent createNoteIntent = new Intent();
+                createNoteIntent.setClass(activityContext, CreateNoteActivity.class);
+                startActivity(createNoteIntent);
             }
         });
 
@@ -143,19 +151,23 @@ public class BaseActivity extends AppCompatActivity
         //The fragment 3 is not created prior because of FSPA and you navigate using mViewpager.setCurrentItem() which only recreates the view heirarchy(i.e layout views)
         //and not the whole fragment. So the fragment looks empty
         switch(id){
+            case R.id.nav_notes:
+                mViewPager.setCurrentItem(NOTES_FRAMGENT_POSITION);
+                break;
+
             case R.id.nav_clips:
                 mViewPager.setCurrentItem(CLIPS_FRAGMENT_POSITION);
                 break;
 
-            case R.id.nav_images:
-                mViewPager.setCurrentItem(IMAGES_FRAGMENT_POSITION);
-                break;
+//            case R.id.nav_images:
+//                mViewPager.setCurrentItem(IMAGES_FRAGMENT_POSITION);
+//                break;
 
             //case R.id.nav_database:
             //    saveDatabaseFile();
             //    break;
             default:
-                mViewPager.setCurrentItem(CLIPS_FRAGMENT_POSITION);
+                mViewPager.setCurrentItem(NOTES_FRAMGENT_POSITION);
                 break;
         }
 //        if (id == R.id.nav_camera) {
@@ -199,12 +211,35 @@ public class BaseActivity extends AppCompatActivity
     public void populatePages(){
         List<CustomFragment> fragmentList = new ArrayList<CustomFragment>();
         fragmentList.add(ClipsFragment.newInstance());
-        fragmentList.add(ImageFragment.newInstance());
+        fragmentList.add(NotesFragment.newInstance());
         mPageAdapter = new PageAdapter(getSupportFragmentManager(), fragmentList);
         mViewPager = (ViewPager)findViewById(R.id.pages);
         mViewPager.setAdapter(mPageAdapter);
+        mViewPager.addOnPageChangeListener(this);
         mTabLayout = (TabLayout)findViewById(R.id.tabs);
         mTabLayout.setupWithViewPager(mViewPager);
+
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        switch(position){
+            case NOTES_FRAMGENT_POSITION:
+                fButton.setVisibility(View.VISIBLE);
+                break;
+            case CLIPS_FRAGMENT_POSITION:
+                fButton.setVisibility(View.GONE);
+                break;
+        }
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
 
     }
 }

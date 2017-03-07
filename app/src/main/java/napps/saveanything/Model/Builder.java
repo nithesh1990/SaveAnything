@@ -151,6 +151,96 @@ public abstract class Builder {
         }
     }
 
+    public static class NoteBuilder {
+        public NoteBuilder(long id) {
+            this.id = id;
+        }
+
+        public NoteBuilder(Note note){
+            id = note.getId();
+            contentType = note.getContentType();
+            content = note.getContent();
+            noteAccess = note.getNoteAccess();
+            timestamp = note.getTimeStamp();
+            createTimeStamp = note.getCreateTimeStamp();
+            isFavorite = note.isFavorite();
+        }
+        public void build(Note note){
+            //clip.setId(id);
+            if(noteId != null && !noteId.isEmpty()){
+                note.setNoteId(noteId);
+            }
+            if(contentType > 0){
+                note.setContentType(contentType);
+            }
+            if(content != null && !content.isEmpty()) {
+                note.setContent(content);
+            }
+            if(noteAccess > 0) {
+                note.setNoteAccess(noteAccess);
+            }
+
+            if(timestamp > 0) {
+                note.setTimeStamp(timestamp);
+            }
+            if(createTimeStamp > 0){
+                note.setCreateTimeStamp(createTimeStamp);
+            }
+            if(isFavorite){
+                note.setFavorite(true);
+            }
+        }
+        /* We are making all variables public because we need to access these in other classes */
+        public  long id;
+
+        public  int contentType = -1;
+        public  String noteId = "";
+        public  String content = "";
+        public  long timestamp = 0;
+        public  int noteAccess = 0;
+        public  long createTimeStamp = -1;
+        public  boolean isFavorite = false;
+
+        public NoteBuilder Content(String content) {
+            this.content = content;
+            return this;
+        }
+
+
+        public NoteBuilder Timestamp(long timestamp) {
+            this.timestamp = timestamp;
+            return this;
+        }
+
+
+        public NoteBuilder ContentType(int contentType) {
+            this.contentType = contentType;
+            return this;
+        }
+
+
+        public NoteBuilder NoteId(String noteId) {
+            this.noteId = noteId;
+            return this;
+        }
+
+
+        public NoteBuilder createdate(long createTimeStamp) {
+            this.createTimeStamp = createTimeStamp;
+            return this;
+        }
+
+        public NoteBuilder noteAccess(int noteAccess){
+            this.noteAccess = noteAccess;
+            return this;
+        }
+
+        public NoteBuilder isFavorite(boolean isFavorite){
+            this.isFavorite = isFavorite;
+            return this;
+        }
+
+    }
     public static class ImageBuilder {
 
         public ImageBuilder(long id){

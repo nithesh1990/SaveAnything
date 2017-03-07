@@ -113,11 +113,31 @@ public class ClipsFragment extends CustomFragment implements LoaderManager.Loade
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
+        //super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.clips_menu, menu);
         //This searchview has some problem
-        final MenuItem searchMenu = (MenuItem) menu.findItem(R.id.clips_search);
-        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchMenu);
+        //final MenuItem searchMenu = (MenuItem) menu.findItem(R.id.clips_search);
+        //final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchMenu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int menuId = item.getItemId();
+        switch(menuId){
+            case R.id.clips_search:
+                break;
+
+            case R.id.clips_sort_content:
+                break;
+
+            case R.id.clips_sort_favorites:
+                break;
+
+            default:
+                break;
+
+        }
+        return true;
     }
 
 

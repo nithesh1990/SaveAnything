@@ -8,6 +8,7 @@ import io.realm.Sort;
 import napps.saveanything.Model.Builder;
 import napps.saveanything.Model.Clip;
 import napps.saveanything.Model.Image;
+import napps.saveanything.Model.Note;
 import napps.saveanything.Utilities.Constants;
 import napps.saveanything.Utilities.Utils;
 import napps.saveanything.view.Activities.SaveImageActivity;
@@ -32,13 +33,6 @@ public class RealmContentProvider {
                 public void execute(Realm backgroundRealm) {
                     Clip newClip = backgroundRealm.createObject(Clip.class, builder.id);
                     builder.build(newClip);
-//                    newClip.setId(builder.id);
-//                    newClip.setNoteId(builder.clipId);
-//                    newClip.setContent(builder.content);
-//                    newClip.setClipStatus(builder.clipStatus);
-//                    newClip.setContentType(builder.contentType);
-//                    newClip.setSourcePackage(builder.sourcePackage);
-//                    newClip.setTimeStamp(builder.timestamp);
                 }
             }/*   TODO: Need to implement OnError to retry insertion  */);
         } catch(Exception e){
@@ -49,6 +43,25 @@ public class RealmContentProvider {
 
     }
 
+    public static void insertNote(final Builder.NoteBuilder builder){
+        Realm realm = Realm.getDefaultInstance();
+        try{
+            realm.executeTransaction(new Realm.Transaction(){
+
+                @Override
+                public void execute(Realm backgroundReam) {
+                    Note note = backgroundReam.createObject(Note.class, builder.id);
+                    builder.build(note);
+                }
+            });
+        } catch(Exception e){
+
+        }finally {
+            if(realm != null){
+                realm.close();
+            }
+        }
+    }
     /*
         This method is just for inserting basic details of the image
      */
@@ -62,19 +75,6 @@ public class RealmContentProvider {
                 public void execute(Realm backgroundRealm) {
                     Image image = backgroundRealm.createObject(Image.class, builder.id);
                     builder.build(image);
-//                    image.setImageId(Utils.getUniqueId(context, Constants.PREFIX_IMAGE));
-//                    image.setOriginalPath(imageContent.getImageUri().toString());
-//                    image.setStatus(Constants.STATUS_IMAGE_ADDED);
-//                    image.setTimeStamp(System.currentTimeMillis());
-//                    // Good approach
-//                    // Get edit text reference only when it's required
-//                    image.setDesc(desc);
-//                    image.setScaleStatus(imageContent.getScaleStatus());
-//                    image.setSourceHeight(imageContent.getHeight());
-//                    image.setSourceWidth(imageContent.getWidth());
-//
-//                    // set the current selected sample
-//                    image.setScaleFactor(scaleFactor);
                 }
             }/*   TODO: Need to implement OnError to retry insertion  */);
 
@@ -90,6 +90,10 @@ public class RealmContentProvider {
         return realm.where(Clip.class).findAllSorted(RealmContract.ClipFields.FIELD_NAME_TIMESTAMP, Sort.DESCENDING);
     }
 
+    public static synchronized RealmResults<Note> getAllNotesForDisplay(int sortType){
+        Realm realm = Realm.getDefaultInstance();
+        return realm.where(Note.class).findAllSorted(RealmContract.NoteFields.FIELD_NAME_TIMESTAMP, Sort.DESCENDING);
+    }
     public static synchronized RealmResults<Image> getAllImagesForDisplay(int sortType){
         Realm realm = Realm.getDefaultInstance();
         return realm.where(Image.class).findAllSorted(RealmContract.ImageFields.FIELD_NAME_TIMESTAMP, Sort.DESCENDING);
@@ -102,6 +106,12 @@ public class RealmContentProvider {
         Realm realm = Realm.getDefaultInstance();
         Clip clip = realm.where(Clip.class).equalTo(RealmContract.ClipFields.FIELD_NAME_ID, Id).findFirst();
         return clip;
+    }
+
+    public static Note queryNote(long Id){
+        Realm realm = Realm.getDefaultInstance();
+        Note note = realm.where(Note.class).equalTo(RealmContract.NoteFields.FIELD_NAME_ID, Id).findFirst();
+        return note;
     }
 
     public static Image queryImage(long Id){
@@ -130,6 +140,23 @@ public class RealmContentProvider {
         }
     }
 
+    public static void updateNote(long Id, final Builder.NoteBuilder builder){
+        final Note note = queryNote(Id);
+        Realm realm = Realm.getDefaultInstance();
+        try {
+            realm.executeTransaction(new Realm.Transaction() {
+
+                @Override
+                public void execute(Realm realm) {
+                    builder.build(note);
+                }
+            });
+        } catch(Exception e){
+            //TODO: Error Handling in update Note
+        } finally {
+            realm.close();
+        }
+    }
     public static void updateImage(long Id, final Builder.ImageBuilder builder){
         final Image image = queryImage(Id);
         Realm realm = Realm.getDefaultInstance();
@@ -161,10 +188,10 @@ public class RealmContentProvider {
                 public void execute(Realm backgroundRealm) {
                     clip.deleteFromRealm();
                 }
-            }/*   TODO: Need to implement OnError to retry insertion  */);
+            });
 
         } catch (Exception e){
-            //TODO: Put Logs
+            //TODO: Delete clip error handling
             e.printStackTrace();
         } finally {
             realm.close();
@@ -172,6 +199,25 @@ public class RealmContentProvider {
 
     }
 
+    public static void deleteNote(long Id){
+        final Note note = queryNote(Id);
+        final Realm realm = Realm.getDefaultInstance();
+        try {
+            realm.executeTransaction(new Realm.Transaction(){
+
+                @Override
+                public void execute(Realm realm) {
+
+                }
+            });
+        } catch(Exception e){
+            //TODO: Handle delete Note error case
+        } finally {
+            if(realm != null){
+                realm.close();
+            }
+        }
+    }
     public static void deleteImage(long Id){
         final Image image = queryImage(Id);
         final Realm realm = Realm.getDefaultInstance();
@@ -182,10 +228,10 @@ public class RealmContentProvider {
                 public void execute(Realm backgroundRealm) {
                     image.deleteFromRealm();
                 }
-            }/*   TODO: Need to implement OnError to retry insertion  */);
+            });
 
         } catch (Exception e){
-            //TODO: Put Logs
+            //TODO: Delete Image Error handling
             e.printStackTrace();
         } finally {
             realm.close();

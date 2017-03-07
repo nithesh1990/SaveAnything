@@ -17,9 +17,21 @@ public class RealmContract {
         public static final String FIELD_NAME_CONTENT = "content";
         public static final String FIELD_NAME_TIMESTAMP = "timeStamp";
         public static final String FIELD_NAME_CLIPACCESS = "clipAccess";
-        public static final String FIELD_NAME_SECONDARY_CONTENT = "secondaryContent";
+        public static final String FIELD_NAME_DATE = "date";
+        public static final String FIELD_NAME_FAVORITE = "isFavorite";
     }
 
+    public static abstract class NoteFields {
+
+        public static final String FIELD_NAME_ID = "Id";
+        public static final String FIELD_NAME_NOTEID = "noteId";
+        public static final String FIELD_NAME_CONTENTTYPE = "contentType";
+        public static final String FIELD_NAME_CONTENT = "content";
+        public static final String FIELD_NAME_TIMESTAMP = "timeStamp";
+        public static final String FIELD_NAME_NOTEACCESS = "noteAccess";
+        public static final String FIELD_NAME_CREATETIMESTAMP = "createTimeStamp";
+        public static final String FIELD_NAME_ISFAVORITE = "isFavorite";
+    }
 
     public static abstract class ImageFields {
         public static final String FIELD_NAME_ID = "id";

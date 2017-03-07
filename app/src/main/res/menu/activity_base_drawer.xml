@@ -5,13 +5,19 @@
         <menu>
             <item
                 android:id="@+id/nav_clips"
-                android:icon="@drawable/ic_copy_grey_700_24dp_vector"
-                android:title="ClipBoard" />
+                android:icon="@drawable/ic_content_copy_black_24dp_vector"
+                android:title="Clips" />
+
             <item
+                android:id="@+id/nav_notes"
+                android:icon="@drawable/ic_note_black_24dp_vector"
+                android:title="Notes"/>
+
+            <!--<item
                 android:id="@+id/nav_images"
                 android:icon="@drawable/ic_image_black_24dp_vector"
                 android:title="Images" />
-            <!--<item android:id="@+id/nav_database"
+            <item android:id="@+id/nav_database"
                 android:title="Fetch Database"/>-->
         </menu>
     </item>

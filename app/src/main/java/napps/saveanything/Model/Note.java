@@ -17,7 +17,7 @@ public class Note extends RealmObject {
     private  String content;
     private  long timeStamp;
     private  int noteAccess;
-    private  String createDate;
+    private  long createTimeStamp;
     private boolean isFavorite;
 
     public int getContentType() {
@@ -60,12 +60,12 @@ public class Note extends RealmObject {
         this.timeStamp = timeStamp;
     }
 
-    public String getCreateDate() {
-        return createDate;
+    public long getCreateTimeStamp() {
+        return createTimeStamp;
     }
 
-    public void setCreateDate(String createDate) {
-        this.createDate = createDate;
+    public void setCreateTimeStamp(long createTimeStamp) {
+        this.createTimeStamp = createTimeStamp;
     }
 
     public int getNoteAccess() {

@@ -20,6 +20,8 @@
     <dimen name="standard_text_16sp">16sp</dimen>
     <dimen name="standard_text_20sp">20sp</dimen>
     <dimen name="standard_text_24sp">24sp</dimen>
+    <dimen name="standard_text_36sp">36sp</dimen>
+    <dimen name="standard_text_48sp">48sp</dimen>
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="nav_header_vertical_spacing">16dp</dimen>
     <dimen name="nav_header_height">160dp</dimen>
@@ -46,6 +48,16 @@
     <dimen name="cc_extra_layout_height">36dp</dimen>
     <dimen name="cc_source_icon_margin">8dp</dimen>
 
+
+    <!--Note Card Full Screen -->
+    <dimen name="nc_margin">4dp</dimen>
+    <dimen name="nc_main_text_size">16sp</dimen>
+    <dimen name="nc_icon_padding">4dp</dimen>
+    <dimen name="nc_text_padding">4dp</dimen>
+    <dimen name="nc_time_text_size">16sp</dimen>
+    <dimen name="nc_main_text_top_margin">4dp</dimen>
+    <dimen name="nc_extra_layout_height">36dp</dimen>
+    <dimen name="nc_source_icon_margin">8dp</dimen>
 
     <!--Image Card Full Screen -->
     <dimen name="ic_extra_layout_height">24dp</dimen>

@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/clips_search"
+    <item android:id="@+id/notes_search"
         android:icon="@drawable/ic_search_white_24dp_vector"
         android:title="Search"
         app:showAsAction="collapseActionView|always"
@@ -14,14 +14,15 @@
         app:showAsAction="ifRoom">
         <menu>
             <item
-                android:id="@+id/clips_sort_favorites"
+                android:id="@+id/notes_sort_favorites"
                 android:title="Sort by Favorites"/>
             <item
-                android:id="@+id/clips_sort_content"
+                android:id="@+id/notes_sort_content"
                 android:title="Sort by Content"/>
             <item
-                android:id="@+id/clips_sort_default"
+                android:id="@+id/notes_sort_default"
                 android:title="Default"/>
+
         </menu>
     </item>
 

@@ -21,10 +21,10 @@
             <napps.saveanything.view.customviews.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Save Image"
+                android:text="@string/title_activity_save_image"
                 android:textColor="@color/color_white"
                 android:layout_gravity="center"
-                android:textSize="20dp"/>
+                android:textSize="@dimen/standard_16dp"/>
 
          </android.support.v7.widget.Toolbar>
 

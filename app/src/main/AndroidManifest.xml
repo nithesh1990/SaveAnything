@@ -25,7 +25,7 @@
 
         <service
             android:name=".Control.SaveClipService"
-            android:stopWithTask="false"></service>
+            android:stopWithTask="false" />
 
         <activity
             android:name=".view.Activities.SaveImageActivity"
@@ -53,7 +53,12 @@
         <activity
             android:name=".view.Activities.ClipDetailActivity"
             android:label="@string/title_activity_clip_detail"
-            android:theme="@style/BasicTheme.BlueGreen"></activity>
+            android:theme="@style/BasicTheme.BlueGreen" />
+        <activity
+            android:name=".view.Activities.CreateNoteActivity"
+            android:label="@string/title_activity_create_note"
+            android:theme="@style/BasicTheme.BlueGreen" />
+        <activity android:name=".view.Activities.DetailClipActivity"></activity>
     </application>
 
 </manifest>

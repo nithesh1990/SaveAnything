@@ -25,6 +25,7 @@ public class Constants {
     public static final String ALLFRAGMENT_TITLE = "ALL";
     public static final String IMAGEFRAGMENT_TITLE = "IMAGES";
     public static final String CLIPFRAGMENT_TITLE = "CLIPS";
+    public static final String NOTEFRAGMENT_TITLE = "NOTES";
 
     //Content Types
     public static final int CONTENT_CLIP = 100;

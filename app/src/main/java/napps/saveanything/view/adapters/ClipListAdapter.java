@@ -24,6 +24,7 @@ import napps.saveanything.Model.Clip;
 import napps.saveanything.R;
 import napps.saveanything.Utilities.Constants;
 import napps.saveanything.view.Activities.ClipDetailActivity;
+import napps.saveanything.view.Activities.DetailClipActivity;
 import napps.saveanything.view.customviews.CustomImageView;
 
 /**
@@ -92,8 +93,8 @@ public class ClipListAdapter extends RecyclerRealmAdapter<ClipListAdapter.ClipCa
         Clip clip = (Clip)view.getTag();
         switch (id) {
             case R.id.text_card :
-                Intent detailIntent = new Intent(mContext, ClipDetailActivity.class);
-                detailIntent.putExtra("ClipId", clip.getId());
+                Intent detailIntent = new Intent(mContext, DetailClipActivity.class);
+                detailIntent.putExtra(DetailClipActivity.EXTRA_CLIP_ID, clip.getId());
                 mContext.startActivity(detailIntent);
                 break;
             case R.id.cc_copy_button:
